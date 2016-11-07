@@ -19,6 +19,7 @@
 #include "nvic.h"
 #include "q_signal.h"
 #include "q_misc.h"
+#include "rtc.h"
 #include "spi.h"
 #include "systick.h"
 #include "touch.h"

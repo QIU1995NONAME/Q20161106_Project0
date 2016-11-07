@@ -680,6 +680,11 @@
               <FileType>8</FileType>
               <FilePath>..\src\HAL\usart.cpp</FilePath>
             </File>
+            <File>
+              <FileName>rtc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\HAL\rtc.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

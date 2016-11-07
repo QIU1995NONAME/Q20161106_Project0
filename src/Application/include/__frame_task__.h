@@ -4,8 +4,8 @@
 #include "stm32f10x.h"
 #include "tim6heartbeat.h"
 
-namespace QIU{
-namespace PJ0{
+namespace QIU {
+namespace PJ0 {
 
 /**
  * 计划任务初始化

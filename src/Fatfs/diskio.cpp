@@ -8,7 +8,10 @@
 /*-----------------------------------------------------------------------*/
 
 #include "diskio.h"		/* FatFs lower layer API */
+#include "ff.h"
 #include "sd.h"
+#include "q_misc.h"
+#include "rtc.h"
 using namespace QIU::PJ0;
 
 /* Definitions of physical drive number for each drive */
@@ -130,4 +133,8 @@ DRESULT disk_ioctl(BYTE pdrv, BYTE cmd, void *buff) {
 
 	return RES_PARERR;
 }
-
+extern DWORD get_fattime(void) {
+	u32 result = 0;
+	misc_uint2fattime(&result, rtc_get_counter());
+	return result;
+}

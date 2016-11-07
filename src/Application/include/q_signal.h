@@ -20,28 +20,28 @@ extern s8 signal_create_source(void);
  * 注册一个信号 1为注册成功 0为注册失败
  * 信号ID的取值范围 0~15
  */
-extern s8 signal_register(s16 source_id,u16 signal_id);
+extern s8 signal_register(s16 source_id, u16 signal_id);
 /**
  * 以什么样的身份监听某一个信号
  * 信号ID的取值范围 0~15
  * 如果信号源是系统本身，而信号获取者不是系统，则信号不销毁
  * 否则一旦被监听到，就销毁这个信号
  */
-extern s8 signal_listen(s16 listener_id,s16 source_id,u16 signal_id);
+extern s8 signal_listen(s16 listener_id, s16 source_id, u16 signal_id);
 /**
  * 触发一个信号
  * 信号ID的取值范围 0~15
  * @return 1 表示触发成功
  *         0 表示未触发
  */
-extern s8 signal_trigger(s16 source_id,u16 signal_id);
+extern s8 signal_trigger(s16 source_id, u16 signal_id);
 /**
  * 取消一个信号的触发状态
  * 信号ID的取值范围 0~15
  * @return 1 表示取消成功
  *         0 表示未取消
  */
-extern s8 signal_cancel(s16 source_id,u16 signal_id);
+extern s8 signal_cancel(s16 source_id, u16 signal_id);
 /**
  * 信号系统初始化 并返回是否正常初始化
  * @return 初始化是否有问题

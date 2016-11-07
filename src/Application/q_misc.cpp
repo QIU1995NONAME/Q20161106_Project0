@@ -279,6 +279,173 @@ extern u8 misc_num2string(s8* buf, double num) {
 	*(buf + length++) = 0;
 	return length;
 }
+const u8 MONTH_DATE[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+/**
+ * 时间戳转换成时间结构
+ */
+extern s8 misc_uint2timetype(TimeType* tt, u32 timestamp) {
+	if (tt == 0) {
+		return -1;
+	}
+	// 是否为闰年
+	u8 is_leap = 0;
+	// 现在的时间戳精确到秒
+	u8 second = timestamp % 60;
+	// 现在的时间戳精确到分
+	timestamp /= 60;
+	u8 minute = timestamp % 60;
+	// 现在的时间戳精确到时
+	timestamp /= 60;
+	u8 hour = timestamp % 24;
+	// 现在的时间戳精确到日
+	timestamp /= 24;
+	// 目前这个变量里面存放着次时间戳处于某一个四年的第几天
+	u16 date = timestamp % 1461;	//连续4年总天数
+	u16 year = timestamp / 1461;	//过去了多少个4年
+	// 时间戳从1970年开始，连续4年每年的天数是365,365,366,365
+	year *= 4;	//已经过去了多少年
+	year += 1970;	//转换到真正的年份
+	do {
+		if (date < 365) {
+			break;
+		}
+		date -= 365;
+		year++;
+		if (date < 365) {
+			break;
+		}
+		date -= 365;
+		year++;
+		if (date < 366) {
+			// 只有到达这个分支才会是闰年
+			is_leap = 1;
+			break;
+		}
+		date -= 366;
+		year++;
+	} while (0);
+	// 目前的情况是  年份已经找准，一年中的某一天已经找准，下面进行月份判断
+	u8 month = 1;	//月份的基数是1
+	for (u8 i = 0; i < 12; i++) {
+		// 正在校验的月份的天数
+		u8 current_month_date = *(MONTH_DATE + i);
+		// 如果是闰年 而且是在2月
+		if (is_leap != 0 && i == 1) {
+			//把2月29日添加进去
+			current_month_date++;
+		}
+		// 如果日期不足一个月
+		if (date < current_month_date) {
+			break;
+		}
+		// 否则推进一个月
+		date -= current_month_date;
+		month++;
+	}
+	// 由于之前的所有运算，日期都是从0开始记的，
+	// 所以需要把日期向前推进1
+	date++;
+	tt->time_second = second;
+	tt->time_minute = minute;
+	tt->time_hour = hour;
+	tt->time_date = (u8) date;
+	tt->time_month = month;
+	tt->time_year = year;
+	return 0;
+}
+/**
+ * 时间戳转换成可读的时间字符串
+ * 缓冲区至少20字节！
+ */
+extern s8 misc_uint2timestring(s8* buf, u32 timestamp) {
+	if (buf == 0) {
+		return -1;
+	}
+	TimeType tt;
+	misc_uint2timetype(&tt, timestamp);
+	// FIXME 下面这段程序写的实在是有点傻，但是目前不想想太多
+	// year 4 month 2 date 2 hour 2 minute 2 second 2
+	u16 pointer = 0;
+	u16 tmp;
+	// 年份转换
+	tmp = tt.time_year;
+	*(buf + pointer++) = '0' + tmp / 1000;
+	tmp %= 1000;
+	*(buf + pointer++) = '0' + tmp / 100;
+	tmp %= 100;
+	*(buf + pointer++) = '0' + tmp / 10;
+	tmp %= 10;
+	*(buf + pointer++) = '0' + tmp;
+	*(buf + pointer++) = '/';
+	// 月份转换
+	tmp = tt.time_month;
+	*(buf + pointer++) = '0' + tmp / 10;
+	tmp %= 10;
+	*(buf + pointer++) = '0' + tmp;
+	*(buf + pointer++) = '/';
+	// 日期转换
+	tmp = tt.time_date;
+	*(buf + pointer++) = '0' + tmp / 10;
+	tmp %= 10;
+	*(buf + pointer++) = '0' + tmp;
+	*(buf + pointer++) = ' ';
+	// 小时转换
+	tmp = tt.time_hour;
+	*(buf + pointer++) = '0' + tmp / 10;
+	tmp %= 10;
+	*(buf + pointer++) = '0' + tmp;
+	*(buf + pointer++) = ':';
+	// 分钟转换
+	tmp = tt.time_minute;
+	*(buf + pointer++) = '0' + tmp / 10;
+	tmp %= 10;
+	*(buf + pointer++) = '0' + tmp;
+	*(buf + pointer++) = ':';
+	// 秒钟转换
+	tmp = tt.time_second;
+	*(buf + pointer++) = '0' + tmp / 10;
+	tmp %= 10;
+	*(buf + pointer++) = '0' + tmp;
+	*(buf + pointer++) = 0;
+	return pointer;
+}
+// [31:25]
+#define MISC_FATTIME_MASK_YEAR      ((uint32_t) (0xFE000000))
+// [24:21]
+#define MISC_FATTIME_MASK_MONTH     ((uint32_t) (0x01E00000))
+// [20:16]
+#define MISC_FATTIME_MASK_DATE      ((uint32_t) (0x001F0000))
+// [15:11]
+#define MISC_FATTIME_MASK_HOUR      ((uint32_t) (0x0000F800))
+// [10: 5]
+#define MISC_FATTIME_MASK_MINUTE    ((uint32_t) (0x000007E0))
+// [ 4: 0]
+#define MISC_FATTIME_MASK_SECOND_2  ((uint32_t) (0x0000001F))
+/**
+ * 将时间戳转换成FAT适配的32位时间标记
+ */
+extern s8 misc_uint2fattime(u32* result, u32 timestamp) {
+	if (result == 0) {
+		return -1;
+	}
+	TimeType tt;
+	misc_uint2timetype(&tt, timestamp);
+	*result = 0;
+	// [31:25]: YEAR origin from the 1980 (0..127)
+	if (tt.time_year < 1980) {
+		*result = 0;
+		return 2;
+	}
+	tt.time_year -= 1980;
+	*result |= MISC_FATTIME_MASK_YEAR & (tt.time_year << 25);
+	*result |= MISC_FATTIME_MASK_MONTH & (tt.time_month << 21);
+	*result |= MISC_FATTIME_MASK_DATE & (tt.time_date << 16);
+	*result |= MISC_FATTIME_MASK_HOUR & (tt.time_hour << 11);
+	*result |= MISC_FATTIME_MASK_MINUTE & (tt.time_minute << 5);
+	*result |= MISC_FATTIME_MASK_SECOND_2 & (tt.time_second >> 1);
+	return 0;
+}
 
 }
 }

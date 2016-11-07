@@ -10,8 +10,9 @@ void USART1_IRQHandler(void) {
 	USART_ClearFlag(USART1, USART_FLAG_TC);
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
 		k = USART_ReceiveData(USART1);
-		USART_SendData(USART1,k);
-		while(USART_GetFlagStatus(USART1,USART_FLAG_TXE) == RESET);//等待发送完毕
+		USART_SendData(USART1, k);
+		while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET)
+			; //等待发送完毕
 	}
 }
 

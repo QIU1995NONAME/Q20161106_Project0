@@ -3,8 +3,8 @@
 
 #include "stm32f10x.h"
 
-namespace QIU{
-namespace PJ0{
+namespace QIU {
+namespace PJ0 {
 
 extern u32 t6_timestamp_h32;
 extern u32 t6_timestamp_l32;
@@ -26,7 +26,7 @@ extern void tim6_heartbeat_main_loop_function(void);
  * @param f   定时任务的任务指针
  * @param ms  多少毫秒执行一次定时任务
  */
-extern void tim6_heartbeat_add_event(u8 num,__heartbeat_event__ f,u16 ms);
+extern void tim6_heartbeat_add_event(u8 num, __heartbeat_event__ f, u16 ms);
 /**
  * 移除定时任务
  */
