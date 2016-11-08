@@ -34,7 +34,7 @@ inline void exti_config_e6a2(void) {
 
 	// 配置外部中断 PB6 上升沿触发
 	exti_init.EXTI_LineCmd = ENABLE;
-	exti_init.EXTI_Trigger = EXTI_Trigger_Rising;
+	exti_init.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
 	exti_init.EXTI_Mode = EXTI_Mode_Interrupt;
 	exti_init.EXTI_Line = EXTI_Line6;
 	EXTI_Init(&exti_init);

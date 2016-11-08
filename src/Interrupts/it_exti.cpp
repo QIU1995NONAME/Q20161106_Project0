@@ -54,10 +54,19 @@ void EXTI4_IRQHandler(void) {
 void EXTI9_5_IRQHandler(void) {
 	// 目前只考虑光电编码器
 	if (EXTI_GetITStatus(EXTI_Line6) == SET) {
-		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_7) != 0) {
-			e6a2_var++;
+		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_6)) {
+			if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_7)) {
+				e6a2_var++;
+			} else {
+				e6a2_var--;
+			}
 		} else {
-			e6a2_var--;
+			if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_7)) {
+				e6a2_var--;
+			} else {
+				e6a2_var++;
+			}
+
 		}
 		EXTI_ClearITPendingBit(EXTI_Line6);
 	}
