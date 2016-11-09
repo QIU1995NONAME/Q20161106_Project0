@@ -199,6 +199,7 @@ extern u8 misc_int2string(s8* buf, s32 num) {
 		*(buf + length++) = 'I';
 		*(buf + length++) = 'n';
 		*(buf + length++) = 'f';
+		*(buf + length++) = '.';
 		*(buf + length++) = 0;
 		return length;
 	}
@@ -214,6 +215,8 @@ extern u8 misc_int2string(s8* buf, s32 num) {
 		}
 		*(buf + length++) = 0x30 + tmp;
 	}
+	// 在数据的最后加上小数点
+	*(buf + length++) = '.';
 	*(buf + length++) = 0;
 	return length;
 }
@@ -230,6 +233,7 @@ extern u8 misc_int2string_a(s8* buf, s32 num) {
 		*(buf + length++) = '0';
 		*(buf + length++) = '0';
 		*(buf + length++) = '0';
+		*(buf + length++) = '.';
 		*(buf + length++) = 0;
 		return length;
 	}
@@ -241,6 +245,7 @@ extern u8 misc_int2string_a(s8* buf, s32 num) {
 		*(buf + length++) = 'I';
 		*(buf + length++) = 'n';
 		*(buf + length++) = 'f';
+		*(buf + length++) = '.';
 		*(buf + length++) = 0;
 		return length;
 	}
@@ -249,6 +254,8 @@ extern u8 misc_int2string_a(s8* buf, s32 num) {
 		num %= NUM_TABLE[i];
 		*(buf + length++) = 0x30 + tmp;
 	}
+	// 在数据的结尾加上一个小数点
+	*(buf + length++) = '.';
 	*(buf + length++) = 0;
 	return length;
 }
@@ -262,14 +269,16 @@ extern u8 misc_num2string(s8* buf, double num) {
 		*(buf + length++) = 'I';
 		*(buf + length++) = 'n';
 		*(buf + length++) = 'f';
+		*(buf + length++) = '.';
 		*(buf + length++) = 0;
 		return length;
 	}
 	u32 tmp = num;
 	double num_f = num - tmp;
 	length += misc_int2string(buf + length, tmp);
-
-	*(buf + length - 1) = '.';	//结尾的\0改为小数点
+	// 由于上一步已经将小数点放入缓冲区
+	// 所以直接将指针指向最后的'\0'
+	length --;
 	for (u8 i = 0; (i < 12 - length) && i < 4; i++) {
 		num_f *= 10;
 		tmp = num_f;
