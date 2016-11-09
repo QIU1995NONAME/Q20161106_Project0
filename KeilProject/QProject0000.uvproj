@@ -735,6 +735,16 @@
               <FileType>8</FileType>
               <FilePath>..\src\Application\__frame_task__.cpp</FilePath>
             </File>
+            <File>
+              <FileName>cmd.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\cmd.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>cmd_private.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\cmd_private.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

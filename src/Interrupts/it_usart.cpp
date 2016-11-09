@@ -2,17 +2,25 @@
 #include "stm32f10x_it.h"
 
 #include "q_misc.h"
+#include "cmd_private.h"
+
 using namespace QIU::PJ0;
 
 void USART1_IRQHandler(void) {
-	// FIXME 这个中断函数只是实验用
-	static u8 k;
+	static s8 data;
 	USART_ClearFlag(USART1, USART_FLAG_TC);
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
-		k = USART_ReceiveData(USART1);
-		USART_SendData(USART1, k);
-		while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET)
-			; //等待发送完毕
+		// ****************************
+		data = USART_ReceiveData(USART1);
+		// 缓冲区是否已满
+		if(cmd_buffer_is_full()){
+			// 放弃数据
+			// DO NOTHING
+		}else{
+			// 如果缓冲区还有地方，就把数据写进去
+			cmd_buffer_add_last(data);
+		}
+		// ****************************
 	}
 }
 
