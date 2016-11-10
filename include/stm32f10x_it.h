@@ -65,8 +65,6 @@ void RTC_IRQHandler(void);
 void FLASH_IRQHandler(void);
 void RCC_IRQHandler(void);
 
-
-
 void ADC1_2_IRQHandler(void);
 void USB_HP_CAN_TX_IRQHandler(void);
 void USB_LP_CAN_RX0_IRQHandler(void);
@@ -88,8 +86,6 @@ void USBWakeUp_IRQHandler(void);
 void ADC3_IRQHandler(void);
 void FSMC_IRQHandler(void);
 void SDIO_IRQHandler(void);
-
-
 
 #ifdef __cplusplus
 }

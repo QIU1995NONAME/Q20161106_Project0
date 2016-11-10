@@ -16,7 +16,8 @@ s8 frame_debuf_buffer[32];
 #endif // __FRAME_INIT_DEBUG_INFO__
 //
 extern void __frame_1_hal_config__(void) {
-	gpio_config(); //first
+	rtc_config();  //0
+	gpio_config(); //1
 	exti_config();
 	timer_config();
 	usart_config();

@@ -17,7 +17,6 @@ extern s8 fatfs_0_is_avail(void) {
 	return fatfs_0_avail;
 }
 
-
 extern void fatfs_init(void) {
 	// SD CARD & FAT FS Initial ========================
 #ifdef __FATFS_INIT_DEBUG_INFO__
