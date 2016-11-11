@@ -4,8 +4,8 @@ namespace QIU {
 namespace PJ0 {
 // 目前已经被初始化的GPIO口
 //          12    8    4    0
-// GPIO_A 0000-0110 1110-0001
-// GPIO_B 1111-0001 1110-0000
+// GPIO_A 0001-1110 1110-0001
+// GPIO_B 1111-0101 1110-0000
 // GPIO_C 0000-0000 1111-1111
 // GPIO_D 1111-1111 1111-0011
 // GPIO_E 1111-1111 1001-1111
@@ -56,6 +56,16 @@ inline void gpio_config_e6a2(void) {
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_IPU;
 	gpio_init.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_Init(GPIOB, &gpio_init);
+}
+// TB6560 步进电机驱动板
+inline void gpio_config_tb6560(void) {
+	// 3根线 EN+ CW+ CLK+ PB10 PA11 PA12
+	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
+	gpio_init.GPIO_Mode = GPIO_Mode_Out_PP;
+	gpio_init.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
+	GPIO_Init(GPIOA, &gpio_init);
+	gpio_init.GPIO_Pin = GPIO_Pin_10;
 	GPIO_Init(GPIOB, &gpio_init);
 }
 // 串口1
@@ -191,6 +201,7 @@ extern void gpio_config(void) {
 	gpio_config_spi();
 	gpio_config_fsmc();
 	gpio_config_e6a2();
+	gpio_config_tb6560();
 }
 
 }

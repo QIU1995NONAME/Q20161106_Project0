@@ -59,6 +59,7 @@ extern void __frame_2_app_init__(void) {
 	key_init();
 	e6a2_reset();
 	fan_init();
+	tb6560_init();
 	// 一定是最后初始化计划任务！
 	__task_init__(); //last
 }
