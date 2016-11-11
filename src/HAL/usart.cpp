@@ -6,7 +6,7 @@ namespace PJ0 {
 USART_InitTypeDef usart_init;
 //
 inline void usart_config_1(void) {
-	usart_init.USART_BaudRate = 9600; // 波特率9600
+	usart_init.USART_BaudRate = 57600; // 波特率57600
 	usart_init.USART_WordLength = USART_WordLength_8b; // 字长8bit
 	usart_init.USART_StopBits = USART_StopBits_1; // 停止位1bit
 	usart_init.USART_Parity = USART_Parity_No; // 无校验

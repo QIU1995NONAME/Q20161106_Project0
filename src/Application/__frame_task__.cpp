@@ -1,6 +1,6 @@
 #include "__frame_task__.h"
 #include "__includes__.h"
-// FIXME 我感觉这个文件中的代码还会被我重构 \
+// FIXME 我感觉这个文件中的代码还会被我重构
 // 无法避免 迟早要这么做的
 namespace QIU {
 namespace PJ0 {
@@ -104,7 +104,7 @@ BNote * note_array = 0;
 inline void __task_test_beep_init__(void) {
 	note_array = (BNote*) memory_alloc0_4k();
 	s16 pointer = 0;
-	u8 level1 = 4;
+	// u8 level1 = 4;
 	u8 level2 = 8;
 	// 开头空余
 	BNote * note = note_array + pointer++;
@@ -622,12 +622,17 @@ inline void __task_test_beep_init__(void) {
 	// 开始播放
 	beep_play(note_array, pointer, BEEP_PLAY_SPEED_120);
 }
+s8 buffer[32];
+void __task_print_time_100ms__(void) {
+	misc_uint2timestring(buffer, rtc_get_counter());
+	gui_inner_char(0, 0, buffer, GUI_COLOR_CCC, GUI_COLOR_000);
+}
 extern void __task_init__(void) {
 	u8 taskid = 0;
-	__task_test_beep_init__();
-	tim6_heartbeat_add_event(taskid++, beep_task_10ms, 10);
+//	__task_test_beep_init__();
+//	tim6_heartbeat_add_event(taskid++, beep_task_10ms, 10);
 //	tim6_heartbeat_add_event(taskid++, __task_1_test_beep__, 1000);
-//	tim6_heartbeat_add_event(taskid++, __task_2__, 10);
+	tim6_heartbeat_add_event(taskid++, __task_print_time_100ms__, 100);
 //	tim6_heartbeat_add_event(taskid++, __task_3__, 10);
 }
 

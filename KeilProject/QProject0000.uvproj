@@ -680,6 +680,11 @@
               <FileType>8</FileType>
               <FilePath>..\src\HAL\usart.cpp</FilePath>
             </File>
+            <File>
+              <FileName>rtc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\HAL\rtc.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -729,6 +734,16 @@
               <FileName>__frame_task__.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\src\Application\__frame_task__.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>cmd.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\cmd.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>cmd_private.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\cmd_private.cpp</FilePath>
             </File>
           </Files>
         </Group>

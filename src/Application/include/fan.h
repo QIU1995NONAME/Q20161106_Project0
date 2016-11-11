@@ -3,8 +3,8 @@
 
 #include "stm32f10x.h"
 
-namespace QIU{
-namespace PJ0{
+namespace QIU {
+namespace PJ0 {
 /**
  * 设置风扇的转速
  * 参数范围 0 ~ 1799
