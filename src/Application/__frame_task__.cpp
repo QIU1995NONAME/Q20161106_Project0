@@ -627,13 +627,22 @@ void __task_print_time_100ms__(void) {
 	misc_uint2timestring(buffer, rtc_get_counter());
 	gui_inner_char(0, 0, buffer, GUI_COLOR_CCC, GUI_COLOR_000);
 }
+void __task_test_tb6560__(void) {
+	s32 arg = e6a2_read();
+	arg >>= 2;
+	tb6560_set_stepcount(-arg);
+	misc_int2string(buffer, e6a2_read());
+	gui_inner_char(0, 16, buffer, GUI_COLOR_8F8, GUI_COLOR_444);
+	misc_int2string(buffer, tb6560_get_stepcount());
+	gui_inner_char(0, 32, buffer, GUI_COLOR_FF8, GUI_COLOR_444);
+}
 extern void __task_init__(void) {
 	u8 taskid = 0;
 //	__task_test_beep_init__();
 //	tim6_heartbeat_add_event(taskid++, beep_task_10ms, 10);
 //	tim6_heartbeat_add_event(taskid++, __task_1_test_beep__, 1000);
 	tim6_heartbeat_add_event(taskid++, __task_print_time_100ms__, 100);
-//	tim6_heartbeat_add_event(taskid++, __task_3__, 10);
+	tim6_heartbeat_add_event(taskid++, __task_test_tb6560__, 10);
 }
 
 }

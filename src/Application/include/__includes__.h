@@ -22,6 +22,7 @@
 #include "rtc.h"
 #include "spi.h"
 #include "systick.h"
+#include "tb6560.h"
 #include "touch.h"
 #include "tft.h"
 #include "tim6heartbeat.h"
