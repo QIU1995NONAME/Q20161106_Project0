@@ -5,10 +5,12 @@
 
 namespace QIU {
 namespace PJ0 {
-
-extern u32 t6_timestamp_h32;
-extern u32 t6_timestamp_l32;
-extern u32 t6_event_time_count[16]; //定时当前时间
+// 时间戳的秒部分 跟随RTC行动
+extern u32 t6_timestamp_s;
+// 时间戳的毫秒部分
+extern u16 t6_timestamp_ms;
+// 定时当前时间
+extern u32 t6_event_time_count[16];
 
 typedef void (*__heartbeat_event__)(void);
 

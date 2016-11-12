@@ -1,5 +1,6 @@
 #include "stm32f10x.h"
 #include "stm32f10x_it.h"
+#include "rtc.h"
 #include "tim6heartbeat.h"
 
 using namespace QIU::PJ0;
@@ -31,9 +32,16 @@ void TIM4_IRQHandler(void) {
 void TIM5_IRQHandler(void) {
 }
 void TIM6_IRQHandler(void) {
-	t6_timestamp_l32++;
-	if (t6_timestamp_l32 == 0) {
-		t6_timestamp_h32++;
+	t6_timestamp_ms ++;
+	// 时间戳秒更新不可以完全跟随RTC，应该在毫秒归零的时候跟随RTC。
+	// 因为由于初始化等原因，RTC的秒中断和此时间戳的毫秒归零并不在同一时刻。
+	// 如果一味地跟随RTC而不考虑自己的毫秒计数的话，很有可能导致时间戳不是单增的。
+	// 有可能出现 6.7 7.8 7.9 7.0 7.1 ... 7.6 7.7 8.8 8.9 8.0 这样的序列。
+	// 我们容许单片机的时间戳与上位机的时间戳相差5秒以内。
+	// 因为此实验中单片机的时间戳仅用来标记数据的时间坐标，需要精确的时间间隔而不是时间点。
+	if (t6_timestamp_ms >= 1000) {
+		t6_timestamp_ms = 0;
+		t6_timestamp_s = rtc_get_counter();
 	}
 	*(t6_event_time_count + 0x00) += 1;
 	*(t6_event_time_count + 0x01) += 1;
