@@ -5,6 +5,62 @@
 namespace QIU {
 namespace PJ0 {
 /**
+ * 向上位机发送数据
+ * @param msg 要发送的数据缓冲区
+ * @param len 数据长度
+ */
+extern s8 cmd_buffer_send_data(const u8* const msg, u8 len) {
+	// 创建一个信息处理和发送缓冲区
+	u8 * tmpbuf = (u8*) memory_alloc_1k();
+	if (tmpbuf == 0) {
+		return -1;
+	}
+	u16 tmp_len = (u16) len + 4;
+	// 第0个字节 消息长度
+	*(tmpbuf) = tmp_len;
+	// 第1个字节 校验和
+	*(tmpbuf + 1) = 0;
+	// 复制数据
+	for (u16 i = 0; i < len; i++) {
+		*(tmpbuf + 2 + i) = *(msg + i);
+	}
+	// 预留CRC
+	*(tmpbuf + tmp_len - 2) = 0x00;
+	*(tmpbuf + tmp_len - 1) = 0x00;
+	// 计算CRC
+	u16 check = misc_calculate_crc(tmpbuf, tmp_len);
+	// 填入消息
+	*(tmpbuf + tmp_len - 2) = 0xFF & (check >> 8);
+	*(tmpbuf + tmp_len - 1) = 0xFF & check;
+	// 计算SUM
+	check = 0;
+	for (u16 i = 0; i < tmp_len; i++) {
+		check += *(tmpbuf + i);
+	}
+	// 只留低8位
+	check &= 0xFF;
+	check = 0x100 - check;
+	*(tmpbuf + 1) = 0xFF & check;
+	// 准备发送
+	// 起始码
+	USART_SendData(USART1, CMD_STTC);
+	for (u16 i = 0; i < tmp_len; i++) {
+		switch (*(tmpbuf + i)) {
+		case CMD_ENDC:
+		case CMD_ESCC:
+		case CMD_STTC:
+			USART_SendData(USART1, CMD_ESCC);
+		default:
+			USART_SendData(USART1, *(tmpbuf + i));
+		}
+	}
+	// 结束码
+	USART_SendData(USART1, CMD_ENDC);
+	memory_free(tmpbuf);
+	return 0;
+}
+
+/**
  * 从串口缓冲中尝试获取数据。并将分析之后的数据放置在上层应用的缓冲区中
  * @param buf 传入的缓冲区
  * 可以使用的长度必须至少64字节

@@ -5,6 +5,13 @@
 
 namespace QIU {
 namespace PJ0 {
+
+/**
+ * 向上位机发送数据
+ * @param msg 要发送的数据缓冲区
+ * @param len 数据长度
+ */
+extern s8 cmd_buffer_send_data(const u8* const msg, u8 len);
 /**
  * 从串口缓冲中尝试获取数据。并将分析之后的数据放置在上层应用的缓冲区中
  * @param buf 传入的缓冲区。可以使用的长度必须至少64字节
