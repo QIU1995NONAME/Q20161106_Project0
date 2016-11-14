@@ -7,10 +7,10 @@ namespace UPPER
 {
     public class SerialMessage
     {
-        public static const byte MSG_ENDC = 0x25;
-        public static const byte MSG_ESCC = 0x75;
-        public static const byte MSG_STTC = 0x5D;
-        private static const byte[] CRCHTable = new byte[]{ 
+        public const byte MSG_ENDC = 0x25;
+        public const byte MSG_ESCC = 0x75;
+        public const byte MSG_STTC = 0x5D;
+        public static readonly byte[] CRCHTable = new byte[]{ 
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,	0x00, 0xC1, 0x81, 0x40, 
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,	0x01, 0xC0, 0x80, 0x41, 
@@ -34,7 +34,7 @@ namespace UPPER
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,	0x01, 0xC0, 0x80, 0x41, 
             0x00, 0xC1, 0x81, 0x40 
         };
-        private static const byte[] CRCLTable = new byte[]{ 
+        public static readonly byte[] CRCLTable = new byte[]{ 
             0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7, 
             0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD,	0x0F, 0xCF, 0xCE, 0x0E, 
             0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09, 0x08, 0xC8,	0xD8, 0x18, 0x19, 0xD9, 
@@ -112,18 +112,20 @@ namespace UPPER
             return res_li.ToArray();
         }
         // 处理一段接收到的消息
-        public static void analyze_msg(byte[] data) { 
+        // 返回通过验证的消息
+        // 如果处理失败则返回null
+        public static byte[] analyze_msg(byte[] data) { 
             // 非null验证
             if (data == null) {
-                return;
+                return null;
             }
             // 消息长度不小于5
             if (data.Length < 5) {
-                return;
+                return null;
             }
             // 长度验证
             if (data[0] != (byte)data.Length) {
-                return;
+                return null;
             }
             // CHECKSUM
             int sum = 0;
@@ -132,7 +134,7 @@ namespace UPPER
             }
             sum = sum & 0xFF;
             if (sum != 0) {
-                return;
+                return null;
             }
             // CHECK CRC16
             data[1] = 0;
@@ -141,7 +143,7 @@ namespace UPPER
             data[data.Length - 1] = 0;
             ushort c_crc = SerialMessage.calculate_crc16(data);
             if(r_crc!=c_crc){
-                return;
+                return null;
             }
             // 通过验证 删掉消息中的验证码部分
             LinkedList<byte> li = new LinkedList<byte>(data);
@@ -149,7 +151,7 @@ namespace UPPER
             li.RemoveFirst();
             li.RemoveLast();
             li.RemoveLast();
-            // TODO 
+            return li.ToArray();
         }
     }
 }

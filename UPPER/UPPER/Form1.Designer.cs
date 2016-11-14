@@ -32,6 +32,7 @@
             this.menu1 = new System.Windows.Forms.MenuStrip();
             this.status1 = new System.Windows.Forms.StatusStrip();
             this.status_label_systime = new System.Windows.Forms.ToolStripStatusLabel();
+            this.status2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.serial1 = new System.IO.Ports.SerialPort(this.components);
             this.combo_comm = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -40,6 +41,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_heartbeat = new System.Windows.Forms.Button();
             this.btn_disconnect = new System.Windows.Forms.Button();
+            this.btn_test = new System.Windows.Forms.Button();
             this.status1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +58,8 @@
             // status1
             // 
             this.status1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.status_label_systime});
+            this.status_label_systime,
+            this.status2});
             this.status1.Location = new System.Drawing.Point(0, 431);
             this.status1.Name = "status1";
             this.status1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
@@ -68,9 +71,20 @@
             this.status_label_systime.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.status_label_systime.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
             this.status_label_systime.Name = "status_label_systime";
             this.status_label_systime.Size = new System.Drawing.Size(165, 17);
             this.status_label_systime.Text = "LOCAL: yyyy/MM/dd HH:mm:ss";
+            // 
+            // status2
+            // 
+            this.status2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.status2.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
+            this.status2.Name = "status2";
+            this.status2.Size = new System.Drawing.Size(153, 17);
+            this.status2.Text = "STM: yyyy/MM/dd HH:mm:ss";
             // 
             // serial1
             // 
@@ -120,6 +134,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.btn_heartbeat);
+            this.panel1.Controls.Add(this.btn_test);
             this.panel1.Controls.Add(this.btn_refresh);
             this.panel1.Controls.Add(this.btn_disconnect);
             this.panel1.Controls.Add(this.btn_connect);
@@ -152,6 +167,17 @@
             this.btn_disconnect.Text = "断开";
             this.btn_disconnect.UseVisualStyleBackColor = true;
             this.btn_disconnect.Click += new System.EventHandler(this.btn_disconnect_Click);
+            // 
+            // btn_test
+            // 
+            this.btn_test.Location = new System.Drawing.Point(0, 148);
+            this.btn_test.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_test.Name = "btn_test";
+            this.btn_test.Size = new System.Drawing.Size(118, 31);
+            this.btn_test.TabIndex = 3;
+            this.btn_test.Text = "TEST";
+            this.btn_test.UseVisualStyleBackColor = true;
+            this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
             // 
             // Form1
             // 
@@ -189,6 +215,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btn_disconnect;
         private System.Windows.Forms.Button btn_heartbeat;
+        private System.Windows.Forms.ToolStripStatusLabel status2;
+        private System.Windows.Forms.Button btn_test;
     }
 }
 

@@ -52,6 +52,7 @@ extern void __frame_2_app_init__(void) {
 		while (1)
 			; //信号系统失败系统卡死
 	}
+	cmd_init();
 	tim6_heartbeat_init(); //4
 	// 必须在T6初始化之后
 	if (manager_init()) {
@@ -72,7 +73,7 @@ extern void __frame_2_app_init__(void) {
 	fan_init();
 	tb6560_init();
 	// 一定是最后初始化计划任务！
-//	__task_init__(); //last
+	__task_init__(); //last
 }
 //
 extern void __frame_3_main_loop__(void) {

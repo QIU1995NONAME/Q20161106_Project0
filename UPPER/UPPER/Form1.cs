@@ -11,6 +11,7 @@ namespace UPPER
 {
     public partial class Form1 : Form
     {
+        public delegate void InterfaceHandle(byte[] byteattay);
         public Form1()
         {
             InitializeComponent();
@@ -18,7 +19,7 @@ namespace UPPER
         // 获取本机时间 并显示到状态栏
         private void change_local_time()
         {
-            status_label_systime.Text = DateTime.Now.ToString("LOCAL: yyyy/MM/dd HH:mm:ss");
+            status_label_systime.Text = "LOCAL: " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
         }
         // 定时功能
         // 定时刷新状态栏的本机时间
@@ -34,6 +35,11 @@ namespace UPPER
         // 发送心跳数据
         private void serial1_send_0x77()
         {
+            if (!serial1.IsOpen)
+            {
+                // TODO 如果串口处于关闭状态
+                return;
+            }
             byte[] msg = SerialMessage.pack_msg(new byte[] { 0x77 });
             serial1.Write(msg, 0, msg.Length);
         }
@@ -127,16 +133,20 @@ namespace UPPER
                     continue;
                 }
                 // (接收状态中，无转义)如果接收到结束字符或者转义字符
-                if(b == SerialMessage.MSG_ENDC){
+                if (b == SerialMessage.MSG_ENDC)
+                {
                     // 处理数据
-                    SerialMessage.analyze_msg(serial_cmd.ToArray());
+                    InterfaceHandle interfaceUpdateHandle = new InterfaceHandle(serial_execute_command);
+                    this.Invoke(interfaceUpdateHandle, new object[] { SerialMessage.analyze_msg(serial_cmd.ToArray()) });
+                    // serial_execute_command(SerialMessage.analyze_msg(serial_cmd.ToArray()));
                     // 清空
                     serial_cmd.Clear();
                     serial_cmd_is_receive = false;
                     serial_cmd_is_escape = false;
                     continue;
                 }
-                if (b == SerialMessage.MSG_ESCC) {
+                if (b == SerialMessage.MSG_ESCC)
+                {
                     serial_cmd_is_escape = true;
                     continue;
                 }
@@ -149,6 +159,37 @@ namespace UPPER
         {
             // 启动心跳
             serial1_send_0x77();
+        }
+        private void serial_execute_command(byte[] command)
+        {
+            if (command == null)
+            {
+                // FIXME 没有相应的处理办法
+                return;
+            }
+            // 心跳消息 四个字节的秒信息 两个字节的毫秒信息
+            if (command[0] == 0x77)
+            {
+                // 回送一个心跳
+                serial1_send_0x77();
+                // 如果命令长度不足7 说明有问题
+                if (command.Length < 7)
+                {
+                    // FIXME
+                    return;
+                }
+                int time_second = 0;
+                time_second += command[1];
+                time_second += command[2] << 8;
+                time_second += command[3] << 16;
+                time_second += command[4] << 24;
+                status2.Text = new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString();
+            }
+        }
+
+        private void btn_test_Click(object sender, EventArgs e)
+        {
+            // SerialMessage.analyze_msg(new byte[]{0x05,0xEE ,0x77 ,0x1A ,0x7C});
         }
     }
 }
