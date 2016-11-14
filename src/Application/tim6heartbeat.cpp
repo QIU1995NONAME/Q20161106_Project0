@@ -7,7 +7,7 @@ namespace QIU {
 namespace PJ0 {
 // private
 u16 t6_event_enable;  //事件是否有效
-u16 t6_event_time[16]; //事件定时事件
+u16 t6_event_time[16]; //事件定时时间
 void (*t6_events[16])(void);
 // __heartbeat_event__ t6_events[16];
 void tim6_event_do_nothing(void) {
