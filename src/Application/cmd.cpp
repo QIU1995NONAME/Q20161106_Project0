@@ -69,7 +69,7 @@ extern s8 cmd_buffer_send_data(const u8* const msg, u8 len) {
  *         如果返回值是0，说明没有获取到数据
  *         如果返回值小于0 说明获取到的数据有问题
  */
-extern s16 cmd_buffer_analyze_data(s8* buf) {
+extern s16 cmd_buffer_analyze_data(u8* buf) {
 	// 如果缓冲区中没有可用的命令
 	if (!cmd_buffer_has_command()) {
 		return 0;

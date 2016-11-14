@@ -4,6 +4,7 @@
 #include "stm32f10x.h"
 
 #include "beep.h"
+#include "cmd.h"
 #include "e6a2.h"
 #include "exti.h"
 #include "gpio.h"

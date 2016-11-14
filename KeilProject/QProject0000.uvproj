@@ -750,6 +750,11 @@
               <FileType>8</FileType>
               <FilePath>..\src\Application\tb6560.cpp</FilePath>
             </File>
+            <File>
+              <FileName>__manager__.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\__manager__.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
