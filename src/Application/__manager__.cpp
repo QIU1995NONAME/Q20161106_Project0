@@ -9,7 +9,10 @@ u8* manager_cmd_s_buffer_1k = 0;
 s8 manager_heartbeat_count = 0;
 // 心跳功能 1S刷新一次
 void manager_heartbeat_task_1000ms(void) {
-	if (manager_heartbeat_count > 0) {
+	if (manager_heartbeat_count == 0) {
+		led_display(0x80);
+	} else {
+		led_display(0x40);
 		manager_heartbeat_count--;
 		// 发送心跳回应
 		*manager_cmd_s_buffer_1k = 0x77;

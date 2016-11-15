@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
+
+using System.Diagnostics;
 namespace UPPER
 {
     public partial class Form1 : Form
@@ -114,6 +116,9 @@ namespace UPPER
             while (serial1.BytesToRead > 0)
             {
                 byte b = (byte)serial1.ReadByte();
+                // DEBUG
+                // Debug.Print("{0} ", serial1.ReadByte());
+                
                 // 如果没有处于接收状态
                 if (!serial_cmd_is_receive)
                 {
@@ -152,6 +157,7 @@ namespace UPPER
                 }
                 // (接收状态 无转义 不是特殊字符)
                 serial_cmd.AddLast(b);
+                
             }
         }
 
@@ -183,7 +189,7 @@ namespace UPPER
                 time_second += command[2] << 8;
                 time_second += command[3] << 16;
                 time_second += command[4] << 24;
-                status2.Text = new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString();
+                status2.Text = "STM: "+ new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
             }
         }
 

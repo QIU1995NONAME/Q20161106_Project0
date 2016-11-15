@@ -1,5 +1,7 @@
 #include "cmd_private.h"
 #include "memory.h"
+#include "systick.h"
+#include "usart.h"
 #include "q_signal.h"
 #include "q_misc.h"
 namespace QIU {
@@ -42,20 +44,24 @@ extern s8 cmd_buffer_send_data(const u8* const msg, u8 len) {
 	check = 0x100 - check;
 	*(tmpbuf + 1) = 0xFF & check;
 	// 准备发送
+	// FIXME 总有数据发不出去！
+	usart_1_ready_to_send();
 	// 起始码
-	USART_SendData(USART1, CMD_STTC);
+	usart_1_send(CMD_STTC);
+	delay_us(100);
 	for (u16 i = 0; i < tmp_len; i++) {
 		switch (*(tmpbuf + i)) {
 		case CMD_ENDC:
 		case CMD_ESCC:
 		case CMD_STTC:
-			USART_SendData(USART1, CMD_ESCC);
+			usart_1_send(CMD_ESCC);
+			/* no break */
 		default:
-			USART_SendData(USART1, *(tmpbuf + i));
+			usart_1_send(*(tmpbuf + i));
 		}
 	}
 	// 结束码
-	USART_SendData(USART1, CMD_ENDC);
+	usart_1_send(CMD_ENDC);
 	memory_free(tmpbuf);
 	return 0;
 }
