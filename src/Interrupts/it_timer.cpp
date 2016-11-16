@@ -1,7 +1,7 @@
 #include "stm32f10x.h"
 #include "stm32f10x_it.h"
 #include "rtc.h"
-#include "sampling.h"
+#include "sampling_private.h"
 #include "tim6heartbeat.h"
 
 using namespace QIU::PJ0;

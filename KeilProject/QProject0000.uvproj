@@ -760,6 +760,11 @@
               <FileType>8</FileType>
               <FilePath>..\src\Application\sampling.cpp</FilePath>
             </File>
+            <File>
+              <FileName>sampling_private.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\sampling_private.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
