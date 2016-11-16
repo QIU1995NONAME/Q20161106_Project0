@@ -6,6 +6,11 @@
 namespace QIU {
 namespace PJ0 {
 /**
+ * 获取风扇的转速
+ * @return 当前设定的风扇转速
+ */
+extern u16 fan_get_level(void);
+/**
  * 设置风扇的转速
  * 参数范围 0 ~ 1799
  */
