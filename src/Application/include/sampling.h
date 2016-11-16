@@ -26,6 +26,22 @@ typedef struct REAL_TIME_SAMPLING_DATA {
 	s32 rtsd_step_count; // 步进电机当前的步数
 } SamplingData;
 /**
+ * 复制一个采样数据
+ * @param dest 数据复制的目标
+ * @param src  数据复制的源
+ * @return 0    复制成功
+ *         否则：复制失败
+ */
+extern s8 sampling_data_clone(SamplingData * dest, SamplingData * src);
+/**
+ * 返回采样缓冲区是否为空
+ */
+extern s8 sampling_data_is_empty(void);
+/**
+ * 返回采样缓冲区是否已满
+ */
+extern s8 sampling_data_is_full(void);
+/**
  * 初始化。
  * 包括初始化一个大一些的缓冲，
  * 创建环形缓冲列表等。

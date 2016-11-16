@@ -1,7 +1,11 @@
 #include "stm32f10x.h"
 #include "stm32f10x_it.h"
+
+#include "e6a2.h"
+#include "fan.h"
 #include "rtc.h"
 #include "sampling_private.h"
+#include "tb6560.h"
 #include "tim6heartbeat.h"
 
 using namespace QIU::PJ0;
@@ -23,9 +27,23 @@ void TIM8_TRG_COM_IRQHandler(void) {
 void TIM8_CC_IRQHandler(void) {
 }
 void TIM2_IRQHandler(void) {
+	static u16 counter = 0;
 	// 目前这个中断是1ms一次
 	// 可以根据需要选择多长时间进行一次底层采样
-	// TODO 采样数据写入缓冲区
+	if(counter < sampling_data_interval){
+		counter++;
+	}else{
+		counter = 0;
+		SamplingData * psdata = sampling_write_next();
+		// 缓冲区可用，准备赋值
+		if (psdata != 0) {
+			psdata->rtsd_timestamp_s = t6_timestamp_s;
+			psdata->rtsd_timestamp_ms = t6_timestamp_ms;
+			psdata->rtsd_angle = e6a2_read();
+			psdata->rtsd_fan_level = fan_get_level();
+			psdata->rtsd_step_count = tb6560_get_stepcount();
+		}
+	}
 	TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 }
 void TIM3_IRQHandler(void) {
