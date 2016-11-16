@@ -1,6 +1,7 @@
 #include "stm32f10x.h"
 #include "stm32f10x_it.h"
 #include "rtc.h"
+#include "sampling.h"
 #include "tim6heartbeat.h"
 
 using namespace QIU::PJ0;
@@ -22,7 +23,10 @@ void TIM8_TRG_COM_IRQHandler(void) {
 void TIM8_CC_IRQHandler(void) {
 }
 void TIM2_IRQHandler(void) {
-
+	// 目前这个中断是1ms一次
+	// 可以根据需要选择多长时间进行一次底层采样
+	// TODO 采样数据写入缓冲区
+	TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 }
 void TIM3_IRQHandler(void) {
 	// UNUSED

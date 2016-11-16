@@ -15,19 +15,19 @@ inline void timer_config_8(void) {
 }
 //
 inline void timer_config_2(void) {
-	// TIM2 初始化 用于中断
+	// TIM2 初始化 用于中断 1ms
 	TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 	// 时钟频率 = 72MHz / ( 预分频值 + 1 )
-	timer_init.TIM_Prescaler = 36000 - 1; // 预分频值
+	timer_init.TIM_Prescaler = 3600 - 1; // 预分频值,得到频率20KHz
+	// 向上向下计数模式:  定时时间 = ( 自动重装载值 + 1 ) / 时钟频率
+	// 中央对齐计数模式:  定时时间 = ( 自动重装载值 + 0 ) / 时钟频率
 	timer_init.TIM_CounterMode = TIM_CounterMode_Up; // 向上计数模式
-	// 向上向下模式:  定时时间 = ( 自动重装载值 + 1 ) / 时钟频率
-	// 中央对齐模式:  定时时间 = ( 自动重装载值 + 0 ) / 时钟频率
-	timer_init.TIM_Period = 2000 - 1; // 自动重装载值
+	timer_init.TIM_Period = 20 - 1; // 自动重装载值
 	timer_init.TIM_ClockDivision = 0; // 时钟分割
 	TIM_TimeBaseInit(TIM2, &timer_init);
+	TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE); // 定时采样中断暂时关闭，在应用层启动定时中断
+	TIM_ClearITPendingBit(TIM2, TIM_IT_Update); // 清除中断标记
 	TIM_Cmd(TIM2, ENABLE); // 使能TIM2
-	TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE); //FIXME 临时关闭 使能TIM2中断
-
 }
 //
 inline void timer_config_3(void) {

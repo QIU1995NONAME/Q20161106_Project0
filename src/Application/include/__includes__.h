@@ -21,6 +21,7 @@
 #include "q_signal.h"
 #include "q_misc.h"
 #include "rtc.h"
+#include "sampling.h"
 #include "spi.h"
 #include "systick.h"
 #include "tb6560.h"

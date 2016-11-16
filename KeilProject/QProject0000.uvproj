@@ -755,6 +755,11 @@
               <FileType>8</FileType>
               <FilePath>..\src\Application\__manager__.cpp</FilePath>
             </File>
+            <File>
+              <FileName>sampling.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\sampling.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

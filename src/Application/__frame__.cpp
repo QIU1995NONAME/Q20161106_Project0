@@ -53,6 +53,14 @@ extern void __frame_2_app_init__(void) {
 			; //信号系统失败系统卡死
 	}
 	cmd_init();
+	// 必须在T6初始化之前
+	if(sampling_init()){
+#ifdef __FRAME_INIT_DEBUG_INFO__
+		gui_print_inner_char((s8*) "RTSampling ERROR!", GUI_COLOR_F00,
+		GUI_COLOR_444);
+		gui_print_next_line();
+#endif // __FRAME_INIT_DEBUG_INFO__
+	}
 	tim6_heartbeat_init(); //4
 	// 必须在T6初始化之后
 	if (manager_init()) {
