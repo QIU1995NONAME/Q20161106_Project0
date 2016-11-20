@@ -36,12 +36,6 @@ extern u16 sampling_data_get_interval(void);
  */
 extern SamplingData * sampling_write_next(void);
 /**
- * 采样缓冲拥有多少条数据
- * @return 缓冲区中已有的数据条数
- *         如果返回负值，说明缓冲区不可用。
- */
-extern s16 sampling_data_length(void);
-/**
  * 向文件中追加一条记录
  * @param data 记录
  * @return 是否添加成功

@@ -83,9 +83,11 @@ extern void __frame_2_app_init__(void) {
 	// 一定是最后初始化计划任务！
 	__task_init__(); //last
 }
-//
+// 毕竟主循环,里面的函数没有绝对的先后顺序关系。
+// 或许以后可以在这里面设置优先级的关系
 extern void __frame_3_main_loop__(void) {
 	manager_main_loop_function();
+	sampling_main_loop_function();
 	tim6_heartbeat_main_loop_function();
 }
 

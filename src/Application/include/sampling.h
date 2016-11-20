@@ -12,7 +12,8 @@ namespace PJ0 {
  * 扩展功能：利用SD卡将数据永久性的存放在外部。可以用来查阅历史记录
  *         如果没有SD卡，则历史数据只保留很少一部分（可配置）
  */
-
+/// 采样功能是否正在运行
+extern s8 sampling_is_running;
 /**
  * 采样数据结构
  * 除了时间戳以外还需要什么样的数据
@@ -25,6 +26,12 @@ typedef struct REAL_TIME_SAMPLING_DATA {
 	u16 rtsd_fan_level; // 风扇转速等级
 	s32 rtsd_step_count; // 步进电机当前的步数
 } SamplingData;
+/**
+ * 采样缓冲拥有多少条数据
+ * @return 缓冲区中已有的数据条数
+ *         如果返回负值，说明缓冲区不可用。
+ */
+extern s16 sampling_data_length(void);
 /**
  * 移除第一条记录
  */
@@ -47,7 +54,7 @@ extern const SamplingData * sampling_data_get_last(void);
  * @return 0    复制成功
  *         否则：复制失败
  */
-extern s8 sampling_data_clone(SamplingData * dest, SamplingData * src);
+extern s8 sampling_data_clone(SamplingData * dest, const SamplingData * src);
 /**
  * 返回采样缓冲区是否为空
  * @return 0   非空
@@ -69,15 +76,21 @@ extern s8 sampling_data_is_full(void);
  */
 extern s8 sampling_init(void);
 /**
+ * 用在主循环中的函数
+ */
+extern void sampling_main_loop_function(void);
+/**
  * 启动定时采样
  */
 inline void sampling_start(void) {
 	TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
+	sampling_is_running = 1;
 }
 /**
  * 关闭定时采样
  */
 inline void sampling_stop(void) {
+	sampling_is_running = 0;
 	TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE);
 }
 

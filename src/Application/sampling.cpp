@@ -3,6 +3,21 @@
 
 namespace QIU {
 namespace PJ0 {
+/// 采样功能是否正在运行
+s8 sampling_is_running = 0;
+/**
+ * 采样缓冲拥有多少条数据
+ * @return 缓冲区中已有的数据条数
+ *         如果返回负值，说明缓冲区不可用。
+ */
+extern s16 sampling_data_length(void) {
+	u16 len = sampling_data_next_write;
+	if (len < sampling_data_first) {
+		len += SAMPLING_DATA_LENGTH_MAX;
+	}
+	len -= sampling_data_first;
+	return len;
+}
 /**
  * 移除第一条记录
  */
@@ -53,7 +68,7 @@ extern const SamplingData * sampling_data_get_last(void) {
  * @return 0    复制成功
  *         否则：复制失败
  */
-extern s8 sampling_data_clone(SamplingData * dest, SamplingData * src) {
+extern s8 sampling_data_clone(SamplingData * dest, const SamplingData * src) {
 	if (dest == 0 || src == 0) {
 		return 1;
 	}
@@ -97,6 +112,41 @@ extern s8 sampling_init(void) {
 		return sampling_init_0();
 	}
 	return 0;
+}
+/**
+ * 用在主循环中的函数
+ * 主要用于将缓存的数据存入SD
+ */
+extern void sampling_main_loop_function(void) {
+	static s8 need_save;
+	// 实时采样功能是否初始化
+	// 未初始化则直接跳过
+	if(!sampling_data_buffer){
+		return;
+	}
+	// 实时采样功能是否正在运行
+	if(sampling_is_running){
+		// 这个模式下要保留最近的5条数据
+		if(sampling_data_length()>5){
+			need_save = 1;
+		}else{
+			need_save = 0;
+		}
+	}else{
+		if(sampling_data_length()>0){
+			need_save = 1;
+		}else{
+			need_save = 0;
+		}
+	}
+	if(need_save){
+		SamplingData * data = sampling_data_get_first();
+		if(data == 0){
+			return;
+		}
+		sampling_file_append(data);
+		sampling_data_remove_first();
+	}
 }
 
 }
