@@ -49,6 +49,19 @@ extern s8 sampling_data_is_full(void);
  *         否则为初始化失败
  */
 extern s8 sampling_init(void);
+/**
+ * 启动定时采样
+ */
+inline void sampling_start(void){
+	TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);
+}
+/**
+ * 关闭定时采样
+ */
+inline void sampling_stop(void){
+	TIM_ITConfig(TIM2,TIM_IT_Update,DISABLE);
+}
+
 }
 }
 
