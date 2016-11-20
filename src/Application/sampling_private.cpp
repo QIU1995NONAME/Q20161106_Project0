@@ -51,9 +51,14 @@ extern u16 sampling_data_get_interval(void) {
 extern SamplingData * sampling_write_next(void) {
 	// 如果缓冲区已经满了
 	if (sampling_data_is_full()) {
-		return 0;
+		// 如果缓冲区可用
+		if (sampling_data_buffer) {
+			// 直接抹杀掉缓冲区最开始的数据
+			sampling_data_remove_first();
+		} else {
+			return 0;
+		}
 	}
-	// 如果还没有满
 	SamplingData * psdata = sampling_data_buffer + sampling_data_next_write;
 	sampling_data_next_write++;
 	if (sampling_data_next_write >= SAMPLING_DATA_LENGTH_MAX) {
@@ -67,7 +72,6 @@ extern SamplingData * sampling_write_next(void) {
  *         如果返回负值，说明缓冲区不可用。
  */
 extern s16 sampling_data_length(void) {
-
 	u16 len = sampling_data_next_write;
 	if (len < sampling_data_first) {
 		len += SAMPLING_DATA_LENGTH_MAX;

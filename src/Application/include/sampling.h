@@ -26,6 +26,21 @@ typedef struct REAL_TIME_SAMPLING_DATA {
 	s32 rtsd_step_count; // 步进电机当前的步数
 } SamplingData;
 /**
+ * 移除第一条记录
+ */
+extern void sampling_data_remove_first(void);
+/**
+ * 获取缓冲区第一条记录的指针
+ * @return 第一条记录的指针
+ */
+extern const SamplingData * sampling_data_get_first(void);
+/**
+ * 获取缓冲区最后一条记录的指针。
+ * 这个函数主要用于向串口发送数据用。
+ * @return 最后一条记录的指针
+ */
+extern const SamplingData * sampling_data_get_last(void);
+/**
  * 复制一个采样数据
  * @param dest 数据复制的目标
  * @param src  数据复制的源
@@ -35,10 +50,14 @@ typedef struct REAL_TIME_SAMPLING_DATA {
 extern s8 sampling_data_clone(SamplingData * dest, SamplingData * src);
 /**
  * 返回采样缓冲区是否为空
+ * @return 0   非空
+ *         其他  空
  */
 extern s8 sampling_data_is_empty(void);
 /**
  * 返回采样缓冲区是否已满
+ * @return 0   未满
+ *         其他  已满
  */
 extern s8 sampling_data_is_full(void);
 /**
@@ -52,14 +71,14 @@ extern s8 sampling_init(void);
 /**
  * 启动定时采样
  */
-inline void sampling_start(void){
-	TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);
+inline void sampling_start(void) {
+	TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
 }
 /**
  * 关闭定时采样
  */
-inline void sampling_stop(void){
-	TIM_ITConfig(TIM2,TIM_IT_Update,DISABLE);
+inline void sampling_stop(void) {
+	TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE);
 }
 
 }
