@@ -40,8 +40,9 @@
             this.btn_connect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_heartbeat = new System.Windows.Forms.Button();
-            this.btn_disconnect = new System.Windows.Forms.Button();
             this.btn_test = new System.Windows.Forms.Button();
+            this.btn_disconnect = new System.Windows.Forms.Button();
+            this.btn_synctime = new System.Windows.Forms.Button();
             this.status1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -51,7 +52,6 @@
             this.menu1.Location = new System.Drawing.Point(0, 0);
             this.menu1.Name = "menu1";
             this.menu1.Padding = new System.Windows.Forms.Padding(8, 3, 0, 3);
-            this.menu1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.menu1.Size = new System.Drawing.Size(632, 24);
             this.menu1.TabIndex = 0;
             // 
@@ -133,6 +133,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btn_synctime);
             this.panel1.Controls.Add(this.btn_heartbeat);
             this.panel1.Controls.Add(this.btn_test);
             this.panel1.Controls.Add(this.btn_refresh);
@@ -156,6 +157,17 @@
             this.btn_heartbeat.UseVisualStyleBackColor = true;
             this.btn_heartbeat.Click += new System.EventHandler(this.btn_heartbeat_Click);
             // 
+            // btn_test
+            // 
+            this.btn_test.Location = new System.Drawing.Point(0, 182);
+            this.btn_test.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_test.Name = "btn_test";
+            this.btn_test.Size = new System.Drawing.Size(118, 31);
+            this.btn_test.TabIndex = 3;
+            this.btn_test.Text = "TEST";
+            this.btn_test.UseVisualStyleBackColor = true;
+            this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
+            // 
             // btn_disconnect
             // 
             this.btn_disconnect.Enabled = false;
@@ -168,16 +180,15 @@
             this.btn_disconnect.UseVisualStyleBackColor = true;
             this.btn_disconnect.Click += new System.EventHandler(this.btn_disconnect_Click);
             // 
-            // btn_test
+            // btn_synctime
             // 
-            this.btn_test.Location = new System.Drawing.Point(0, 148);
-            this.btn_test.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_test.Name = "btn_test";
-            this.btn_test.Size = new System.Drawing.Size(118, 31);
-            this.btn_test.TabIndex = 3;
-            this.btn_test.Text = "TEST";
-            this.btn_test.UseVisualStyleBackColor = true;
-            this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
+            this.btn_synctime.Location = new System.Drawing.Point(0, 147);
+            this.btn_synctime.Name = "btn_synctime";
+            this.btn_synctime.Size = new System.Drawing.Size(118, 28);
+            this.btn_synctime.TabIndex = 6;
+            this.btn_synctime.Text = "时间同步";
+            this.btn_synctime.UseVisualStyleBackColor = true;
+            this.btn_synctime.Click += new System.EventHandler(this.btn_synctime_Click);
             // 
             // Form1
             // 
@@ -217,6 +228,7 @@
         private System.Windows.Forms.Button btn_heartbeat;
         private System.Windows.Forms.ToolStripStatusLabel status2;
         private System.Windows.Forms.Button btn_test;
+        private System.Windows.Forms.Button btn_synctime;
     }
 }
 

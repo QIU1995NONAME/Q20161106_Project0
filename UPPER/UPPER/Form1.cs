@@ -45,6 +45,24 @@ namespace UPPER
             byte[] msg = SerialMessage.pack_msg(new byte[] { 0x77 });
             serial1.Write(msg, 0, msg.Length);
         }
+        // 发送时间同步数据
+        private void serial1_send_0x78() {
+            byte[] msg = new byte[5];
+            msg[0] = 0x78;
+            DateTime dt = DateTime.Now;
+            long ticks = dt.AddYears(-1969).Ticks;
+            ticks /= 10000000;//转换到Unix秒时间戳
+            msg[1] = (byte)(ticks & 0xFF);
+            ticks >>= 8;
+            msg[2] = (byte)(ticks & 0xFF);
+            ticks >>= 8;
+            msg[3] = (byte)(ticks & 0xFF);
+            ticks >>= 8;
+            msg[4] = (byte)(ticks & 0xFF);
+            // 打包并发送
+            byte[] pack = SerialMessage.pack_msg(msg);
+            serial1.Write(pack, 0, pack.Length);
+        }
         private void btn_refresh_Click(object sender, EventArgs e)
         {
             // 其实可用的串口这种东西是可以在注册表里面找到的
@@ -166,6 +184,11 @@ namespace UPPER
             // 启动心跳
             serial1_send_0x77();
         }
+        private void btn_synctime_Click(object sender, EventArgs e)
+        {
+            // 时间同步
+            serial1_send_0x78();
+        }
         private void serial_execute_command(byte[] command)
         {
             if (command == null)
@@ -197,5 +220,7 @@ namespace UPPER
         {
             // SerialMessage.analyze_msg(new byte[]{0x05,0xEE ,0x77 ,0x1A ,0x7C});
         }
+
+
     }
 }

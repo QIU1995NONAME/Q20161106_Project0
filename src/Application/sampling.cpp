@@ -140,7 +140,7 @@ extern void sampling_main_loop_function(void) {
 		}
 	}
 	if(need_save){
-		SamplingData * data = sampling_data_get_first();
+		const SamplingData * data = sampling_data_get_first();
 		if(data == 0){
 			return;
 		}

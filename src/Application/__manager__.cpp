@@ -28,6 +28,20 @@ void manager_heartbeat_task_1000ms(void) {
 	}
 }
 /**
+ * 时间同步功能
+ */
+inline void manager_0x78_changetime(void) {
+	u32 second = 0;
+	second |= *(manager_cmd_r_buffer_1k + 4);
+	second <<= 8;
+	second |= *(manager_cmd_r_buffer_1k + 3);
+	second <<= 8;
+	second |= *(manager_cmd_r_buffer_1k + 2);
+	second <<= 8;
+	second |= *(manager_cmd_r_buffer_1k + 1);
+	rtc_set_counter(second);
+}
+/**
  * 管理器主循环
  * 除了主循环以外不得被任何其他方式调用
  */
@@ -50,6 +64,13 @@ extern void manager_main_loop_function(void) {
 		// XXX 0x77
 		case 0x77:
 			manager_heartbeat_count = 7;
+			break;
+			// XXX 0x78
+		case 0x78:
+			// 长度至少为5
+			if (st_res > 4) {
+				manager_0x78_changetime();
+			}
 			break;
 		default:
 			// 未知指令
