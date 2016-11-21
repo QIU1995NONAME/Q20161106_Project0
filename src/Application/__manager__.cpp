@@ -7,7 +7,7 @@ u8* manager_cmd_r_buffer_1k = 0;
 u8* manager_cmd_s_buffer_1k = 0;
 // 心跳计数
 s8 manager_heartbeat_count = 0;
-// 心跳功能 1S刷新一次
+/// 0x00 心跳功能 1S刷新一次
 void manager_heartbeat_task_1000ms(void) {
 	if (manager_heartbeat_count == 0) {
 		led_display(0x80);
@@ -18,14 +18,47 @@ void manager_heartbeat_task_1000ms(void) {
 		*manager_cmd_s_buffer_1k = 0x77;
 		u32 t_s = t6_timestamp_s;
 		u16 t_ms = t6_timestamp_ms;
-		*(manager_cmd_s_buffer_1k + 1) = 0xFF & (t_s);
-		*(manager_cmd_s_buffer_1k + 2) = 0xFF & (t_s >> 8);
-		*(manager_cmd_s_buffer_1k + 3) = 0xFF & (t_s >> 16);
-		*(manager_cmd_s_buffer_1k + 4) = 0xFF & (t_s >> 24);
-		*(manager_cmd_s_buffer_1k + 5) = 0xFF & (t_ms);
-		*(manager_cmd_s_buffer_1k + 6) = 0xFF & (t_ms >> 8);
-		cmd_buffer_send_data(manager_cmd_s_buffer_1k, 7);
+		u8 pointer = 1;
+		u8 datebyte = 0;
+		// 时间戳 秒
+		datebyte = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
+		t_s >>= 8;
+		datebyte = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
+		t_s >>= 8;
+		datebyte = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
+		t_s >>= 8;
+		datebyte = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
+		// 若干状态值
+		cmd_buffer_send_data(manager_cmd_s_buffer_1k, pointer);
 	}
+}
+/// 0x01 定时发送 50ms发送一份
+void manager_sampling_data_send_50ms(void) {
+	// 底层采样没有启动
+	if (!sampling_is_running) {
+		tim6_heartbeat_del_event(0x01);
+		return;
+	}
+	// 心跳停止
+	if (manager_heartbeat_count == 0) {
+		tim6_heartbeat_del_event(0x01);
+		return;
+	}
+	// 获取最近的记录
+	const SamplingData * data = sampling_data_get_last();
+	// 获取失败
+	if (data == 0) {
+		return;
+	}
+	// 组合数据
+	*manager_cmd_s_buffer_1k = 0x69;
+	memory_copy(manager_cmd_s_buffer_1k + 1, data, sizeof(SamplingData));
+	// 发送数据
+	cmd_buffer_send_data(manager_cmd_s_buffer_1k, 1 + sizeof(SamplingData));
 }
 /**
  * 时间同步功能
@@ -61,16 +94,30 @@ extern void manager_main_loop_function(void) {
 		}
 		// 如果接收到了数据
 		switch (*(manager_cmd_r_buffer_1k)) {
-		// XXX 0x77
-		case 0x77:
+		case 0x77: // XXX 0x77 收到心跳请求
 			manager_heartbeat_count = 7;
 			break;
-			// XXX 0x78
-		case 0x78:
+		case 0x78: // XXX 0x78 时间同步
 			// 长度至少为5
 			if (st_res > 4) {
 				manager_0x78_changetime();
 			}
+			break;
+		case 0x60: // XXX 0x60 底层采样功能停止
+			if (sampling_is_running) {
+				sampling_stop();
+			}
+			break;
+		case 0x61: // XXX 0x61 底层采样功能启动
+			if (!sampling_is_running) {
+				sampling_start();
+			}
+			break;
+		case 0x68: // XXX 0x68 串口采样功能停止
+			tim6_heartbeat_del_event(0x01);
+			break;
+		case 0x69: // XXX 0x69 串口采样功能启动
+			tim6_heartbeat_add_event(0x01, manager_sampling_data_send_50ms, 50);
 			break;
 		default:
 			// 未知指令

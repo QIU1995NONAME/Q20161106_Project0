@@ -63,6 +63,46 @@ namespace UPPER
             byte[] pack = SerialMessage.pack_msg(msg);
             serial1.Write(pack, 0, pack.Length);
         }
+        // 底层采样功能停止
+        private void serial1_send_0x60()
+        {
+            if (!serial1.IsOpen)
+            {
+                return;
+            }
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x60 });
+            serial1.Write(msg, 0, msg.Length);
+        }
+        // 底层采样功能启动
+        private void serial1_send_0x61()
+        {
+            if (!serial1.IsOpen)
+            {
+                return;
+            }
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x61 });
+            serial1.Write(msg, 0, msg.Length);
+        }
+        // 串口采样功能停止
+        private void serial1_send_0x68()
+        {
+            if (!serial1.IsOpen)
+            {
+                return;
+            }
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x68 });
+            serial1.Write(msg, 0, msg.Length);
+        }
+        // 串口采样功能启动
+        private void serial1_send_0x69()
+        {
+            if (!serial1.IsOpen)
+            {
+                return;
+            }
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x69 });
+            serial1.Write(msg, 0, msg.Length);
+        }
         private void btn_refresh_Click(object sender, EventArgs e)
         {
             // 其实可用的串口这种东西是可以在注册表里面找到的
@@ -196,13 +236,13 @@ namespace UPPER
                 // FIXME 没有相应的处理办法
                 return;
             }
-            // 心跳消息 四个字节的秒信息 两个字节的毫秒信息
+            // 心跳消息
             if (command[0] == 0x77)
             {
                 // 回送一个心跳
                 serial1_send_0x77();
-                // 如果命令长度不足7 说明有问题
-                if (command.Length < 7)
+                // 如果命令长度不足5 说明有问题
+                if (command.Length < 5)
                 {
                     // FIXME
                     return;
@@ -213,6 +253,17 @@ namespace UPPER
                 time_second += command[3] << 16;
                 time_second += command[4] << 24;
                 status2.Text = "STM: "+ new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
+                // 后面准备编写关于对各种状态的解析
+            }
+            // 采样消息
+            else if (command[0] == 0x69)
+            {
+                // 如果命令长度不足17 说明有问题
+                if (command.Length < 17)
+                {
+                    // FIXME
+                    return;
+                }
             }
         }
 
