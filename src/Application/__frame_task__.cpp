@@ -1,9 +1,10 @@
 #include "__frame_task__.h"
 #include "__includes__.h"
-// FIXME 我感觉这个文件中的代码还会被我重构
-// 无法避免 迟早要这么做的
+
 namespace QIU {
 namespace PJ0 {
+
+void * frame_task_buffer = 0;
 
 //void __task_0_scan_key__(void) {
 //	if (flag_led) {
@@ -622,11 +623,6 @@ namespace PJ0 {
 //	// 开始播放
 //	beep_play(note_array, pointer, BEEP_PLAY_SPEED_120);
 //}
-s8 buffer[32];
-void __task_print_time_100ms__(void) {
-	misc_uint2timestring(buffer, rtc_get_counter());
-	gui_inner_char(0, 0, buffer, GUI_COLOR_CCC, GUI_COLOR_000);
-}
 //void __task_test_tb6560__(void) {
 //	s32 arg = e6a2_read();
 //	arg >>= 2;
@@ -636,12 +632,18 @@ void __task_print_time_100ms__(void) {
 //	misc_int2string(buffer, tb6560_get_stepcount());
 //	gui_inner_char(0, 32, buffer, GUI_COLOR_FF8, GUI_COLOR_444);
 //}
+void __task_print_time_200ms__(void) {
+	static s8 buffer[32];
+	misc_uint2timestring(buffer, rtc_get_counter());
+	gui_inner_char_align(10, 15, buffer, GUI_COLOR_CCC, GUI_COLOR_000);
+}
 extern void __task_init__(void) {
 	u8 taskid = 8;
+	frame_task_buffer = memory_alloc_1k();
+	tim6_heartbeat_add_event(taskid++, __task_print_time_200ms__, 200);
 //	__task_test_beep_init__();
 //	tim6_heartbeat_add_event(taskid++, beep_task_10ms, 10);
 //	tim6_heartbeat_add_event(taskid++, __task_1_test_beep__, 1000);
-	tim6_heartbeat_add_event(taskid++, __task_print_time_100ms__, 100);
 //	tim6_heartbeat_add_event(taskid++, __task_test_tb6560__, 10);
 }
 

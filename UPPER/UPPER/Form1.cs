@@ -201,7 +201,6 @@ namespace UPPER
                     // 处理数据
                     InterfaceHandle interfaceUpdateHandle = new InterfaceHandle(serial_execute_command);
                     this.Invoke(interfaceUpdateHandle, new object[] { SerialMessage.analyze_msg(serial_cmd.ToArray()) });
-                    // serial_execute_command(SerialMessage.analyze_msg(serial_cmd.ToArray()));
                     // 清空
                     serial_cmd.Clear();
                     serial_cmd_is_receive = false;
@@ -271,7 +270,5 @@ namespace UPPER
         {
             // SerialMessage.analyze_msg(new byte[]{0x05,0xEE ,0x77 ,0x1A ,0x7C});
         }
-
-
     }
 }
