@@ -5,6 +5,8 @@
 
 namespace QIU {
 namespace PJ0 {
+
+#define FAN_MAX_LEVEL ((u16) (1800))
 /**
  * 获取风扇的转速
  * @return 当前设定的风扇转速

@@ -3,7 +3,6 @@
 namespace QIU {
 namespace PJ0 {
 
-#define FAN_MAX_LEVEL (1800 - 1)
 u16 fan_level = 0;
 extern u16 fan_get_level(void){
 	return fan_level;

@@ -1,5 +1,6 @@
 #include "__frame_task__.h"
 #include "__includes__.h"
+#include "__manager__.h"
 
 namespace QIU {
 namespace PJ0 {
@@ -632,15 +633,69 @@ void * frame_task_buffer = 0;
 //	misc_int2string(buffer, tb6560_get_stepcount());
 //	gui_inner_char(0, 32, buffer, GUI_COLOR_FF8, GUI_COLOR_444);
 //}
-void __task_print_time_200ms__(void) {
+/**
+ * 用于打印是/否状态的帮助类型的函数
+ * @param row 所在行
+ * @param col 所在列
+ * @param is_true 是否为真
+ */
+inline void __task_print_status_helper__(s8 row, s8 col, s8 is_true) {
+	if (is_true) {
+		gui_inner_char_align(row, col, (s8*) "OK!\0", GUI_COLOR_8F8,
+		GUI_COLOR_000);
+	} else {
+		gui_inner_char_align(row, col, (s8*) "XXX\0", GUI_COLOR_F00,
+		GUI_COLOR_000);
+	}
+}
+void __task_print_status_200ms__(void) {
 	static s8 buffer[32];
+	static s32 tmp_i = sampling_data_length();
+	static double tmp_d = 0;
+	// 10,15  实时时钟
 	misc_uint2timestring(buffer, rtc_get_counter());
-	gui_inner_char_align(10, 15, buffer, GUI_COLOR_CCC, GUI_COLOR_000);
+	gui_inner_char_align(10, 15, buffer, GUI_COLOR_88F, GUI_COLOR_000);
+	// 12,30 SD卡是否可用
+	__task_print_status_helper__(12, 30, fatfs_0_is_avail());
+	// 13,30 底层采样是否启动
+	__task_print_status_helper__(13, 30, sampling_is_running);
+	// 14,30 心跳是否在维持
+	__task_print_status_helper__(14, 30, manager_heartbeat_is_running());
+	// 17,30 采样缓冲区使用了多少
+	buffer[0] = '0' + (tmp_i % 1000) / 100;
+	buffer[1] = '0' + (tmp_i % 100) / 10;
+	buffer[2] = '0' + (tmp_i % 10);
+	buffer[3] = 0;
+	gui_inner_char_align(17, 30, buffer, GUI_COLOR_FF8, GUI_COLOR_000);
+	// 20,20 当前光电编码器的脉冲数
+	tmp_i = e6a2_read();
+	tmp_d = (double) tmp_i / 1000;
+	misc_int2string(buffer, tmp_i);
+	gui_inner_char_align(20, 20, (s8*) buffer, GUI_COLOR_8F8, GUI_COLOR_000);
+	// 21,20 当前光电编码器的角度
+	misc_num2string(buffer, tmp_d);
+	gui_inner_char_align(21, 20, (s8*) buffer, GUI_COLOR_8FF, GUI_COLOR_000);
+	// 22,20 风扇转速值
+	tmp_i = fan_get_level();
+	misc_int2string(buffer, tmp_i);
+	gui_inner_char_align(22, 20, (s8*) buffer, GUI_COLOR_8F8, GUI_COLOR_000);
+	// 23,20 风扇转速百分比
+	tmp_d = (double) tmp_i / (FAN_MAX_LEVEL);
+	misc_num2string(buffer, tmp_d);
+	gui_inner_char_align(23, 20, (s8*) buffer, GUI_COLOR_8FF, GUI_COLOR_000);
+	// 24,20 步进电机当前步数
+	tmp_i = tb6560_get_stepcount();
+	misc_int2string(buffer, tmp_i);
+	gui_inner_char_align(24, 20, (s8*) buffer, GUI_COLOR_8F8, GUI_COLOR_000);
+	// 25,20 步进电机当前角度(16细分)
+	tmp_d = (double) tmp_i / 3200;
+	misc_num2string(buffer, tmp_d);
+	gui_inner_char_align(25, 20, (s8*) buffer, GUI_COLOR_8FF, GUI_COLOR_000);
 }
 extern void __task_init__(void) {
 	u8 taskid = 8;
 	frame_task_buffer = memory_alloc_1k();
-	tim6_heartbeat_add_event(taskid++, __task_print_time_200ms__, 200);
+	tim6_heartbeat_add_event(taskid++, __task_print_status_200ms__, 200);
 //	__task_test_beep_init__();
 //	tim6_heartbeat_add_event(taskid++, beep_task_10ms, 10);
 //	tim6_heartbeat_add_event(taskid++, __task_1_test_beep__, 1000);

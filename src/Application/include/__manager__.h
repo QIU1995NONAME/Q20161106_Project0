@@ -10,6 +10,11 @@ namespace PJ0 {
  * 同时兼有通过数据与命令的交互调动各个单片机功能的任务
  */
 /**
+ * 心跳是否在维持着
+ * @return 心跳是否在维持着
+ */
+extern s8 manager_heartbeat_is_running(void);
+/**
  * 管理器主循环
  * 除了主循环以外不得被任何其他方式调用
  */

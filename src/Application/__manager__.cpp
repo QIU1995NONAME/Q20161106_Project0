@@ -1,5 +1,6 @@
 #include "__manager__.h"
 #include "__includes__.h"
+
 namespace QIU {
 namespace PJ0 {
 // 用于处理数据用的缓冲区
@@ -17,7 +18,6 @@ void manager_heartbeat_task_1000ms(void) {
 		// 发送心跳回应
 		*manager_cmd_s_buffer_1k = 0x77;
 		u32 t_s = t6_timestamp_s;
-		u16 t_ms = t6_timestamp_ms;
 		u8 pointer = 1;
 		u8 datebyte = 0;
 		// 时间戳 秒
@@ -73,6 +73,13 @@ inline void manager_0x78_changetime(void) {
 	second <<= 8;
 	second |= *(manager_cmd_r_buffer_1k + 1);
 	rtc_set_counter(second);
+}
+/**
+ * 心跳是否在维持着
+ * @return 心跳是否在维持着
+ */
+extern s8 manager_heartbeat_is_running(void) {
+	return manager_heartbeat_count != 0;
 }
 /**
  * 管理器主循环

@@ -1,9 +1,8 @@
 #define __QIU_PJ0_NEED_FRAME__
 #include "__frame__.h"
-#include "stm32f10x.h"
 #include "__frame_task__.h"
-#include "__manager__.h"
 #include "__includes__.h"
+#include "__manager__.h"
 // 如果需要添加新模块的头文件
 // 直接添加到__includes__.h
 
