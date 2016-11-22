@@ -67,6 +67,7 @@ extern u8 misc_int2string(s8* buf, s32 num) {
 	u8 tmp = 0;
 	if (num == 0) {
 		*(buf + length++) = '0';
+		*(buf + length++) = '.';
 		*(buf + length++) = 0;
 		return length;
 	}

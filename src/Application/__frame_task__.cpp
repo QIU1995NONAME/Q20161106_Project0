@@ -669,7 +669,7 @@ void __task_print_status_200ms__(void) {
 	gui_inner_char_align(17, 30, buffer, GUI_COLOR_FF8, GUI_COLOR_000);
 	// 20,20 当前光电编码器的脉冲数
 	tmp_i = e6a2_read();
-	tmp_d = (double) tmp_i / 1000;
+	tmp_d = 360. * tmp_i / 1000;
 	misc_int2string(buffer, tmp_i);
 	gui_inner_char_align(20, 20, (s8*) buffer, GUI_COLOR_8F8, GUI_COLOR_000);
 	// 21,20 当前光电编码器的角度
@@ -688,7 +688,7 @@ void __task_print_status_200ms__(void) {
 	misc_int2string(buffer, tmp_i);
 	gui_inner_char_align(24, 20, (s8*) buffer, GUI_COLOR_8F8, GUI_COLOR_000);
 	// 25,20 步进电机当前角度(16细分)
-	tmp_d = (double) tmp_i / 3200;
+	tmp_d = 360. * tmp_i / 3200;
 	misc_num2string(buffer, tmp_d);
 	gui_inner_char_align(25, 20, (s8*) buffer, GUI_COLOR_8FF, GUI_COLOR_000);
 }
