@@ -32,23 +32,29 @@
             this.menu1 = new System.Windows.Forms.MenuStrip();
             this.status1 = new System.Windows.Forms.StatusStrip();
             this.status_label_systime = new System.Windows.Forms.ToolStripStatusLabel();
-            this.status2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.status_stm32_systime = new System.Windows.Forms.ToolStripStatusLabel();
             this.serial1 = new System.IO.Ports.SerialPort(this.components);
             this.combo_comm = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btn_refresh = new System.Windows.Forms.Button();
             this.btn_connect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_heartbeat = new System.Windows.Forms.Button();
             this.btn_test = new System.Windows.Forms.Button();
             this.btn_disconnect = new System.Windows.Forms.Button();
-            this.btn_synctime = new System.Windows.Forms.Button();
+            this.menu_opt_Operate = new System.Windows.Forms.ToolStripMenuItem();
+            this.menu_item_timesync = new System.Windows.Forms.ToolStripMenuItem();
+            this.menu_item_heartbeat = new System.Windows.Forms.ToolStripMenuItem();
+            this.pic_test = new System.Windows.Forms.PictureBox();
+            this.menu1.SuspendLayout();
             this.status1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_test)).BeginInit();
             this.SuspendLayout();
             // 
             // menu1
             // 
+            this.menu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menu_opt_Operate});
             this.menu1.Location = new System.Drawing.Point(0, 0);
             this.menu1.Name = "menu1";
             this.menu1.Padding = new System.Windows.Forms.Padding(8, 3, 0, 3);
@@ -59,7 +65,7 @@
             // 
             this.status1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.status_label_systime,
-            this.status2});
+            this.status_stm32_systime});
             this.status1.Location = new System.Drawing.Point(0, 431);
             this.status1.Name = "status1";
             this.status1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
@@ -76,15 +82,15 @@
             this.status_label_systime.Size = new System.Drawing.Size(165, 17);
             this.status_label_systime.Text = "LOCAL: yyyy/MM/dd HH:mm:ss";
             // 
-            // status2
+            // status_stm32_systime
             // 
-            this.status2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+            this.status_stm32_systime.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.status2.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
-            this.status2.Name = "status2";
-            this.status2.Size = new System.Drawing.Size(153, 17);
-            this.status2.Text = "STM: yyyy/MM/dd HH:mm:ss";
+            this.status_stm32_systime.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
+            this.status_stm32_systime.Name = "status_stm32_systime";
+            this.status_stm32_systime.Size = new System.Drawing.Size(153, 17);
+            this.status_stm32_systime.Text = "STM: yyyy/MM/dd HH:mm:ss";
             // 
             // serial1
             // 
@@ -133,8 +139,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btn_synctime);
-            this.panel1.Controls.Add(this.btn_heartbeat);
             this.panel1.Controls.Add(this.btn_test);
             this.panel1.Controls.Add(this.btn_refresh);
             this.panel1.Controls.Add(this.btn_disconnect);
@@ -146,16 +150,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(128, 407);
             this.panel1.TabIndex = 5;
-            // 
-            // btn_heartbeat
-            // 
-            this.btn_heartbeat.Location = new System.Drawing.Point(0, 113);
-            this.btn_heartbeat.Name = "btn_heartbeat";
-            this.btn_heartbeat.Size = new System.Drawing.Size(118, 28);
-            this.btn_heartbeat.TabIndex = 5;
-            this.btn_heartbeat.Text = "启动心跳";
-            this.btn_heartbeat.UseVisualStyleBackColor = true;
-            this.btn_heartbeat.Click += new System.EventHandler(this.btn_heartbeat_Click);
             // 
             // btn_test
             // 
@@ -180,21 +174,44 @@
             this.btn_disconnect.UseVisualStyleBackColor = true;
             this.btn_disconnect.Click += new System.EventHandler(this.btn_disconnect_Click);
             // 
-            // btn_synctime
+            // menu_opt_Operate
             // 
-            this.btn_synctime.Location = new System.Drawing.Point(0, 147);
-            this.btn_synctime.Name = "btn_synctime";
-            this.btn_synctime.Size = new System.Drawing.Size(118, 28);
-            this.btn_synctime.TabIndex = 6;
-            this.btn_synctime.Text = "时间同步";
-            this.btn_synctime.UseVisualStyleBackColor = true;
-            this.btn_synctime.Click += new System.EventHandler(this.btn_synctime_Click);
+            this.menu_opt_Operate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menu_item_heartbeat,
+            this.menu_item_timesync});
+            this.menu_opt_Operate.Name = "menu_opt_Operate";
+            this.menu_opt_Operate.Size = new System.Drawing.Size(59, 18);
+            this.menu_opt_Operate.Text = "&Operate";
+            // 
+            // menu_item_timesync
+            // 
+            this.menu_item_timesync.Name = "menu_item_timesync";
+            this.menu_item_timesync.Size = new System.Drawing.Size(152, 22);
+            this.menu_item_timesync.Text = "时间同步";
+            this.menu_item_timesync.Click += new System.EventHandler(this.menu_item_timesync_Click);
+            // 
+            // menu_item_heartbeat
+            // 
+            this.menu_item_heartbeat.Name = "menu_item_heartbeat";
+            this.menu_item_heartbeat.Size = new System.Drawing.Size(152, 22);
+            this.menu_item_heartbeat.Text = "启动心跳";
+            this.menu_item_heartbeat.Click += new System.EventHandler(this.menu_item_heartbeat_Click);
+            // 
+            // pic_test
+            // 
+            this.pic_test.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pic_test.Location = new System.Drawing.Point(146, 43);
+            this.pic_test.Name = "pic_test";
+            this.pic_test.Size = new System.Drawing.Size(474, 372);
+            this.pic_test.TabIndex = 6;
+            this.pic_test.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(632, 453);
+            this.Controls.Add(this.pic_test);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.status1);
             this.Controls.Add(this.menu1);
@@ -205,9 +222,12 @@
             this.Name = "Form1";
             this.Text = "Project0";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.menu1.ResumeLayout(false);
+            this.menu1.PerformLayout();
             this.status1.ResumeLayout(false);
             this.status1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pic_test)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,9 +246,12 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btn_disconnect;
         private System.Windows.Forms.Button btn_heartbeat;
-        private System.Windows.Forms.ToolStripStatusLabel status2;
+        private System.Windows.Forms.ToolStripStatusLabel status_stm32_systime;
         private System.Windows.Forms.Button btn_test;
-        private System.Windows.Forms.Button btn_synctime;
+        private System.Windows.Forms.ToolStripMenuItem menu_opt_Operate;
+        private System.Windows.Forms.ToolStripMenuItem menu_item_timesync;
+        private System.Windows.Forms.ToolStripMenuItem menu_item_heartbeat;
+        private System.Windows.Forms.PictureBox pic_test;
     }
 }
 

@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RTGraphGenerator.partial.cs" />
+    <Compile Include="RTGraphGenerator.cs" />
     <Compile Include="SerialMessage.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

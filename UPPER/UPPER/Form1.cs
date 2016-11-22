@@ -217,17 +217,6 @@ namespace UPPER
                 
             }
         }
-
-        private void btn_heartbeat_Click(object sender, EventArgs e)
-        {
-            // 启动心跳
-            serial1_send_0x77();
-        }
-        private void btn_synctime_Click(object sender, EventArgs e)
-        {
-            // 时间同步
-            serial1_send_0x78();
-        }
         private void serial_execute_command(byte[] command)
         {
             if (command == null)
@@ -251,7 +240,7 @@ namespace UPPER
                 time_second += command[2] << 8;
                 time_second += command[3] << 16;
                 time_second += command[4] << 24;
-                status2.Text = "STM: "+ new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
+                status_stm32_systime.Text = "STM: "+ new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
                 // 后面准备编写关于对各种状态的解析
             }
             // 采样消息
@@ -268,7 +257,49 @@ namespace UPPER
 
         private void btn_test_Click(object sender, EventArgs e)
         {
+            RTGraphGenerator imggen = new RTGraphGenerator();
+            imggen.GraphWidth = pic_test.Width;
+            imggen.GraphHeight = pic_test.Height;
+            imggen.AxisRangeX = 1000;
+            Dictionary<long, double> testdata = new Dictionary<long, double>();
+            testdata.Add(0, -2.521707246);
+            testdata.Add(50, -1.310526213);
+            testdata.Add(100, 2.869743589);
+            testdata.Add(150, -1.767411005);
+            testdata.Add(200, -0.152919848);
+            testdata.Add(250, 0.780624748);
+            testdata.Add(300, 3.776620546);
+            testdata.Add(350, -1.246947845);
+            testdata.Add(400, 3.327629995);
+            testdata.Add(450, 0.788862252);
+            testdata.Add(500, 1.837697798);
+            testdata.Add(550, 1.298368614);
+            testdata.Add(600, 1.687328307);
+            testdata.Add(650, -1.670196629);
+            testdata.Add(700, -0.013712272);
+            testdata.Add(750, 3.142558117);
+            testdata.Add(800, -1.08552826);
+            testdata.Add(850, 2.973618267);
+            testdata.Add(900, 2.15371096);
+            testdata.Add(950, -0.3853369);
+            testdata.Add(1000, 3.738113823);
+
+
+            pic_test.Image = imggen.generateImage(testdata);
+
             // SerialMessage.analyze_msg(new byte[]{0x05,0xEE ,0x77 ,0x1A ,0x7C});
+        }
+
+        private void menu_item_timesync_Click(object sender, EventArgs e)
+        {
+            // 时间同步
+            serial1_send_0x78();
+        }
+
+        private void menu_item_heartbeat_Click(object sender, EventArgs e)
+        {
+            // 启动心跳
+            serial1_send_0x77();
         }
     }
 }
