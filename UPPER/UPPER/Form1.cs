@@ -13,6 +13,12 @@ namespace UPPER
 {
     public partial class Form1 : Form
     {
+        private Dictionary<long, double> dict_angle_pulse = new Dictionary<long, double>();
+        private Dictionary<long, double> dict_angle_degree = new Dictionary<long, double>();
+        private Dictionary<long, double> dict_fan_level = new Dictionary<long, double>();
+        private Dictionary<long, double> dict_fan_percent = new Dictionary<long, double>();
+        private Dictionary<long, double> dict_step_step = new Dictionary<long, double>();
+        private Dictionary<long, double> dict_step_degree = new Dictionary<long, double>();
         public delegate void InterfaceHandle(byte[] byteattay);
         public Form1()
         {
@@ -236,10 +242,10 @@ namespace UPPER
                     return;
                 }
                 int time_second = 0;
-                time_second += command[1];
-                time_second += command[2] << 8;
-                time_second += command[3] << 16;
-                time_second += command[4] << 24;
+                time_second |= command[1];
+                time_second |= command[2] << 8;
+                time_second |= command[3] << 16;
+                time_second |= command[4] << 24;
                 status_stm32_systime.Text = "STM: "+ new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
                 // 后面准备编写关于对各种状态的解析
             }
@@ -252,44 +258,114 @@ namespace UPPER
                     // FIXME
                     return;
                 }
+                // 分析数据并保存
+                // 秒
+                long time_ms = 0;
+                int tmpi = 0;
+                double tmpd = 0;
+                // 有可能存在负值 统一的处理方式
+                // 秒
+                tmpi |= command[4];
+                tmpi <<= 8;
+                tmpi |= command[3];
+                tmpi <<= 8;
+                tmpi |= command[2];
+                tmpi <<= 8;
+                tmpi |= command[1];
+                time_ms = tmpi * 1000;
+                // 毫秒
+                tmpi = 0;
+                tmpi |= command[6];
+                tmpi <<= 8;
+                tmpi |= command[5];
+                time_ms += tmpi;
+                // 光电编码器值
+                tmpi = 0;
+                tmpi |= command[10];
+                tmpi <<= 8;
+                tmpi |= command[9];
+                tmpi <<= 8;
+                tmpi |= command[8];
+                tmpi <<= 8;
+                tmpi |= command[7];
+                // 转成角度
+                tmpd = 360.0 * tmpi / 1000;
+                // 存入内存
+                dict_angle_pulse.Add(time_ms,tmpi);
+                dict_angle_degree.Add(time_ms, tmpd);
+                // 获取风扇转速
+                tmpi = 0;
+                tmpi |= command[12];
+                tmpi <<= 8;
+                tmpi |= command[11];
+                // 转换成百分比
+                tmpd = 100.0 * tmpi / 1800;
+                // 存入内存
+                dict_fan_level.Add(time_ms, tmpi);
+                dict_fan_percent.Add(time_ms, tmpd);
+                // 获取步进电机数据
+                tmpi = 0;
+                tmpi |= command[16];
+                tmpi <<= 8;
+                tmpi |= command[15];
+                tmpi <<= 8;
+                tmpi |= command[14];
+                tmpi <<= 8;
+                tmpi |= command[13];
+                // 转换为角度
+                tmpd = 360.0 * tmpi / 3200;
+                dict_step_step.Add(time_ms, tmpi);
+                dict_step_degree.Add(time_ms, tmpd);
+                // 绘制曲线
+                pic_draw_graphs();
             }
         }
-
-        private void btn_test_Click(object sender, EventArgs e)
+        // 绘制曲线图
+        private void pic_draw_graphs()
         {
             RTGraphGenerator imggen = new RTGraphGenerator();
-            imggen.GraphWidth = pic_test.Width;
-            imggen.GraphHeight = pic_test.Height;
-            imggen.AxisRangeX = 1000;
-            Dictionary<long, double> testdata = new Dictionary<long, double>();
-            testdata.Add(0, -2.521707246);
-            testdata.Add(50, -1.310526213);
-            testdata.Add(100, 2.869743589);
-            testdata.Add(150, -1.767411005);
-            testdata.Add(200, -0.152919848);
-            testdata.Add(250, 0.780624748);
-            testdata.Add(300, 3.776620546);
-            testdata.Add(350, -1.246947845);
-            testdata.Add(400, 3.327629995);
-            testdata.Add(450, 0.788862252);
-            testdata.Add(500, 1.837697798);
-            testdata.Add(550, 1.298368614);
-            testdata.Add(600, 1.687328307);
-            testdata.Add(650, -1.670196629);
-            testdata.Add(700, -0.013712272);
-            testdata.Add(750, 3.142558117);
-            testdata.Add(800, -1.08552826);
-            testdata.Add(850, 2.973618267);
-            testdata.Add(900, 2.15371096);
-            testdata.Add(950, -0.3853369);
-            testdata.Add(1000, 3.738113823);
-
-
-            pic_test.Image = imggen.generateImage(testdata);
-
-            // SerialMessage.analyze_msg(new byte[]{0x05,0xEE ,0x77 ,0x1A ,0x7C});
+            int axis_x_range = track_chg_range.Value;
+            switch (axis_x_range)
+            {
+                case 0: // 1s
+                    axis_x_range = 1000;
+                    break;
+                case 1: // 2s
+                    axis_x_range = 2000; 
+                    break;
+                case 2: // 5s
+                    axis_x_range = 5000;
+                    break;
+                case 3: // 10s
+                    axis_x_range = 10000;
+                    break;
+                case 4: // 30s
+                    axis_x_range = 30000;
+                    break;
+                case 5: // 60s
+                    axis_x_range = 60000;
+                    break;
+                case 6: // 120s
+                    axis_x_range = 120000;
+                    break;
+                default: // 300s
+                    axis_x_range = 300000;
+                    break;
+            }
+            imggen.AxisRangeX = axis_x_range;
+            imggen.ForeColor = Color.Cyan;
+            pic_angle_pulse.Image = imggen.generateImage(dict_angle_pulse);
+            imggen.ForeColor = Color.LightCyan;
+            pic_angle_degree.Image = imggen.generateImage(dict_angle_degree);
+            imggen.ForeColor = Color.Yellow;
+            pic_fan_level.Image = imggen.generateImage(dict_fan_level);
+            imggen.ForeColor = Color.LightYellow;
+            pic_fan_level_percent.Image = imggen.generateImage(dict_fan_percent);
+            imggen.ForeColor = Color.GreenYellow;
+            pic_step_step.Image = imggen.generateImage(dict_step_step);
+            imggen.ForeColor = Color.LightGreen;
+            pic_step_degree.Image = imggen.generateImage(dict_step_degree);
         }
-
         private void menu_item_timesync_Click(object sender, EventArgs e)
         {
             // 时间同步
