@@ -7,7 +7,7 @@
 namespace QIU {
 namespace PJ0 {
 // 采样间隔 - 1(毫秒)
-u16 sampling_data_interval = 4;
+u16 sampling_data_interval = 1;
 // 缓冲区第一个数据
 u16 sampling_data_first = 0;
 // 缓冲区接下来可以用的数据区
@@ -16,6 +16,7 @@ u16 sampling_data_next_write = 0;
 SamplingData * sampling_data_buffer = 0;
 // 指向SD文件的指针
 FILE * sampling_data_file = 0;
+s8 sampling_data_file_is_open = 0;
 // 这个文件中最多存放记录的数目(0x020000 4M多一点)
 #define SAMPLING_DATA_FILE_RECORD_COUNT_MAX ((u32) 0x020000)
 // 这个文件中存放了多少条记录
@@ -73,11 +74,12 @@ extern SamplingData * sampling_write_next(void) {
  *         其他 失败
  */
 extern s8 sampling_file_append(const SamplingData * data) {
+	unsigned int tmp;
 	if (data == 0) {
 		return 0xFF; // 数据不能为空
 	}
-	if (sampling_data_file == 0) {
-		return 0x60; // 文件不可用
+	if (!sampling_data_file_is_open) {
+		sampling_file_close_create();
 	}
 	void * buf = memory_alloc_1k();
 	if (buf == 0) {
@@ -85,7 +87,8 @@ extern s8 sampling_file_append(const SamplingData * data) {
 	}
 	// 复制数据 防止中断等抹掉数据
 	memory_copy(buf, data, sizeof(SamplingData));
-	f_write(sampling_data_file, buf, sizeof(SamplingData), 0);
+	// FIXME
+	f_write(sampling_data_file, buf, sizeof(SamplingData), &tmp);
 	sampling_data_file_record_count++;
 	memory_free(buf);
 	if ((sampling_data_file_record_count & 0x03FF) == 0) {
@@ -124,10 +127,9 @@ extern s8 sampling_file_close_create(void) {
 	}
 	// 文件夹已经成功切换
 	// 如果当前有打开的文件，关之。
-	if (sampling_data_file != 0) {
+	if (sampling_data_file_is_open) {
 		f_close(sampling_data_file);
-		delete sampling_data_file;
-		sampling_data_file = 0;
+		sampling_data_file_is_open = 0;
 	}
 	sampling_data_file_record_count = 0;
 	// 创建内存缓冲区(1K)
@@ -137,38 +139,38 @@ extern s8 sampling_file_close_create(void) {
 	}
 	char * file_name = (char *) buffer;
 	// 创建一个对象
-	FILE * file = new FILE();
 	// 准备文件名
-	for (u32 i = 0; i < 9999999; i++) {
+	for (u32 i = 0; i < 9999; i++) {
 		*(file_name + 0) = 'Q';
-		*(file_name + 1) = '0' + (i % 10000000) / 1000000;
-		*(file_name + 2) = '0' + (i % 1000000) / 100000;
-		*(file_name + 3) = '0' + (i % 100000) / 10000;
-		*(file_name + 4) = '0' + (i % 10000) / 1000;
-		*(file_name + 5) = '0' + (i % 1000) / 100;
-		*(file_name + 6) = '0' + (i % 100) / 10;
-		*(file_name + 7) = '0' + (i % 10);
-		*(file_name + 8) = '.';
-		*(file_name + 9) = 'S';
-		*(file_name + 10) = 'D';
-		*(file_name + 11) = 'H';
-		*(file_name + 12) = 0;
+		u32 tmp_i = i;
+		*(file_name + 4) = '0' + (tmp_i % 10);
+		tmp_i /= 10;
+		*(file_name + 3) = '0' + (tmp_i % 10);
+		tmp_i /= 10;
+		*(file_name + 2) = '0' + (tmp_i % 10);
+		tmp_i /= 10;
+		*(file_name + 1) = '0' + (tmp_i % 10);
+		*(file_name + 5) = '.';
+		*(file_name + 6) = 'S';
+		*(file_name + 7) = 'D';
+		*(file_name + 8) = 'H';
+		*(file_name + 9) = 0;
 		// 尝试创建文件
-		res = f_open(file, file_name, FA_CREATE_NEW | FA_WRITE);
+		res = f_open(sampling_data_file, file_name, FA_CREATE_NEW | FA_WRITE);
 		// 如果成功创建
 		if (res == FR_OK) {
-			sampling_data_file = file;
+			sampling_data_file_is_open = 1;
 			break;
 		}
 		// 如果出错原因不是文件已经存在
 		if (res != FR_EXIST) {
-			delete file;
+			memory_free(buffer);
 			return 0x72;	//文件创建失败
 		}
 	}
 	// 如果没有成功创建文件
-	if (sampling_data_file == 0) {
-		delete file;
+	if (sampling_data_file_is_open == 0) {
+		memory_free(buffer);
 		return 0x72;	//文件创建失败
 	}
 	// 文件创建成功 写入元信息META(64字节)
@@ -191,9 +193,11 @@ extern s8 sampling_file_close_create(void) {
 	*(meta + pointer++) = 0x00;	//Version.Update2
 	*(meta + pointer++) = 0x00;	//Version.Update3
 	// 刷0接下来的48字节
-	memory_copy(meta, 0, 48);
+	memory_copy(meta + pointer, 0, 48);
 	// 写入文件
+	// FIXME 目前文件无法写入
 	f_write(sampling_data_file, meta, 64, &pointer);
+	f_sync(sampling_data_file);
 	// 文件META信息已经写好。可以投入使用
 	memory_free(meta);
 	return 0;
@@ -216,6 +220,12 @@ extern s8 sampling_init_0(void) {
 		return -1;
 	}
 	sampling_data_buffer = (SamplingData *) (p);
+	p = memory_alloc_4k();
+	if (!p) {
+		// 内存不足
+		return -1;
+	}
+	sampling_data_file = (FILE*) (p);
 	sampling_data_first = 0;
 	sampling_data_next_write = 0;
 	sampling_data_interval = 4;

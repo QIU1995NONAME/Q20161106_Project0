@@ -25,7 +25,7 @@ inline void timer_config_2(void) {
 	timer_init.TIM_Period = 20 - 1; // 自动重装载值
 	timer_init.TIM_ClockDivision = 0; // 时钟分割
 	TIM_TimeBaseInit(TIM2, &timer_init);
-	TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE); // 定时采样中断暂时关闭，在应用层启动定时中断
+	TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE); // 定时采样中断暂时关闭，在应用层启动定时中断
 	TIM_ClearITPendingBit(TIM2, TIM_IT_Update); // 清除中断标记
 	TIM_Cmd(TIM2, ENABLE); // 使能TIM2
 }

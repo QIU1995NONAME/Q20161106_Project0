@@ -83,7 +83,6 @@ extern void sampling_main_loop_function(void);
  * 启动定时采样
  */
 inline void sampling_start(void) {
-	TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
 	sampling_is_running = 1;
 }
 /**
@@ -91,7 +90,6 @@ inline void sampling_start(void) {
  */
 inline void sampling_stop(void) {
 	sampling_is_running = 0;
-	TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE);
 }
 
 }
