@@ -22,8 +22,8 @@ extern s8 sampling_is_running;
 typedef struct REAL_TIME_SAMPLING_DATA {
 	u32 rtsd_timestamp_s; // 时间戳_秒
 	u16 rtsd_timestamp_ms; // 时间戳_毫秒
-	s32 rtsd_angle; // 光电编码器数值(也就是角度) 单位 千分之一圈
 	u16 rtsd_fan_level; // 风扇转速等级
+	s32 rtsd_angle; // 光电编码器数值(也就是角度) 单位 千分之一圈
 	s32 rtsd_step_count; // 步进电机当前的步数
 } SamplingData;
 /**

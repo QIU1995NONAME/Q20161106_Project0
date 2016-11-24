@@ -281,13 +281,13 @@ namespace UPPER
                 time_ms += tmpi;
                 // 光电编码器值
                 tmpi = 0;
+                tmpi |= command[12];
+                tmpi <<= 8;
+                tmpi |= command[11];
+                tmpi <<= 8;
                 tmpi |= command[10];
                 tmpi <<= 8;
                 tmpi |= command[9];
-                tmpi <<= 8;
-                tmpi |= command[8];
-                tmpi <<= 8;
-                tmpi |= command[7];
                 // 转成角度
                 tmpd = 360.0 * tmpi / 1000;
                 // 存入内存
@@ -295,9 +295,9 @@ namespace UPPER
                 dict_angle_degree.Add(time_ms, tmpd);
                 // 获取风扇转速
                 tmpi = 0;
-                tmpi |= command[12];
+                tmpi |= command[8];
                 tmpi <<= 8;
-                tmpi |= command[11];
+                tmpi |= command[7];
                 // 转换成百分比
                 tmpd = 100.0 * tmpi / 1800;
                 // 存入内存
