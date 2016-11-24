@@ -19,7 +19,7 @@ const s8 CMD_ENDC = 0x25;
 // 关键字转义码
 const s8 CMD_ESCC = 0x75;
 // 数据起始码
-const s8 CMD_STTC = 0x5A;
+const s8 CMD_STTC = 0x5D;
 // 用来存放接收到的数据
 // 同时这个变量也是缓冲区是否可用的标志
 extern s8 * cmd_buffer_1k;

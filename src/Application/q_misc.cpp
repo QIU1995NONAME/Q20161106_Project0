@@ -1,11 +1,5 @@
 #include "q_misc.h"
 
-#define __USE_MEMORY_BUFFER__
-
-#ifdef __USE_MEMORY_BUFFER__
-#include "memory.h"
-#endif //__USE_MEMORY_BUFFER__
-
 namespace QIU {
 namespace PJ0 {
 
@@ -67,127 +61,13 @@ extern u16 misc_calculate_crc(const u8* ptr, u16 len) {
 	}
 	return ((crch << 8) | crcl);
 }
-extern u16 misc_pack_message(u8* const result, u8 len, const u8* const msg) {
-	// 缓冲区
-#ifdef __USE_MEMORY_BUFFER__
-	u8 * tmp = (u8*) memory_alloc_1k();
-	if (tmp == 0) {
-		return 0;
-	}
-#else //__USE_MEMORY_BUFFER__
-	u8 tmp[512];
-#endif //__USE_MEMORY_BUFFER__
-	// 变量初始化
-	u16 tmp_len = len + 4;
-	u32 res_len = 0;
-	u16 check = 0;
-	// 第一个字节 代表消息长度
-	*(tmp) = tmp_len;
-	// 第二个字节 chksum 预留出来
-	*(tmp + 1) = 0;
-	// 复制消息 将msg的消息复制到tmp
-	for (u8 i = 0; i < len; i++) {
-		*(tmp + 2 + i) = *(msg + i);
-	}
-	// 最后两个字节 是CRC校验用的 预留
-	*(tmp + tmp_len - 2) = 0x00;
-	*(tmp + tmp_len - 1) = 0x00;
-	// 进行CRC的计算
-	check = misc_calculate_crc(tmp, tmp_len);
-	// 将CRC填入消息 先填高8位，再填低8位
-	*(tmp + tmp_len - 2) = (check >> 8) & 0xFF;
-	*(tmp + tmp_len - 1) = check & 0xFF;
-	// 清空check 准备进行校验和的计算
-	check = 0;
-	// 开始计算SUM
-	for (u8 i = 0; i < tmp_len; i++) {
-		check += *(tmp + i);
-	}
-	// SUM填入消息
-	*(tmp + 1) = 0xFF - (check & 0xFF) + 1;
-	// 接下来是另一组协议 需要将其中特殊意义的编码进行转码
-	// 并开始写返回值 首先是消息起始码
-	*(result + res_len++) = MSG_BYTE_STTC;
-	// 逐字节检测消息
-	for (u8 i = 0; i < tmp_len; i++) {
-		switch (*(tmp + i)) {
-		case MSG_BYTE_ENDC:
-		case MSG_BYTE_ESCC:
-		case MSG_BYTE_STTC:
-			*(result + res_len++) = MSG_BYTE_ESCC;
-			/* no break */
-		default:
-			*(result + res_len++) = *(tmp + i);
-		}
-	}
-	// 最后加上消息结束码
-	*(result + res_len++) = MSG_BYTE_ENDC;
-	// 返回长度
-#ifdef __USE_MEMORY_BUFFER__
-	memory_free(tmp);
-#endif // __USE_MEMORY_BUFFER__
-	return res_len;
-}
-
-extern u16 misc_unpack_message(u8* const result, u8 len, const u8* const pack) {
-	// 值得注意的是 此处的消息是经过串口接收的
-	// 不再存在起始码结束码转义码这些东西（第0层协议）
-	// 直接解封第1层协议即可
-#ifdef __USE_MEMORY_BUFFER__
-	u8 * tmp = (u8*) memory_alloc_1k();
-	if (tmp == 0) {
-		return 0;
-	}
-#else //__USE_MEMORY_BUFFER__
-	u8 tmp[512];
-#endif //__USE_MEMORY_BUFFER__
-	u32 res_len = 0;
-	u16 check = 0;
-	do {
-		// 验证长度
-		if (*pack != len) {
-			res_len = 0;
-			break;
-		}
-		// 第一次复制
-		for (u8 i = 0; i < len; i++) {
-			*(tmp + i) = *(pack + i);
-		}
-		// 后计算的先验证 验证SUM
-		for (u8 i = 0; i < len; i++) {
-			check += *(tmp + i);
-		}
-		if ((check & 0xFF) != 0) {
-			res_len = 0;
-			break;
-		}
-		// 清空SUM校验码
-		*(tmp + 1) = 0;
-		// 验证CRC
-		check = (*(tmp + len - 2) << 8) + *(tmp + len - 1);
-		*(tmp + len - 2) = 0;
-		*(tmp + len - 1) = 0;
-		if (check != misc_calculate_crc(tmp, len)) {
-			res_len = 0;
-			break;
-		}
-		// 验证通过 写结果
-		for (u8 i = 0; i < len - 4; i++) {
-			*(result + res_len++) = *(tmp + i + 2);
-		}
-		// OK
-	} while (0);
-#ifdef __USE_MEMORY_BUFFER__
-	memory_free(tmp);
-#endif // __USE_MEMORY_BUFFER__
-	return res_len;
-}
 extern u8 misc_int2string(s8* buf, s32 num) {
 	u8 first_num_flag = 0;	//第一个非0数字还没有出现
 	u8 length = 0;
 	u8 tmp = 0;
 	if (num == 0) {
 		*(buf + length++) = '0';
+		*(buf + length++) = '.';
 		*(buf + length++) = 0;
 		return length;
 	}

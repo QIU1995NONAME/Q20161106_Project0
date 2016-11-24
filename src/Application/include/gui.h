@@ -95,7 +95,19 @@ extern void gui_clear_screen(void);
  * 屏幕初始化
  */
 extern void gui_init(void);
-
+/**
+ * 打印字符。
+ * 相当于将字符对齐到屏幕网格。
+ * @param row 第一个字符所在行
+ * @param col 第一个字符所在列
+ * @param buf 字符串
+ * @param color 字体颜色
+ * @param bcolor 背景颜色
+ */
+inline void gui_inner_char_align(u8 row, u8 col, s8* buf, u16 color,
+		u16 bcolor) {
+	gui_inner_char(col << 3, row << 4, buf, color, bcolor);
+}
 }
 }
 

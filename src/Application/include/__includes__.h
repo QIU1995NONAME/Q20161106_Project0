@@ -4,6 +4,7 @@
 #include "stm32f10x.h"
 
 #include "beep.h"
+#include "cmd.h"
 #include "e6a2.h"
 #include "exti.h"
 #include "gpio.h"
@@ -20,6 +21,7 @@
 #include "q_signal.h"
 #include "q_misc.h"
 #include "rtc.h"
+#include "sampling.h"
 #include "spi.h"
 #include "systick.h"
 #include "tb6560.h"

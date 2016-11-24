@@ -4,57 +4,60 @@
 #include "q_misc.h"
 #include "systick.h"
 #include "led.h"
-// 这个标记用于打印调试信息
+/// 这个标记用于打印调试信息
 #define __MEMORY_INIT_DEBUG_INFO__
 
 namespace QIU {
 namespace PJ0 {
 
 #ifdef __MEMORY_INIT_DEBUG_INFO__
-// 这个缓冲只用于调试
+/// 这个缓冲只用于调试
 s8 memory_debug_buffer[32];
 #endif
 
-// 用来存放以及管理数据的结构
+/// 用来存放以及管理数据的结构
 typedef struct MEMORY_BUFFER_STRUCT {
 	u16 BufferTag; // 标记
 	u16 BufferSize; // 大小 按K计算 左移10为可以得到真正的大小
 	u32 BufferPointer; // 指针
 } Buffer;
 #define MEMORY_BASE_ADDR  BANK1_SRAM3_ADDR
-// TAG 格式 (u16)
-// 0000-0000 0000-0000
-// 0              000   暂定为0
-//  ???                 代表第几缓冲区 000: 8K ; 001 : 4K ; 010: 2K ; 011 : 1K
-//      ???? ????       代表某一缓冲区的第几个缓冲
-//                   ?  代表此缓冲是否被使用 0 未被使用 1 被使用
+/**
+ * TAG 格式 (u16)
+ * 0000-0000 0000-0000
+ * 0              000   暂定为0
+ *  ???                 代表第几缓冲区 000: 8K ; 001 : 4K ; 010: 2K ; 011 : 1K
+ *      ???? ????       代表某一缓冲区的第几个缓冲
+ *                   ?  代表此缓冲是否被使用 0 未被使用 1 被使用
+ */
 
-// MEMORY 总大小 1MB(2的指数,单位KB)
+/// MEMORY 总大小 1MB(2的指数,单位KB)
 #define MEMORY_SIZE_INDEX (10)
-// BUFFER 管理区大小 32KB(2的指数,单位KB)
+/// BUFFER 管理区大小 32KB(2的指数,单位KB)
 #define MEMORY_BUFFER_ARRAY_INDEX (5)
-// 够用就行了 各个缓冲区的数量，不要超过0x80
+/// 够用就行了 各个缓冲区的数量，不要超过0x80
 #define MEM_BUFFER_8K_NUM (0x08)
 #define MEM_BUFFER_4K_NUM (0x10)
 #define MEM_BUFFER_2K_NUM (0x20)
 #define MEM_BUFFER_1K_NUM (0x40)
-// 内存管理功能是否可用 0为可用 1为内存容量不正确  2为内存读写错误
+/// 内存管理功能是否可用 0为可用 1为内存容量不正确  2为内存读写错误
 s8 memory_status = 3;
-// 关于内存管理的部分
-// 管理区可以存放的数据量  初始化的时候使用
+/// 关于内存管理的部分
+/// 管理区可以存放的数据量  初始化的时候使用
 s32 MemoryBufferArraySizeAll = 0;
-// 管理区实际可用的数据量 运行过程中使用
+/// 管理区实际可用的数据量 运行过程中使用
 s32 MemoryBufferArraySizeAvail = 0;
 Buffer * MemoryBufferArray = (Buffer *) MEMORY_BASE_ADDR;
 
 // ////////////////////////////////////////////////////////////////////////
 // 下面开始函数部分
-// SRAM內存检查 只能在初始化任务中使用！
-// 参数用于标记检测的稀疏程度（逐字节验证实在是太慢了）
-// 返回代码：
-// 0 没问题
-// 1 读写错误
-// 2 容量错误
+/**
+ * SRAM內存检查 只能在初始化任务中使用！
+ * @param gap_index 检测的稀疏程度
+ * @return 0 没问题
+ *         1 读写错误
+ *         2 容量错误
+ */
 inline s8 memory_0_check(u8 gap_index) {
 //#ifdef __MEMORY_INIT_DEBUG_INFO__
 //	gui_print_next_line();
@@ -170,6 +173,13 @@ extern s8 memory_init(void) {
 #endif
 	return 0;
 }
+/**
+ * 释放掉内存
+ * @param pointer 被释放的内存起始指针
+ * @return 0 释放成功
+ *         1 内存未分配
+ *         2 未找到该指针
+ */
 extern s8 memory_free(void * pointer) {
 	// 转换数据类型
 	u32 _pointer = (u32) pointer;
@@ -190,6 +200,9 @@ extern s8 memory_free(void * pointer) {
 	}
 	return 2;		//没有找到这个指针的信息
 }
+/**
+ * 分配8K内存
+ */
 extern void * memory_alloc_8k(void) {
 	Buffer * buffer;
 	for (u16 i = 0; i < MEM_BUFFER_8K_NUM; i++) {
@@ -204,6 +217,9 @@ extern void * memory_alloc_8k(void) {
 	// 没有结果
 	return (void *) 0;
 }
+/**
+ * 分配4K内存
+ */
 extern void * memory_alloc_4k(void) {
 	Buffer * buffer;
 	for (u16 i = 0; i < MEM_BUFFER_4K_NUM; i++) {
@@ -218,6 +234,9 @@ extern void * memory_alloc_4k(void) {
 	// 没有结果
 	return (void *) 0;
 }
+/**
+ * 分配2K内存
+ */
 extern void * memory_alloc_2k(void) {
 	Buffer * buffer;
 	for (u16 i = 0; i < MEM_BUFFER_2K_NUM; i++) {
@@ -233,6 +252,9 @@ extern void * memory_alloc_2k(void) {
 	// 没有结果
 	return (void *) 0;
 }
+/**
+ * 分配1K内存
+ */
 extern void * memory_alloc_1k(void) {
 	Buffer * buffer;
 	for (u16 i = 0; i < MEM_BUFFER_1K_NUM; i++) {
@@ -248,6 +270,11 @@ extern void * memory_alloc_1k(void) {
 	// 没有结果
 	return (void *) 0;
 }
+/**
+ * 内存刷0
+ * @param pointer 刷0内存区的起始指针
+ * @param length 刷0的长度
+ */
 inline void memory_write_0(void* pointer, u32 length) {
 	if (pointer == 0) {
 		return;
@@ -257,31 +284,60 @@ inline void memory_write_0(void* pointer, u32 length) {
 		*(p + i) = 0;
 	}
 }
-// 分配内存 8K 并将内容清空
+/**
+ * 分配内存 8K 并将内容清空
+ */
 extern void * memory_alloc0_8k(void) {
 	void * p = memory_alloc_8k();
 	memory_write_0(p, 8192);
 	return p;
 }
-// 分配内存 4K 并将内容清空
+/**
+ * 分配内存 4K 并将内容清空
+ */
 extern void * memory_alloc0_4k(void) {
 	void * p = memory_alloc_4k();
 	memory_write_0(p, 4096);
 	return p;
 }
-// 分配内存 2K 并将内容清空
+/**
+ * 分配内存 2K 并将内容清空
+ */
 extern void * memory_alloc0_2k(void) {
 	void * p = memory_alloc_2k();
 	memory_write_0(p, 2048);
 	return p;
 }
-// 分配内存 1K 并将内容清空
+/**
+ * 分配内存 1K 并将内容清空
+ */
 extern void * memory_alloc0_1k(void) {
 	void * p = memory_alloc_1k();
 	memory_write_0(p, 1024);
 	return p;
 }
-
+/**
+ * 内存拷贝
+ * @param dest 目标地址 如果为0 则报错
+ * @param src  源地址    如果为0 则刷0目标内存地址
+ * @param length 长度
+ */
+extern void memory_copy(void * dest, const void * src, int length) {
+	char * dest1 = (char*) dest;
+	char * src1 = (char*) src;
+	if (dest1 == 0) {
+		return;
+	}
+	if (src1 == 0) {
+		for (int i = 0; i < length; i++) {
+			*(dest1 + i) = 0;
+		}
+	} else {
+		for (int i = 0; i < length; i++) {
+			*(dest1 + i) = *(src1 + i);
+		}
+	}
+}
 }
 }
 

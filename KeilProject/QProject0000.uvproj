@@ -119,7 +119,7 @@
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
           <Simulator>
-            <UseSimulator>1</UseSimulator>
+            <UseSimulator>0</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -131,7 +131,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
-            <UseTarget>0</UseTarget>
+            <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -144,7 +144,7 @@
             <UsePdscDebugDescription>0</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>0</TargetSelection>
+          <TargetSelection>11</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -158,7 +158,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -749,6 +749,21 @@
               <FileName>tb6560.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\src\Application\tb6560.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>__manager__.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\__manager__.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>sampling.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\sampling.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>sampling_private.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\sampling_private.cpp</FilePath>
             </File>
           </Files>
         </Group>

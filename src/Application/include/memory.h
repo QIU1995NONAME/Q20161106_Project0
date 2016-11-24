@@ -53,7 +53,13 @@ extern void * memory_alloc0_2k(void);
  * 分配内存 1K 并将内容清空
  */
 extern void * memory_alloc0_1k(void);
-
+/**
+ * 内存拷贝
+ * @param dest 目标地址
+ * @param src  源地址
+ * @param length 长度
+ */
+extern void memory_copy(void * dest, const void * src, int length);
 }
 }
 

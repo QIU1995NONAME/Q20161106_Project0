@@ -21,15 +21,15 @@ extern void tb6560_set_stepcount(s32 stepcount_set) {
 	changes < 0 ? tb6560_step(1, -changes) : tb6560_step(0, changes);
 }
 /**
- * 使电机走一步
- * @param backward 如果为0正转一步 如果为1反转一步
+ * 使电机转动
+ * @param backward 如果为0正转 如果为1反转
  * @param stepcount 步数
  */
 extern void tb6560_step(u8 backward, u32 stepcount) {
 	backward ?
 			GPIO_SetBits(GPIOA, GPIO_Pin_11) :
 			GPIO_ResetBits(GPIOA, GPIO_Pin_11);
-	GPIO_ResetBits(GPIOB, GPIO_Pin_12);
+	GPIO_ResetBits(GPIOA, GPIO_Pin_12);
 	while (stepcount--) {
 		delay_ms(1);
 		GPIO_SetBits(GPIOA, GPIO_Pin_12);

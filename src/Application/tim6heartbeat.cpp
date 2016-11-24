@@ -1,5 +1,5 @@
 #include "tim6heartbeat.h"
-
+#include "rtc.h"
 // 最快也只能是10ms
 #define MIN_TIME (10)
 
@@ -7,21 +7,23 @@ namespace QIU {
 namespace PJ0 {
 // private
 u16 t6_event_enable;  //事件是否有效
-u16 t6_event_time[16]; //事件定时事件
+u16 t6_event_time[16]; //事件定时时间
 void (*t6_events[16])(void);
-// __heartbeat_event__ t6_events[16];
 void tim6_event_do_nothing(void) {
 	//DO NOTHING
 }
 // public
-u32 t6_event_time_count[16]; //定时当前时间
-u32 t6_timestamp_h32;
-u32 t6_timestamp_l32;
+// 时间戳的秒部分 跟随RTC行动
+u32 t6_timestamp_s;
+// 时间戳的毫秒部分
+u16 t6_timestamp_ms;
+// 定时当前时间
+u32 t6_event_time_count[16];
 
 // 初始化
 extern void tim6_heartbeat_init() {
-	t6_timestamp_h32 = 0;
-	t6_timestamp_l32 = 0;
+	t6_timestamp_s = rtc_get_counter();
+	t6_timestamp_ms = 0;
 	t6_event_enable = 0;
 	for (u8 i = 0; i < 16; i++) {
 		*(t6_event_time + i) = MIN_TIME;
@@ -59,6 +61,10 @@ extern void tim6_heartbeat_del_event(u8 num) {
 	*(t6_events + num) = tim6_event_do_nothing;
 	*(t6_event_time + num) = MIN_TIME;
 }
-
+// 查询是否存在定时任务
+extern s8 tim6_heartbeat_has_event(u8 num) {
+	num &= 0x0F;
+	return (t6_event_enable & (1 << num)) ? 1 : 0;
+}
 }
 }

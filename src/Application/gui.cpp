@@ -150,7 +150,7 @@ extern void gui_inner_char(u16 x, u16 y, s8* str, u16 color, u16 bcolor) {
 		str++;
 		// 切换坐标
 		x += 8;
-		if (x > TFT_MAX_COL - 8) {
+		if (x > TFT_MAX_COL - 7) {
 			x = 0;
 			y += 16;
 		}
