@@ -409,16 +409,28 @@ namespace UPPER
                     break;
             }
             imggen.AxisRangeX = axis_x_range;
+            imggen.GraphWidth = pic_angle_pulse.Width;
+            imggen.GraphHeight = pic_angle_pulse.Height;
             imggen.ForeColor = Color.Cyan;
             pic_angle_pulse.Image = imggen.generateImage(dict_angle_pulse);
+            imggen.GraphWidth = pic_angle_degree.Width;
+            imggen.GraphHeight = pic_angle_degree.Height;
             imggen.ForeColor = Color.LightCyan;
             pic_angle_degree.Image = imggen.generateImage(dict_angle_degree);
+            imggen.GraphWidth = pic_fan_level.Width;
+            imggen.GraphHeight = pic_fan_level.Height;
             imggen.ForeColor = Color.Yellow;
             pic_fan_level.Image = imggen.generateImage(dict_fan_level);
+            imggen.GraphWidth = pic_fan_level_percent.Width;
+            imggen.GraphHeight = pic_fan_level_percent.Height;
             imggen.ForeColor = Color.LightYellow;
             pic_fan_level_percent.Image = imggen.generateImage(dict_fan_percent);
+            imggen.GraphWidth = pic_step_step.Width;
+            imggen.GraphHeight = pic_step_step.Height;
             imggen.ForeColor = Color.GreenYellow;
             pic_step_step.Image = imggen.generateImage(dict_step_step);
+            imggen.GraphWidth = pic_step_degree.Width;
+            imggen.GraphHeight = pic_step_degree.Height;
             imggen.ForeColor = Color.LightGreen;
             pic_step_degree.Image = imggen.generateImage(dict_step_degree);
         }
