@@ -33,7 +33,12 @@ extern void tim6_heartbeat_add_event(u8 num, __heartbeat_event__ f, u16 ms);
  * 移除定时任务
  */
 extern void tim6_heartbeat_del_event(u8 num);
-
+/**
+ * 查询是否存在定时任务
+ * @param num 任务号
+ * @return 1 存在 0 不存在
+ */
+extern s8 tim6_heartbeat_has_event(u8 num);
 }
 }
 

@@ -61,6 +61,10 @@ extern void tim6_heartbeat_del_event(u8 num) {
 	*(t6_events + num) = tim6_event_do_nothing;
 	*(t6_event_time + num) = MIN_TIME;
 }
-
+// 查询是否存在定时任务
+extern s8 tim6_heartbeat_has_event(u8 num) {
+	num &= 0x0F;
+	return (t6_event_enable & (1 << num)) ? 1 : 0;
+}
 }
 }
