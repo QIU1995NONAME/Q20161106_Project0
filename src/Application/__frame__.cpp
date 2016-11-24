@@ -46,7 +46,7 @@ inline void __print_basic__(void) {
 	*(initinfo + p++) = " Sampling Buffer Max   :    [ 512 ]     \0";
 	*(initinfo + p++) = " Sampling Buffer Limit :    [ 500 ]     \0";
 	*(initinfo + p++) = " Sampling Buffer Used  :    [ ??? ]     \0";// 17,30 采样缓冲区使用了多少
-	*(initinfo + p++) = "";
+	*(initinfo + p++) = "                                        \0";
 	*(initinfo + p++) = "Current Value:                          \0";
 	// 20
 	*(initinfo + p++) = " OE Encoder Pulse : ?                   \0";// 20,20 当前光电编码器的脉冲数

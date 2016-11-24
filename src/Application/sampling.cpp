@@ -11,6 +11,9 @@ s8 sampling_is_running = 0;
  *         如果返回负值，说明缓冲区不可用。
  */
 extern s16 sampling_data_length(void) {
+	if (!sampling_data_buffer) {
+		return -1;
+	}
 	u16 len = sampling_data_next_write;
 	if (len < sampling_data_first) {
 		len += SAMPLING_DATA_LENGTH_MAX;
@@ -118,30 +121,30 @@ extern s8 sampling_init(void) {
  * 主要用于将缓存的数据存入SD
  */
 extern void sampling_main_loop_function(void) {
-	static s8 need_save;
+	s8 need_save = 0;
 	// 实时采样功能是否初始化
 	// 未初始化则直接跳过
-	if(!sampling_data_buffer){
+	if (!sampling_data_buffer) {
 		return;
 	}
 	// 实时采样功能是否正在运行
-	if(sampling_is_running){
+	if (sampling_is_running) {
 		// 这个模式下要保留最近的5条数据
-		if(sampling_data_length()>5){
+		if (sampling_data_length() > 5) {
 			need_save = 1;
-		}else{
+		} else {
 			need_save = 0;
 		}
-	}else{
-		if(sampling_data_length()>0){
+	} else {
+		if (sampling_data_length() > 0) {
 			need_save = 1;
-		}else{
+		} else {
 			need_save = 0;
 		}
 	}
-	if(need_save){
+	if (need_save) {
 		const SamplingData * data = sampling_data_get_first();
-		if(data == 0){
+		if (data == 0) {
 			return;
 		}
 		sampling_file_append(data);

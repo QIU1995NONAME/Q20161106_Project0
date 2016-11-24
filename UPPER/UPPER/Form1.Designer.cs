@@ -44,16 +44,22 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_disconnect = new System.Windows.Forms.Button();
-            this.btn_timesync = new System.Windows.Forms.Button();
-            this.btn_test = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.track_chg_range = new System.Windows.Forms.TrackBar();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btn_sampling_stop = new System.Windows.Forms.Button();
             this.pic_angle_pulse = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lbl_status_senddata = new System.Windows.Forms.Label();
+            this.lbl_status_sampling = new System.Windows.Forms.Label();
+            this.lbl_status_sd = new System.Windows.Forms.Label();
+            this.btn_senddata_start = new System.Windows.Forms.Button();
+            this.btn_senddata_stop = new System.Windows.Forms.Button();
+            this.btn_sampling_start = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -74,6 +80,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_angle_pulse)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_step_degree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_step_step)).BeginInit();
@@ -212,12 +219,8 @@
             this.flowLayoutPanel1.Controls.Add(this.combo_comm);
             this.flowLayoutPanel1.Controls.Add(this.btn_connect);
             this.flowLayoutPanel1.Controls.Add(this.btn_disconnect);
-            this.flowLayoutPanel1.Controls.Add(this.btn_timesync);
-            this.flowLayoutPanel1.Controls.Add(this.btn_test);
             this.flowLayoutPanel1.Controls.Add(this.label6);
             this.flowLayoutPanel1.Controls.Add(this.track_chg_range);
-            this.flowLayoutPanel1.Controls.Add(this.button2);
-            this.flowLayoutPanel1.Controls.Add(this.button3);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -240,36 +243,11 @@
             this.btn_disconnect.UseVisualStyleBackColor = true;
             this.btn_disconnect.Click += new System.EventHandler(this.btn_disconnect_Click);
             // 
-            // btn_timesync
-            // 
-            this.btn_timesync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_timesync.Enabled = false;
-            this.btn_timesync.Location = new System.Drawing.Point(0, 115);
-            this.btn_timesync.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_timesync.Name = "btn_timesync";
-            this.btn_timesync.Size = new System.Drawing.Size(93, 31);
-            this.btn_timesync.TabIndex = 9;
-            this.btn_timesync.Text = "断开";
-            this.btn_timesync.UseVisualStyleBackColor = true;
-            // 
-            // btn_test
-            // 
-            this.btn_test.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_test.Location = new System.Drawing.Point(0, 146);
-            this.btn_test.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_test.Name = "btn_test";
-            this.btn_test.Size = new System.Drawing.Size(93, 31);
-            this.btn_test.TabIndex = 3;
-            this.btn_test.Text = "TEST";
-            this.btn_test.UseVisualStyleBackColor = true;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(3, 177);
+            this.label6.Location = new System.Drawing.Point(3, 115);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(85, 10);
             this.label6.TabIndex = 8;
@@ -278,37 +256,25 @@
             // track_chg_range
             // 
             this.track_chg_range.LargeChange = 1;
-            this.track_chg_range.Location = new System.Drawing.Point(3, 190);
+            this.track_chg_range.Location = new System.Drawing.Point(3, 128);
             this.track_chg_range.Maximum = 6;
             this.track_chg_range.Name = "track_chg_range";
             this.track_chg_range.Size = new System.Drawing.Size(83, 42);
-            this.track_chg_range.TabIndex = 7;
+            this.track_chg_range.TabIndex = 4;
             // 
-            // button2
+            // btn_sampling_stop
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.btn_sampling_stop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(0, 235);
-            this.button2.Margin = new System.Windows.Forms.Padding(0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(93, 31);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "断开";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(0, 266);
-            this.button3.Margin = new System.Windows.Forms.Padding(0);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(93, 31);
-            this.button3.TabIndex = 11;
-            this.button3.Text = "断开";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btn_sampling_stop.Enabled = false;
+            this.btn_sampling_stop.Location = new System.Drawing.Point(4, 131);
+            this.btn_sampling_stop.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_sampling_stop.Name = "btn_sampling_stop";
+            this.btn_sampling_stop.Size = new System.Drawing.Size(298, 31);
+            this.btn_sampling_stop.TabIndex = 7;
+            this.btn_sampling_stop.Text = "停止底层采样";
+            this.btn_sampling_stop.UseVisualStyleBackColor = true;
+            this.btn_sampling_stop.Click += new System.EventHandler(this.btn_sampling_stop_Click);
             // 
             // pic_angle_pulse
             // 
@@ -343,13 +309,128 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label11);
+            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.lbl_status_senddata);
+            this.tabPage1.Controls.Add(this.lbl_status_sampling);
+            this.tabPage1.Controls.Add(this.lbl_status_sd);
+            this.tabPage1.Controls.Add(this.btn_senddata_start);
+            this.tabPage1.Controls.Add(this.btn_senddata_stop);
+            this.tabPage1.Controls.Add(this.btn_sampling_start);
+            this.tabPage1.Controls.Add(this.btn_sampling_stop);
             this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(907, 493);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "下位机状态";
+            this.tabPage1.Text = "下位机状态及控制";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label11.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Location = new System.Drawing.Point(3, 66);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(156, 31);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "串口采样:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label10
+            // 
+            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label10.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.Location = new System.Drawing.Point(3, 35);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(156, 31);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "底层采样:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label8
+            // 
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label8.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.Location = new System.Drawing.Point(3, 4);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(156, 31);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "SD卡:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lbl_status_senddata
+            // 
+            this.lbl_status_senddata.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_status_senddata.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_status_senddata.Location = new System.Drawing.Point(159, 66);
+            this.lbl_status_senddata.Name = "lbl_status_senddata";
+            this.lbl_status_senddata.Size = new System.Drawing.Size(143, 31);
+            this.lbl_status_senddata.TabIndex = 11;
+            this.lbl_status_senddata.Text = "XXXXXXXX";
+            // 
+            // lbl_status_sampling
+            // 
+            this.lbl_status_sampling.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_status_sampling.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_status_sampling.Location = new System.Drawing.Point(159, 35);
+            this.lbl_status_sampling.Name = "lbl_status_sampling";
+            this.lbl_status_sampling.Size = new System.Drawing.Size(143, 31);
+            this.lbl_status_sampling.TabIndex = 11;
+            this.lbl_status_sampling.Text = "XXXXXXXX";
+            // 
+            // lbl_status_sd
+            // 
+            this.lbl_status_sd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_status_sd.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_status_sd.Location = new System.Drawing.Point(159, 4);
+            this.lbl_status_sd.Name = "lbl_status_sd";
+            this.lbl_status_sd.Size = new System.Drawing.Size(143, 31);
+            this.lbl_status_sd.TabIndex = 11;
+            this.lbl_status_sd.Text = "XXXXXXXX";
+            // 
+            // btn_senddata_start
+            // 
+            this.btn_senddata_start.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_senddata_start.Enabled = false;
+            this.btn_senddata_start.Location = new System.Drawing.Point(4, 162);
+            this.btn_senddata_start.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_senddata_start.Name = "btn_senddata_start";
+            this.btn_senddata_start.Size = new System.Drawing.Size(298, 31);
+            this.btn_senddata_start.TabIndex = 8;
+            this.btn_senddata_start.Text = "启动串口采集数据";
+            this.btn_senddata_start.UseVisualStyleBackColor = true;
+            this.btn_senddata_start.Click += new System.EventHandler(this.btn_senddata_start_Click);
+            // 
+            // btn_senddata_stop
+            // 
+            this.btn_senddata_stop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_senddata_stop.Enabled = false;
+            this.btn_senddata_stop.Location = new System.Drawing.Point(4, 193);
+            this.btn_senddata_stop.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_senddata_stop.Name = "btn_senddata_stop";
+            this.btn_senddata_stop.Size = new System.Drawing.Size(298, 31);
+            this.btn_senddata_stop.TabIndex = 9;
+            this.btn_senddata_stop.Text = "停止串口采集数据";
+            this.btn_senddata_stop.UseVisualStyleBackColor = true;
+            this.btn_senddata_stop.Click += new System.EventHandler(this.btn_senddata_stop_Click);
+            // 
+            // btn_sampling_start
+            // 
+            this.btn_sampling_start.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_sampling_start.Enabled = false;
+            this.btn_sampling_start.Location = new System.Drawing.Point(4, 100);
+            this.btn_sampling_start.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_sampling_start.Name = "btn_sampling_start";
+            this.btn_sampling_start.Size = new System.Drawing.Size(298, 31);
+            this.btn_sampling_start.TabIndex = 6;
+            this.btn_sampling_start.Text = "启动底层采样";
+            this.btn_sampling_start.UseVisualStyleBackColor = true;
+            this.btn_sampling_start.Click += new System.EventHandler(this.btn_sampling_start_Click);
             // 
             // tabPage2
             // 
@@ -368,7 +449,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(907, 492);
+            this.tabPage2.Size = new System.Drawing.Size(907, 493);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "曲线图";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -505,6 +586,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_angle_pulse)).EndInit();
             this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_step_degree)).EndInit();
@@ -530,7 +612,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btn_disconnect;
         private System.Windows.Forms.ToolStripStatusLabel status_stm32_systime;
-        private System.Windows.Forms.Button btn_test;
         private System.Windows.Forms.ToolStripMenuItem menu_opt_Operate;
         private System.Windows.Forms.ToolStripMenuItem menu_item_timesync;
         private System.Windows.Forms.ToolStripMenuItem menu_item_heartbeat;
@@ -553,9 +634,16 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btn_timesync;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btn_sampling_stop;
+        private System.Windows.Forms.Button btn_sampling_start;
+        private System.Windows.Forms.Button btn_senddata_start;
+        private System.Windows.Forms.Button btn_senddata_stop;
+        private System.Windows.Forms.Label lbl_status_sd;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lbl_status_sampling;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lbl_status_senddata;
     }
 }
 

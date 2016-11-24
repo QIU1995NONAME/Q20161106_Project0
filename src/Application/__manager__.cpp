@@ -19,20 +19,31 @@ void manager_heartbeat_task_1000ms(void) {
 		*manager_cmd_s_buffer_1k = 0x77;
 		u32 t_s = t6_timestamp_s;
 		u8 pointer = 1;
-		u8 datebyte = 0;
+		u8 data = 0;
 		// 时间戳 秒
-		datebyte = 0xFF & (t_s);
-		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
+		data = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = data;
 		t_s >>= 8;
-		datebyte = 0xFF & (t_s);
-		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
+		data = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = data;
 		t_s >>= 8;
-		datebyte = 0xFF & (t_s);
-		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
+		data = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = data;
 		t_s >>= 8;
-		datebyte = 0xFF & (t_s);
-		*(manager_cmd_s_buffer_1k + pointer++) = datebyte;
-		// 若干状态值
+		data = 0xFF & (t_s);
+		*(manager_cmd_s_buffer_1k + pointer++) = data;
+		// 4个字节的状态值
+		// Bit _6_ SD 卡是否可用.
+		// Bit _5_ 底层采样是否正在进行.
+		// Bit _4_ 串口采样是否正在进行.
+		data = 0;
+		data |= fatfs_0_is_avail() ? 1 << 6 : 0;
+		data |= sampling_is_running ? 1 << 5 : 0;
+		data |= tim6_heartbeat_has_event(0x01) ? 1 << 4 : 0;
+		*(manager_cmd_s_buffer_1k + pointer++) = data;
+		*(manager_cmd_s_buffer_1k + pointer++) = 0x80;
+		*(manager_cmd_s_buffer_1k + pointer++) = 0x80;
+		*(manager_cmd_s_buffer_1k + pointer++) = 0x80;
 		cmd_buffer_send_data(manager_cmd_s_buffer_1k, pointer);
 	}
 }

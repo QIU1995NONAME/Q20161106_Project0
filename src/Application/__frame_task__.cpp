@@ -648,10 +648,12 @@ inline void __task_print_status_helper__(s8 row, s8 col, s8 is_true) {
 		GUI_COLOR_000);
 	}
 }
-void __task_print_status_200ms__(void) {
+void __task_print_status_50ms__(void) {
 	static s8 buffer[32];
-	static s32 tmp_i = sampling_data_length();
-	static double tmp_d = 0;
+	static s32 tmp_i;
+	static double tmp_d;
+	tmp_d = 0;
+	tmp_i = sampling_data_length();
 	// 10,15  实时时钟
 	misc_uint2timestring(buffer, rtc_get_counter());
 	gui_inner_char_align(10, 15, buffer, GUI_COLOR_88F, GUI_COLOR_000);
@@ -692,10 +694,27 @@ void __task_print_status_200ms__(void) {
 	misc_num2string(buffer, tmp_d);
 	gui_inner_char_align(25, 20, (s8*) buffer, GUI_COLOR_8FF, GUI_COLOR_000);
 }
+void __task_autochange_fan_100ms__(void){
+	static u16 level = 100;
+	static s8 backward = 0;
+	if(backward){
+		level --;
+		if (level < 100){
+			backward = 0;
+		}
+	}else{
+		level++;
+		if(level > 300){
+			backward = 1;
+		}
+	}
+	fan_set_level(level);
+}
 extern void __task_init__(void) {
 	u8 taskid = 8;
 	frame_task_buffer = memory_alloc_1k();
-	tim6_heartbeat_add_event(taskid++, __task_print_status_200ms__, 200);
+	tim6_heartbeat_add_event(taskid++, __task_print_status_50ms__, 50);
+	tim6_heartbeat_add_event(taskid++, __task_autochange_fan_100ms__, 100);
 //	__task_test_beep_init__();
 //	tim6_heartbeat_add_event(taskid++, beep_task_10ms, 10);
 //	tim6_heartbeat_add_event(taskid++, __task_1_test_beep__, 1000);

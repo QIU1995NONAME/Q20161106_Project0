@@ -19,7 +19,52 @@ namespace UPPER
         private Dictionary<long, double> dict_fan_percent = new Dictionary<long, double>();
         private Dictionary<long, double> dict_step_step = new Dictionary<long, double>();
         private Dictionary<long, double> dict_step_degree = new Dictionary<long, double>();
+        private byte[] stm32_status = new byte[4];
         public delegate void InterfaceHandle(byte[] byteattay);
+
+        private void analyze_status()
+        {
+            // Byte 0 Bit 6 SD 卡是否可用
+            if (((stm32_status[0]) & (1 << 6)) != 0)
+            {
+                lbl_status_sd.Text = "Enabled";
+                lbl_status_sd.BackColor = Color.LightGreen;
+            }
+            else {
+                lbl_status_sd.Text = "Disabled";
+                lbl_status_sd.BackColor = Color.FromArgb(0xEE,0x90,0x90);
+            }
+            // Byte 0 Bit 5 底层采样是否正在进行
+            if (((stm32_status[0]) & (1 << 5)) != 0)
+            {
+                lbl_status_sampling.Text = "Running";
+                lbl_status_sampling.BackColor = Color.LightGreen;
+                btn_sampling_start.Enabled = false;
+                btn_sampling_stop.Enabled = true;
+            }
+            else
+            {
+                lbl_status_sampling.Text = "Stopped";
+                lbl_status_sampling.BackColor = Color.FromArgb(0xEE, 0x90, 0x90);
+                btn_sampling_start.Enabled = true;
+                btn_sampling_stop.Enabled = false;
+            }
+            // Byte 0 Bit 4 串口采样是否正在进行
+            if (((stm32_status[0]) & (1 << 4)) != 0)
+            {
+                lbl_status_senddata.Text = "Running";
+                lbl_status_senddata.BackColor = Color.LightGreen;
+                btn_senddata_start.Enabled = false;
+                btn_senddata_stop.Enabled = true;
+            }
+            else
+            {
+                lbl_status_senddata.Text = "Stopped";
+                lbl_status_senddata.BackColor = Color.FromArgb(0xEE, 0x90, 0x90);
+                btn_senddata_start.Enabled = true;
+                btn_senddata_stop.Enabled = false;
+            }
+        }
         public Form1()
         {
             InitializeComponent();
@@ -207,6 +252,7 @@ namespace UPPER
                     // 处理数据
                     InterfaceHandle interfaceUpdateHandle = new InterfaceHandle(serial_execute_command);
                     this.Invoke(interfaceUpdateHandle, new object[] { SerialMessage.analyze_msg(serial_cmd.ToArray()) });
+                    // SerialMessage.analyze_msg(serial_cmd.ToArray());
                     // 清空
                     serial_cmd.Clear();
                     serial_cmd_is_receive = false;
@@ -235,8 +281,8 @@ namespace UPPER
             {
                 // 回送一个心跳
                 serial1_send_0x77();
-                // 如果命令长度不足5 说明有问题
-                if (command.Length < 5)
+                // 如果命令长度不足9 说明有问题
+                if (command.Length < 9)
                 {
                     // FIXME
                     return;
@@ -247,7 +293,13 @@ namespace UPPER
                 time_second |= command[3] << 16;
                 time_second |= command[4] << 24;
                 status_stm32_systime.Text = "STM: "+ new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
-                // 后面准备编写关于对各种状态的解析
+                // 获取各种状态
+                stm32_status[0] = command[5];
+                stm32_status[1] = command[6];
+                stm32_status[2] = command[7];
+                stm32_status[3] = command[8];
+                // 做出反应
+                analyze_status();
             }
             // 采样消息
             else if (command[0] == 0x69)
@@ -279,6 +331,10 @@ namespace UPPER
                 tmpi <<= 8;
                 tmpi |= command[5];
                 time_ms += tmpi;
+                // 是否存在这个时间点
+                if (dict_angle_pulse.ContainsKey(time_ms)) {
+                    return;
+                }
                 // 光电编码器值
                 tmpi = 0;
                 tmpi |= command[12];
@@ -376,6 +432,30 @@ namespace UPPER
         {
             // 启动心跳
             serial1_send_0x77();
+        }
+
+        private void btn_sampling_start_Click(object sender, EventArgs e)
+        {
+            btn_sampling_start.Enabled = false;
+            serial1_send_0x61();
+        }
+
+        private void btn_sampling_stop_Click(object sender, EventArgs e)
+        {
+            btn_sampling_stop.Enabled = false;
+            serial1_send_0x60();
+        }
+
+        private void btn_senddata_start_Click(object sender, EventArgs e)
+        {
+            btn_senddata_start.Enabled = false;
+            serial1_send_0x69();
+        }
+
+        private void btn_senddata_stop_Click(object sender, EventArgs e)
+        {
+            btn_senddata_stop.Enabled = false;
+            serial1_send_0x68();
         }
     }
 }
