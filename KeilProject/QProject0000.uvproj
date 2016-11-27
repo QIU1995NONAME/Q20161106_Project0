@@ -767,8 +767,13 @@
             </File>
             <File>
               <FileName>controller.cpp</FileName>
-              <FileType>9</FileType>
+              <FileType>8</FileType>
               <FilePath>..\src\Application\controller.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>controller_private.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\controller_private.cpp</FilePath>
             </File>
           </Files>
         </Group>

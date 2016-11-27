@@ -123,6 +123,15 @@ extern void __frame_2_app_init__(void) {
 		while (1) {
 		}
 	}
+	if(controller_init()){
+#ifdef __FRAME_INIT_DEBUG_INFO__
+		gui_print_inner_char((s8*) "Controller ERROR!", GUI_COLOR_F00,
+		GUI_COLOR_444);
+		gui_print_next_line();
+#endif // __FRAME_INIT_DEBUG_INFO__
+		while (1) {
+		}
+	}
 	// ==============================================================================
 	led_init();
 	key_init();
