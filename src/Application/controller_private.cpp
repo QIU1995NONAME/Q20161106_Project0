@@ -18,6 +18,7 @@ extern s8 controller_rw_reset(void) {
 	for (u8 i = 0; i < 16; i++) {
 		*(CTRL_BUF_DBL_RW + i) = 0;
 	}
+	return 0;
 }
 /// 获取变量是否可写
 extern s8 controller_get_rw_int(u8 index) {

@@ -775,6 +775,21 @@
               <FileType>8</FileType>
               <FilePath>..\src\Application\controller_private.cpp</FilePath>
             </File>
+            <File>
+              <FileName>controller_private_0.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\controller_private_0.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>controller_private_1.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\controller_private_1.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>controller_private_2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\src\Application\controller_private_2.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

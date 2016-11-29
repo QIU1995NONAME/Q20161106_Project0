@@ -21,7 +21,59 @@ namespace UPPER
         private Dictionary<long, double> dict_step_degree = new Dictionary<long, double>();
         private byte[] stm32_status = new byte[4];
         public delegate void InterfaceHandle(byte[] byteattay);
-
+        private void serial1_controller_require_double(byte index)
+        {
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x54, index });
+            serial1.Write(msg, 0, msg.Length);
+        }
+        private void serial1_controller_require_int(byte index)
+        {
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x56, index });
+            serial1.Write(msg, 0, msg.Length);
+        }
+        private void serial1_controller_set_double(byte index, double value)
+        {
+            List<byte> li = new List<byte>();
+            li.Add(0x55);
+            li.AddRange(BitConverter.GetBytes(value));
+            byte[] msg = SerialMessage.pack_msg(li.ToArray());
+            serial1.Write(msg, 0, msg.Length);
+        }
+        private void serial1_controller_set_int(byte index, int value) {
+            List<byte> li = new List<byte>();
+            li.Add(0x57);
+            li.AddRange(BitConverter.GetBytes(value));
+            byte[] msg = SerialMessage.pack_msg(li.ToArray());
+            serial1.Write(msg, 0, msg.Length);
+        }
+        private void serial1_controller_received_double(byte index, double value) {
+            switch (index) {
+                case 0:
+                    lbl_dbl_0.Text = value.ToString();
+                    break;
+                case 1:
+                    lbl_dbl_1.Text = value.ToString();
+                    break;
+                case 2:
+                    lbl_dbl_2.Text = value.ToString();
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void serial1_controller_received_int(byte index, int value) {
+            switch (index)
+            {
+                case 0:
+                    lbl_int_0.Text = value.ToString();
+                    break;
+                case 1:
+                    lbl_int_1.Text = value.ToString();
+                    break;
+                default:
+                    break;
+            }
+        }
         private void analyze_status()
         {
             // Byte 0 Bit 6 SD 卡是否可用
@@ -30,9 +82,10 @@ namespace UPPER
                 lbl_status_sd.Text = "Enabled";
                 lbl_status_sd.BackColor = Color.LightGreen;
             }
-            else {
+            else
+            {
                 lbl_status_sd.Text = "Disabled";
-                lbl_status_sd.BackColor = Color.FromArgb(0xEE,0x90,0x90);
+                lbl_status_sd.BackColor = Color.FromArgb(0xEE, 0x90, 0x90);
             }
             // Byte 0 Bit 5 底层采样是否正在进行
             if (((stm32_status[0]) & (1 << 5)) != 0)
@@ -97,7 +150,8 @@ namespace UPPER
             serial1.Write(msg, 0, msg.Length);
         }
         // 发送时间同步数据
-        private void serial1_send_0x78() {
+        private void serial1_send_0x78()
+        {
             byte[] msg = new byte[5];
             msg[0] = 0x78;
             DateTime dt = DateTime.Now;
@@ -152,6 +206,17 @@ namespace UPPER
                 return;
             }
             byte[] msg = SerialMessage.pack_msg(new byte[] { 0x69 });
+            serial1.Write(msg, 0, msg.Length);
+        }
+        // 发送心跳数据
+        private void serial1_send_0x50()
+        {
+            if (!serial1.IsOpen)
+            {
+                // TODO 如果串口处于关闭状态
+                return;
+            }
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x50 });
             serial1.Write(msg, 0, msg.Length);
         }
         private void btn_refresh_Click(object sender, EventArgs e)
@@ -227,7 +292,7 @@ namespace UPPER
                 byte b = (byte)serial1.ReadByte();
                 // DEBUG
                 // Debug.Print("{0} ", serial1.ReadByte());
-                
+
                 // 如果没有处于接收状态
                 if (!serial_cmd_is_receive)
                 {
@@ -266,7 +331,7 @@ namespace UPPER
                 }
                 // (接收状态 无转义 不是特殊字符)
                 serial_cmd.AddLast(b);
-                
+
             }
         }
         private void serial_execute_command(byte[] command)
@@ -281,6 +346,12 @@ namespace UPPER
             {
                 // 回送一个心跳
                 serial1_send_0x77();
+                serial1_send_0x50();
+                serial1_controller_require_int(0);
+                serial1_controller_require_int(1);
+                serial1_controller_require_double(0);
+                serial1_controller_require_double(1);
+                serial1_controller_require_double(2);
                 // 如果命令长度不足9 说明有问题
                 if (command.Length < 9)
                 {
@@ -292,7 +363,7 @@ namespace UPPER
                 time_second |= command[2] << 8;
                 time_second |= command[3] << 16;
                 time_second |= command[4] << 24;
-                status_stm32_systime.Text = "STM: "+ new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
+                status_stm32_systime.Text = "STM: " + new DateTime(0).AddYears(1969).AddSeconds(time_second).ToString("yyyy/MM/dd HH:mm:ss");
                 // 获取各种状态
                 stm32_status[0] = command[5];
                 stm32_status[1] = command[6];
@@ -332,7 +403,8 @@ namespace UPPER
                 tmpi |= command[5];
                 time_ms += tmpi;
                 // 是否存在这个时间点
-                if (dict_angle_pulse.ContainsKey(time_ms)) {
+                if (dict_angle_pulse.ContainsKey(time_ms))
+                {
                     return;
                 }
                 // 光电编码器值
@@ -347,7 +419,7 @@ namespace UPPER
                 // 转成角度
                 tmpd = 360.0 * tmpi / 1000;
                 // 存入内存
-                dict_angle_pulse.Add(time_ms,tmpi);
+                dict_angle_pulse.Add(time_ms, tmpi);
                 dict_angle_degree.Add(time_ms, tmpd);
                 // 获取风扇转速
                 tmpi = 0;
@@ -375,6 +447,52 @@ namespace UPPER
                 // 绘制曲线
                 pic_draw_graphs();
             }
+            else if (command[0] == 0x50)
+            {
+                // 如果命令长度不足3 说明有问题
+                if (command.Length < 3)
+                {
+                    // FIXME
+                    return;
+                }
+                byte current_pj = command[1];
+                byte current_mode = command[2];
+                lbl_pj.Text = current_pj.ToString();
+                lbl_mode.Text = current_mode.ToString();
+            }
+            else if (command[0] == 0x54)
+            {
+                // 如果命令长度不足10 说明有问题
+                if (command.Length < 10)
+                {
+                    // FIXME
+                    return;
+                }
+                LinkedList<byte> li = new LinkedList<byte>(command);
+                li.RemoveFirst();
+                byte index = li.First();
+                li.RemoveFirst();
+                double value = BitConverter.ToDouble(li.ToArray(),0);
+                serial1_controller_received_double(index,value);
+            }
+            else if (command[0] == 0x56)
+            {
+                // 如果命令长度不足6 说明有问题
+                if (command.Length < 6)
+                {
+                    // FIXME
+                    return;
+                }
+                LinkedList<byte> li = new LinkedList<byte>(command);
+                li.RemoveFirst();
+                byte index = li.First();
+                li.RemoveFirst();
+                int value = BitConverter.ToInt32(li.ToArray(),0);
+                serial1_controller_received_int(index,value);
+            }
+            else
+            {
+            }
         }
         // 绘制曲线图
         private void pic_draw_graphs()
@@ -387,7 +505,7 @@ namespace UPPER
                     axis_x_range = 1000;
                     break;
                 case 1: // 2s
-                    axis_x_range = 2000; 
+                    axis_x_range = 2000;
                     break;
                 case 2: // 5s
                     axis_x_range = 5000;
@@ -468,6 +586,20 @@ namespace UPPER
         {
             btn_senddata_stop.Enabled = false;
             serial1_send_0x68();
+        }
+
+        private void btn_set_pj_Click(object sender, EventArgs e)
+        {
+            int current_pj = int.Parse(txt_pj.Text.Trim());
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x51, (byte)current_pj });
+            serial1.Write(msg, 0, msg.Length);
+        }
+
+        private void btn_set_mode_Click(object sender, EventArgs e)
+        {
+            int current_mode = int.Parse(txt_mode.Text.Trim());
+            byte[] msg = SerialMessage.pack_msg(new byte[] { 0x52, (byte)current_mode });
+            serial1.Write(msg, 0, msg.Length);
         }
     }
 }

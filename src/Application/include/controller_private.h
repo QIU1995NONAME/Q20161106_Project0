@@ -15,14 +15,14 @@ extern s8 controller_mode;
 #define CTRL_PARAMBUF_DBL_LENGTH     ((u8) (128))
 // XXX 缓冲区预留8字节
 // INT变量是否可写 240个 30字节
-#define CTRL_BUF_INT_RW    ((unsigned char *) (controller_parambuf_2k + 8))
+#define CTRL_BUF_INT_RW    ((unsigned char *) ((char *)controller_parambuf_2k + 8))
 // DBL变量是否可写 128个 16字节
-#define CTRL_BUF_DBL_RW    ((unsigned char *) (controller_parambuf_2k + 38))
+#define CTRL_BUF_DBL_RW    ((unsigned char *) ((char *)controller_parambuf_2k + 38))
 // XXX 缓冲区预留10字节
 // 240个int
-#define CTRL_BUF_INT       ((int *) (controller_parambuf_2k + 64))
+#define CTRL_BUF_INT       ((int *) ((char *)controller_parambuf_2k + 64))
 // 128个double
-#define CTRL_BUF_DBL       ((double *) (controller_parambuf_2k + 1024))
+#define CTRL_BUF_DBL       ((double *) ((char *)controller_parambuf_2k + 1024))
 /// 变量权限初始化
 extern s8 controller_rw_reset(void);
 /// 获取变量是否可写

@@ -30,11 +30,13 @@ extern void controller_1_task(s8 mode) {
 		// 自动控制
 		int ctrl_target_angle_pulse;
 		controller_get_int(1, &ctrl_target_angle_pulse);
-		int ctrl_current_angle_pulse = e6a2_read();
+		int ctrl_current_angle_pulse;
+		ctrl_current_angle_pulse = e6a2_read();
 		// 偏差为 当前值 - 设定值
-		double ctrl_error = ctrl_current_angle_pulse - ctrl_target_angle_pulse;
+		double ctrl_error;
+		ctrl_error = ctrl_current_angle_pulse - ctrl_target_angle_pulse;
 		// 获取PID
-		int ctrl_target_fan_level = 0;
+		int ctrl_target_fan_level;
 		double ctrl_KP, ctrl_KI, ctrl_KD;
 		double ctrl_current_I, ctrl_last_error;
 		controller_get_double(0, &ctrl_KP);
@@ -51,10 +53,10 @@ extern void controller_1_task(s8 mode) {
 		// 保存当前偏差为下一次的上次偏差
 		ctrl_last_error = ctrl_error;
 		// 保存
-		controller_set_0_double(64,ctrl_current_I);
-		controller_set_0_double(65,ctrl_last_error);
+		controller_set_0_double(64, ctrl_current_I);
+		controller_set_0_double(65, ctrl_last_error);
 		// 写入控制参数
-		controller_set_0_int(0,ctrl_target_fan_level);
+		controller_set_0_int(0, ctrl_target_fan_level);
 		fan_set_level(ctrl_target_fan_level);
 		break;
 	case 0x00:

@@ -19,7 +19,7 @@ inline void spi_config_1(void) {
 	// NSS 使用软件控制
 	spi_init.SPI_NSS = SPI_NSS_Soft;
 	// 16时钟分频
-	spi_init.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;
+	spi_init.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
 	// 从最高位开始传输
 	spi_init.SPI_FirstBit = SPI_FirstBit_MSB;
 	// ?

@@ -39,7 +39,16 @@ extern void controller_set_project(s8 project);
  * @return 工程代号
  */
 extern s8 controller_get_project(void);
-
+/**
+ * 设置当前的模式
+ * @param mode 模式
+ */
+extern void controller_set_mode(s8 mode);
+/**
+ * 获取当前模式号
+ * @return 模式号
+ */
+extern s8 controller_get_mode(void);
 /**
  * 控制器初始化
  * @return 状态值 0为成功
