@@ -4,6 +4,9 @@ namespace UPPER
 {
     public partial class RTGraphGenerator
     {
+        private double k_x = 0;
+        private double k_y = 0;
+
         public int GraphHeight
         {
             get
@@ -13,6 +16,7 @@ namespace UPPER
             set
             {
                 graph_height = value;
+                k_y = (double)GraphHeight / AxisRangeY;
             }
         }
         public int GraphWidth
@@ -24,6 +28,7 @@ namespace UPPER
             set
             {
                 graph_width = value;
+                k_x = (double)GraphWidth / AxisRangeX;
             }
         }
         public Color BackColor
@@ -58,6 +63,7 @@ namespace UPPER
             {
                 axis_range_x = value < AXIS_RANGE_X_MINIMUM ? AXIS_RANGE_X_MINIMUM : value;
                 axis_range_x_bysetting = value;
+                k_x = (double)GraphWidth / AxisRangeX;
             }
         }
         double AxisRangeY
@@ -70,6 +76,7 @@ namespace UPPER
             {
                 axis_range_y = value < AXIS_RANGE_Y_MINIMUM ? AXIS_RANGE_Y_MINIMUM : value;
                 axis_range_y_bysetting = value;
+                k_y = (double)GraphHeight / AxisRangeY;
             }
         }
         // 用于坐标转换用
@@ -78,10 +85,8 @@ namespace UPPER
         // g_x g_y 图像坐标
         void convert_axis_2_graph(out int g_x, out int g_y, double a_x, double a_y)
         {
-            double k_x = (double)graph_width / AxisRangeX;
-            double k_y = (double)graph_height / AxisRangeY;
-            g_x = (int)(k_x * a_x);
-            g_y = (int)(graph_height - k_y * (a_y + (double)(AxisRangeY - axis_range_y_bysetting) / 2));
+            g_x = (int)(this.k_x * a_x);
+            g_y = (int)(graph_height - this.k_y * (a_y + (double)(AxisRangeY - axis_range_y_bysetting) / 2));
         }
     }
 }

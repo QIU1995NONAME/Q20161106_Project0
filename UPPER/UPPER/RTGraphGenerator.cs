@@ -70,7 +70,7 @@ namespace UPPER
                 double yvalue;
                 dataIn.TryGetValue(xvalue, out yvalue);
                 this.convert_axis_2_graph(out g_x, out g_y, xvalue - xmin, yvalue - ymind);
-                graph.DrawEllipse(pen, g_x - 2, g_y - 2, 5, 5);
+                graph.DrawRectangle(pen, g_x - 2, g_y - 2, 5, 5);
             }
             // 划横线
             double a_x = 0, a_y = 0;
