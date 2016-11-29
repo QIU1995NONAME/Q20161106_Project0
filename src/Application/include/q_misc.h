@@ -62,6 +62,12 @@ extern s8 misc_uint2timestring(s8* buf, u32 timestamp);
  * 将时间戳转换成FAT适配的32位时间标记
  */
 extern s8 misc_uint2fattime(u32* result, u32 timestamp);
+/**
+ * 小数四舍五入到整数
+ * @param value
+ * @return
+ */
+extern int misc_floor(double value);
 }
 }
 

@@ -158,7 +158,7 @@ extern u8 misc_num2string(s8* buf, double num) {
 	length += misc_int2string(buf + length, tmp);
 	// 由于上一步已经将小数点放入缓冲区
 	// 所以直接将指针指向最后的'\0'
-	length --;
+	length--;
 	for (u8 i = 0; (i < 12 - length) && i < 4; i++) {
 		num_f *= 10;
 		tmp = num_f;
@@ -335,7 +335,21 @@ extern s8 misc_uint2fattime(u32* result, u32 timestamp) {
 	*result |= MISC_FATTIME_MASK_SECOND_2 & (tt.time_second >> 1);
 	return 0;
 }
-
+/**
+ * 小数四舍五入到整数
+ * @param value
+ * @return
+ */
+extern int misc_floor(double value) {
+	int res = value;
+	value -= res;
+	if (value < -0.5) {
+		res--;
+	} else if (value > 0.5) {
+		res++;
+	}
+	return res;
+}
 }
 }
 

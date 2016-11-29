@@ -35,6 +35,7 @@ namespace UPPER
         {
             List<byte> li = new List<byte>();
             li.Add(0x55);
+            li.Add(index);
             li.AddRange(BitConverter.GetBytes(value));
             byte[] msg = SerialMessage.pack_msg(li.ToArray());
             serial1.Write(msg, 0, msg.Length);
@@ -42,6 +43,7 @@ namespace UPPER
         private void serial1_controller_set_int(byte index, int value) {
             List<byte> li = new List<byte>();
             li.Add(0x57);
+            li.Add(index);
             li.AddRange(BitConverter.GetBytes(value));
             byte[] msg = SerialMessage.pack_msg(li.ToArray());
             serial1.Write(msg, 0, msg.Length);
@@ -600,6 +602,31 @@ namespace UPPER
             int current_mode = int.Parse(txt_mode.Text.Trim());
             byte[] msg = SerialMessage.pack_msg(new byte[] { 0x52, (byte)current_mode });
             serial1.Write(msg, 0, msg.Length);
+        }
+
+        private void btn_set_int_0_Click(object sender, EventArgs e)
+        {
+            serial1_controller_set_int(0, int.Parse(txt_int_0.Text.Trim()));
+        }
+
+        private void btn_set_int_1_Click(object sender, EventArgs e)
+        {
+            serial1_controller_set_int(1, int.Parse(txt_int_1.Text.Trim()));
+        }
+
+        private void btn_set_dbl_0_Click(object sender, EventArgs e)
+        {
+            serial1_controller_set_double(0, double.Parse(txt_dbl_0.Text.Trim()));
+        }
+
+        private void btn_set_dbl_1_Click(object sender, EventArgs e)
+        {
+            serial1_controller_set_double(1, double.Parse(txt_dbl_1.Text.Trim()));
+        }
+
+        private void btn_set_dbl_2_Click(object sender, EventArgs e)
+        {
+            serial1_controller_set_double(2, double.Parse(txt_dbl_2.Text.Trim()));
         }
     }
 }

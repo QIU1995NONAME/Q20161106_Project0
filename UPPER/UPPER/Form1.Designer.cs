@@ -392,6 +392,7 @@
             this.txt_dbl_2.Name = "txt_dbl_2";
             this.txt_dbl_2.Size = new System.Drawing.Size(129, 26);
             this.txt_dbl_2.TabIndex = 12;
+            this.txt_dbl_2.Text = "0";
             // 
             // txt_dbl_1
             // 
@@ -400,6 +401,7 @@
             this.txt_dbl_1.Name = "txt_dbl_1";
             this.txt_dbl_1.Size = new System.Drawing.Size(129, 26);
             this.txt_dbl_1.TabIndex = 12;
+            this.txt_dbl_1.Text = "0";
             // 
             // txt_dbl_0
             // 
@@ -408,6 +410,7 @@
             this.txt_dbl_0.Name = "txt_dbl_0";
             this.txt_dbl_0.Size = new System.Drawing.Size(129, 26);
             this.txt_dbl_0.TabIndex = 12;
+            this.txt_dbl_0.Text = "0";
             // 
             // txt_int_1
             // 
@@ -416,6 +419,7 @@
             this.txt_int_1.Name = "txt_int_1";
             this.txt_int_1.Size = new System.Drawing.Size(129, 26);
             this.txt_int_1.TabIndex = 12;
+            this.txt_int_1.Text = "0";
             // 
             // txt_int_0
             // 
@@ -424,6 +428,7 @@
             this.txt_int_0.Name = "txt_int_0";
             this.txt_int_0.Size = new System.Drawing.Size(129, 26);
             this.txt_int_0.TabIndex = 12;
+            this.txt_int_0.Text = "0";
             // 
             // txt_mode
             // 
@@ -670,6 +675,7 @@
             this.btn_set_dbl_2.TabIndex = 6;
             this.btn_set_dbl_2.Text = "应用修改";
             this.btn_set_dbl_2.UseVisualStyleBackColor = true;
+            this.btn_set_dbl_2.Click += new System.EventHandler(this.btn_set_dbl_2_Click);
             // 
             // btn_senddata_start
             // 
@@ -696,6 +702,7 @@
             this.btn_set_dbl_1.TabIndex = 6;
             this.btn_set_dbl_1.Text = "应用修改";
             this.btn_set_dbl_1.UseVisualStyleBackColor = true;
+            this.btn_set_dbl_1.Click += new System.EventHandler(this.btn_set_dbl_1_Click);
             // 
             // btn_set_mode
             // 
@@ -721,6 +728,7 @@
             this.btn_set_dbl_0.TabIndex = 6;
             this.btn_set_dbl_0.Text = "应用修改";
             this.btn_set_dbl_0.UseVisualStyleBackColor = true;
+            this.btn_set_dbl_0.Click += new System.EventHandler(this.btn_set_dbl_0_Click);
             // 
             // btn_set_pj
             // 
@@ -746,6 +754,7 @@
             this.btn_set_int_1.TabIndex = 6;
             this.btn_set_int_1.Text = "应用修改";
             this.btn_set_int_1.UseVisualStyleBackColor = true;
+            this.btn_set_int_1.Click += new System.EventHandler(this.btn_set_int_1_Click);
             // 
             // btn_senddata_stop
             // 
@@ -772,6 +781,7 @@
             this.btn_set_int_0.TabIndex = 6;
             this.btn_set_int_0.Text = "应用修改";
             this.btn_set_int_0.UseVisualStyleBackColor = true;
+            this.btn_set_int_0.Click += new System.EventHandler(this.btn_set_int_0_Click);
             // 
             // btn_sampling_start
             // 
@@ -804,7 +814,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(907, 492);
+            this.tabPage2.Size = new System.Drawing.Size(907, 493);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "曲线图";
             this.tabPage2.UseVisualStyleBackColor = true;

@@ -111,7 +111,7 @@ extern void controller_task_20ms(void) {
 	// 如果工程变动
 	if (last_project != controller_project) {
 		// 需要进行工程初始化，然后退出
-		switch (last_project) {
+		switch (controller_project) {
 		case 0x00:
 			controller_0_init();
 			break;

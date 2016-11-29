@@ -1,6 +1,7 @@
 #include "controller_private.h"
 #include "e6a2.h"
 #include "fan.h"
+#include "q_misc.h"
 
 #define CONTROLLER_PROJECT_1
 
@@ -36,6 +37,7 @@ extern void controller_1_task(s8 mode) {
 		double ctrl_error;
 		ctrl_error = ctrl_current_angle_pulse - ctrl_target_angle_pulse;
 		// 获取PID
+		double ctrl_target_fan_level_d;
 		int ctrl_target_fan_level;
 		double ctrl_KP, ctrl_KI, ctrl_KD;
 		double ctrl_current_I, ctrl_last_error;
@@ -47,11 +49,17 @@ extern void controller_1_task(s8 mode) {
 		// 偏差计入积分
 		ctrl_current_I += ctrl_error;
 		// 控制
-		ctrl_target_fan_level = ctrl_KP
+		ctrl_target_fan_level_d = ctrl_KP
 				* (ctrl_error + ctrl_KI * ctrl_current_I * 0.02
 						+ ctrl_KD * (ctrl_error - ctrl_last_error) / 0.02);
 		// 保存当前偏差为下一次的上次偏差
 		ctrl_last_error = ctrl_error;
+		// 数据处理
+		ctrl_target_fan_level_d =
+				ctrl_target_fan_level_d < 0 ? 0 : ctrl_target_fan_level_d;
+		ctrl_target_fan_level_d =
+				ctrl_target_fan_level_d > 1800 ? 1800 : ctrl_target_fan_level_d;
+		ctrl_target_fan_level = misc_floor(ctrl_target_fan_level_d);
 		// 保存
 		controller_set_0_double(64, ctrl_current_I);
 		controller_set_0_double(65, ctrl_last_error);
