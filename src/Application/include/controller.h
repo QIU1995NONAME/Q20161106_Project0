@@ -20,7 +20,14 @@ namespace PJ0 {
  *  4. 来回摆（最好能控制摆幅）。
  *
  */
-
+/// 变量获取
+extern s8 controller_get_int(u8 index, int * value);
+/// 变量设定
+extern s8 controller_set_int(u8 index, int value);
+/// 变量获取
+extern s8 controller_get_double(u8 index, double * value);
+/// 变量设定
+extern s8 controller_set_double(u8 index, double value);
 /**
  * 设置当前的工程代号
  * @param project 工程代号
