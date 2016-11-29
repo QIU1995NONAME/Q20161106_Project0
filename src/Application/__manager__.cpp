@@ -85,6 +85,28 @@ inline void manager_0x78_changetime(void) {
 	second |= *(manager_cmd_r_buffer_1k + 1);
 	rtc_set_counter(second);
 }
+inline void manager_0x50_controller_send_status(void) {
+	*(manager_cmd_s_buffer_1k + 0) = 0x50;
+	*(manager_cmd_s_buffer_1k + 1) = controller_get_project();
+	*(manager_cmd_s_buffer_1k + 2) = controller_get_mode();
+	cmd_buffer_send_data(manager_cmd_s_buffer_1k, 3);
+}
+inline void manager_0x54_controller_get_double(void) {
+	double value = 0;
+	controller_get_double(*(manager_cmd_r_buffer_1k + 1), &value);
+	*(manager_cmd_s_buffer_1k) = 0x54;
+	*(manager_cmd_s_buffer_1k + 1) = *(manager_cmd_r_buffer_1k + 1);
+	*((double*) (manager_cmd_s_buffer_1k + 2)) = value;
+	cmd_buffer_send_data(manager_cmd_s_buffer_1k, 2 + sizeof(double));
+}
+inline void manager_0x56_controller_get_int(void) {
+	int value = 0;
+	controller_get_int(*(manager_cmd_r_buffer_1k + 1), &value);
+	*(manager_cmd_s_buffer_1k) = 0x56;
+	*(manager_cmd_s_buffer_1k + 1) = *(manager_cmd_r_buffer_1k + 1);
+	*((int*) (manager_cmd_s_buffer_1k + 2)) = value;
+	cmd_buffer_send_data(manager_cmd_s_buffer_1k, 2 + sizeof(int));
+}
 /**
  * 心跳是否在维持着
  * @return 心跳是否在维持着
@@ -98,6 +120,7 @@ extern s8 manager_heartbeat_is_running(void) {
  */
 extern void manager_main_loop_function(void) {
 	static s16 st_res;
+
 	//尝试接收命令
 	st_res = cmd_buffer_analyze_data(manager_cmd_r_buffer_1k);
 	do {
@@ -115,31 +138,84 @@ extern void manager_main_loop_function(void) {
 		case 0x77: // XXX 0x77 收到心跳请求
 			manager_heartbeat_count = 7;
 			break;
-		case 0x78: // XXX 0x78 时间同步
-			// 长度至少为5
-			if (st_res > 4) {
-				manager_0x78_changetime();
-			}
-			break;
-		case 0x60: // XXX 0x60 底层采样功能停止
-			if (sampling_is_running) {
-				sampling_stop();
-			}
-			break;
-		case 0x61: // XXX 0x61 底层采样功能启动
-			if (!sampling_is_running) {
-				sampling_start();
-			}
-			break;
-		case 0x68: // XXX 0x68 串口采样功能停止
-			tim6_heartbeat_del_event(0x01);
-			break;
-		case 0x69: // XXX 0x69 串口采样功能启动
-			tim6_heartbeat_add_event(0x01, manager_sampling_data_send_50ms, 50);
-			break;
 		default:
-			// 未知指令
-			;
+			// 无心跳 不响应
+			if (!manager_heartbeat_count) {
+				return;
+			}
+			switch (*(manager_cmd_r_buffer_1k)) {
+			case 0x78: // XXX 0x78 时间同步
+				// 长度至少为5
+				if (st_res > 4) {
+					manager_0x78_changetime();
+				}
+				break;
+			case 0x60: // XXX 0x60 底层采样功能停止
+				if (sampling_is_running) {
+					sampling_stop();
+				}
+				break;
+			case 0x61: // XXX 0x61 底层采样功能启动
+				if (!sampling_is_running) {
+					sampling_start();
+				}
+				break;
+			case 0x68: // XXX 0x68 串口采样功能停止
+				tim6_heartbeat_del_event(0x01);
+				break;
+			case 0x69: // XXX 0x69 串口采样功能启动
+				tim6_heartbeat_add_event(0x01, manager_sampling_data_send_50ms,
+						50);
+				break;
+			case 0x50:
+				manager_0x50_controller_send_status();
+				break;
+			case 0x51:
+				// 长度至少为2
+				if (st_res > 1) {
+					controller_set_project(*(manager_cmd_r_buffer_1k + 1));
+				}
+				break;
+			case 0x52:
+				// 长度至少为2
+				if (st_res > 1) {
+					controller_set_mode(*(manager_cmd_r_buffer_1k + 1));
+				}
+				break;
+			case 0x53:
+				// Reserved
+				break;
+			case 0x54:
+				// 长度至少为2
+				if (st_res > 1) {
+					manager_0x54_controller_get_double();
+				}
+				break;
+			case 0x55:
+				// 长度至少为10
+				if (st_res > 9) {
+					controller_set_double(*(manager_cmd_r_buffer_1k + 1),
+							*((double*) (manager_cmd_r_buffer_1k + 2)));
+				}
+				break;
+			case 0x56:
+				// 长度至少为2
+				if (st_res > 1) {
+					manager_0x56_controller_get_int();
+				}
+				break;
+			case 0x57:
+				// 长度至少为6
+				if (st_res > 5) {
+					controller_set_int(*(manager_cmd_r_buffer_1k + 1),
+							*((int*) (manager_cmd_r_buffer_1k + 2)));
+
+				}
+				break;
+			default:
+				// 未知指令
+				;
+			}
 		}
 	} while (0);
 }

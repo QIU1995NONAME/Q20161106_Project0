@@ -44,11 +44,10 @@ extern s8 cmd_buffer_send_data(const u8* const msg, u8 len) {
 	check = 0x100 - check;
 	*(tmpbuf + 1) = 0xFF & check;
 	// 准备发送
-	// FIXME 总有数据发不出去！
-	usart_1_ready_to_send();
+//	// FIXME 总有数据发不出去！
+//	usart_1_ready_to_send();
 	// 起始码
 	usart_1_send(CMD_STTC);
-	delay_us(100);
 	for (u16 i = 0; i < tmp_len; i++) {
 		switch (*(tmpbuf + i)) {
 		case CMD_ENDC:

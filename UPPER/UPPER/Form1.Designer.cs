@@ -51,14 +51,43 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txt_dbl_2 = new System.Windows.Forms.TextBox();
+            this.txt_dbl_1 = new System.Windows.Forms.TextBox();
+            this.txt_dbl_0 = new System.Windows.Forms.TextBox();
+            this.txt_int_1 = new System.Windows.Forms.TextBox();
+            this.txt_int_0 = new System.Windows.Forms.TextBox();
+            this.txt_mode = new System.Windows.Forms.TextBox();
+            this.txt_pj = new System.Windows.Forms.TextBox();
+            this.lbl_mode = new System.Windows.Forms.Label();
+            this.lbl_pj = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lbl_dbl_2 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lbl_dbl_1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.lbl_dbl_0 = new System.Windows.Forms.Label();
             this.lbl_status_senddata = new System.Windows.Forms.Label();
+            this.lbl_int_1 = new System.Windows.Forms.Label();
             this.lbl_status_sampling = new System.Windows.Forms.Label();
+            this.lbl_int_0 = new System.Windows.Forms.Label();
             this.lbl_status_sd = new System.Windows.Forms.Label();
+            this.btn_set_dbl_2 = new System.Windows.Forms.Button();
             this.btn_senddata_start = new System.Windows.Forms.Button();
+            this.btn_set_dbl_1 = new System.Windows.Forms.Button();
+            this.btn_set_mode = new System.Windows.Forms.Button();
+            this.btn_set_dbl_0 = new System.Windows.Forms.Button();
+            this.btn_set_pj = new System.Windows.Forms.Button();
+            this.btn_set_int_1 = new System.Windows.Forms.Button();
             this.btn_senddata_stop = new System.Windows.Forms.Button();
+            this.btn_set_int_0 = new System.Windows.Forms.Button();
             this.btn_sampling_start = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
@@ -309,14 +338,43 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.txt_dbl_2);
+            this.tabPage1.Controls.Add(this.txt_dbl_1);
+            this.tabPage1.Controls.Add(this.txt_dbl_0);
+            this.tabPage1.Controls.Add(this.txt_int_1);
+            this.tabPage1.Controls.Add(this.txt_int_0);
+            this.tabPage1.Controls.Add(this.txt_mode);
+            this.tabPage1.Controls.Add(this.txt_pj);
+            this.tabPage1.Controls.Add(this.lbl_mode);
+            this.tabPage1.Controls.Add(this.lbl_pj);
+            this.tabPage1.Controls.Add(this.label12);
+            this.tabPage1.Controls.Add(this.label14);
+            this.tabPage1.Controls.Add(this.label9);
             this.tabPage1.Controls.Add(this.label11);
             this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.label23);
+            this.tabPage1.Controls.Add(this.label21);
+            this.tabPage1.Controls.Add(this.label19);
+            this.tabPage1.Controls.Add(this.label17);
+            this.tabPage1.Controls.Add(this.lbl_dbl_2);
+            this.tabPage1.Controls.Add(this.label13);
+            this.tabPage1.Controls.Add(this.lbl_dbl_1);
             this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.lbl_dbl_0);
             this.tabPage1.Controls.Add(this.lbl_status_senddata);
+            this.tabPage1.Controls.Add(this.lbl_int_1);
             this.tabPage1.Controls.Add(this.lbl_status_sampling);
+            this.tabPage1.Controls.Add(this.lbl_int_0);
             this.tabPage1.Controls.Add(this.lbl_status_sd);
+            this.tabPage1.Controls.Add(this.btn_set_dbl_2);
             this.tabPage1.Controls.Add(this.btn_senddata_start);
+            this.tabPage1.Controls.Add(this.btn_set_dbl_1);
+            this.tabPage1.Controls.Add(this.btn_set_mode);
+            this.tabPage1.Controls.Add(this.btn_set_dbl_0);
+            this.tabPage1.Controls.Add(this.btn_set_pj);
+            this.tabPage1.Controls.Add(this.btn_set_int_1);
             this.tabPage1.Controls.Add(this.btn_senddata_stop);
+            this.tabPage1.Controls.Add(this.btn_set_int_0);
             this.tabPage1.Controls.Add(this.btn_sampling_start);
             this.tabPage1.Controls.Add(this.btn_sampling_stop);
             this.tabPage1.Location = new System.Drawing.Point(4, 26);
@@ -326,6 +384,117 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "下位机状态及控制";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // txt_dbl_2
+            // 
+            this.txt_dbl_2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_dbl_2.Location = new System.Drawing.Point(617, 115);
+            this.txt_dbl_2.Name = "txt_dbl_2";
+            this.txt_dbl_2.Size = new System.Drawing.Size(129, 26);
+            this.txt_dbl_2.TabIndex = 12;
+            this.txt_dbl_2.Text = "0";
+            // 
+            // txt_dbl_1
+            // 
+            this.txt_dbl_1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_dbl_1.Location = new System.Drawing.Point(617, 87);
+            this.txt_dbl_1.Name = "txt_dbl_1";
+            this.txt_dbl_1.Size = new System.Drawing.Size(129, 26);
+            this.txt_dbl_1.TabIndex = 12;
+            this.txt_dbl_1.Text = "0";
+            // 
+            // txt_dbl_0
+            // 
+            this.txt_dbl_0.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_dbl_0.Location = new System.Drawing.Point(617, 59);
+            this.txt_dbl_0.Name = "txt_dbl_0";
+            this.txt_dbl_0.Size = new System.Drawing.Size(129, 26);
+            this.txt_dbl_0.TabIndex = 12;
+            this.txt_dbl_0.Text = "0";
+            // 
+            // txt_int_1
+            // 
+            this.txt_int_1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_int_1.Location = new System.Drawing.Point(617, 32);
+            this.txt_int_1.Name = "txt_int_1";
+            this.txt_int_1.Size = new System.Drawing.Size(129, 26);
+            this.txt_int_1.TabIndex = 12;
+            this.txt_int_1.Text = "0";
+            // 
+            // txt_int_0
+            // 
+            this.txt_int_0.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_int_0.Location = new System.Drawing.Point(617, 4);
+            this.txt_int_0.Name = "txt_int_0";
+            this.txt_int_0.Size = new System.Drawing.Size(129, 26);
+            this.txt_int_0.TabIndex = 12;
+            this.txt_int_0.Text = "0";
+            // 
+            // txt_mode
+            // 
+            this.txt_mode.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_mode.Location = new System.Drawing.Point(151, 412);
+            this.txt_mode.Name = "txt_mode";
+            this.txt_mode.Size = new System.Drawing.Size(149, 38);
+            this.txt_mode.TabIndex = 12;
+            // 
+            // txt_pj
+            // 
+            this.txt_pj.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_pj.Location = new System.Drawing.Point(2, 412);
+            this.txt_pj.Name = "txt_pj";
+            this.txt_pj.Size = new System.Drawing.Size(149, 38);
+            this.txt_pj.TabIndex = 12;
+            // 
+            // lbl_mode
+            // 
+            this.lbl_mode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_mode.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_mode.Location = new System.Drawing.Point(151, 378);
+            this.lbl_mode.Name = "lbl_mode";
+            this.lbl_mode.Size = new System.Drawing.Size(151, 29);
+            this.lbl_mode.TabIndex = 11;
+            this.lbl_mode.Text = "MD_NO";
+            // 
+            // lbl_pj
+            // 
+            this.lbl_pj.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_pj.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_pj.Location = new System.Drawing.Point(3, 378);
+            this.lbl_pj.Name = "lbl_pj";
+            this.lbl_pj.Size = new System.Drawing.Size(150, 29);
+            this.lbl_pj.TabIndex = 11;
+            this.lbl_pj.Text = "PJ_NO";
+            // 
+            // label12
+            // 
+            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label12.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label12.Location = new System.Drawing.Point(151, 347);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(151, 29);
+            this.label12.TabIndex = 11;
+            this.label12.Text = "当前模式";
+            // 
+            // label14
+            // 
+            this.label14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label14.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label14.Location = new System.Drawing.Point(4, 224);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(298, 123);
+            this.label14.TabIndex = 11;
+            this.label14.Text = "工程0 停止\r\n工程1 帆版风扇 模式: 0 手动, 1 自动;\r\n工程2 步进电机\r\n";
+            // 
+            // label9
+            // 
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.Location = new System.Drawing.Point(3, 347);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(150, 29);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "当前工程";
             // 
             // label11
             // 
@@ -349,6 +518,81 @@
             this.label10.Text = "底层采样:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // label23
+            // 
+            this.label23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label23.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label23.Location = new System.Drawing.Point(329, 114);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(133, 23);
+            this.label23.TabIndex = 11;
+            this.label23.Text = "KD值:";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label21
+            // 
+            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label21.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label21.Location = new System.Drawing.Point(329, 86);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(133, 23);
+            this.label21.TabIndex = 11;
+            this.label21.Text = "1/KI值:";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label19
+            // 
+            this.label19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label19.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label19.Location = new System.Drawing.Point(329, 58);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(133, 23);
+            this.label19.TabIndex = 11;
+            this.label19.Text = "KP值:";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label17
+            // 
+            this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label17.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label17.Location = new System.Drawing.Point(329, 31);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(133, 23);
+            this.label17.TabIndex = 11;
+            this.label17.Text = "角度脉冲值:";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lbl_dbl_2
+            // 
+            this.lbl_dbl_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_dbl_2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_dbl_2.Location = new System.Drawing.Point(468, 114);
+            this.lbl_dbl_2.Name = "lbl_dbl_2";
+            this.lbl_dbl_2.Size = new System.Drawing.Size(143, 23);
+            this.lbl_dbl_2.TabIndex = 11;
+            this.lbl_dbl_2.Text = "XXXXXXXX";
+            // 
+            // label13
+            // 
+            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label13.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label13.Location = new System.Drawing.Point(329, 3);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(133, 23);
+            this.label13.TabIndex = 11;
+            this.label13.Text = "风扇设定值:";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lbl_dbl_1
+            // 
+            this.lbl_dbl_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_dbl_1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_dbl_1.Location = new System.Drawing.Point(468, 86);
+            this.lbl_dbl_1.Name = "lbl_dbl_1";
+            this.lbl_dbl_1.Size = new System.Drawing.Size(143, 23);
+            this.lbl_dbl_1.TabIndex = 11;
+            this.lbl_dbl_1.Text = "XXXXXXXX";
+            // 
             // label8
             // 
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -360,6 +604,16 @@
             this.label8.Text = "SD卡:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // lbl_dbl_0
+            // 
+            this.lbl_dbl_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_dbl_0.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_dbl_0.Location = new System.Drawing.Point(468, 58);
+            this.lbl_dbl_0.Name = "lbl_dbl_0";
+            this.lbl_dbl_0.Size = new System.Drawing.Size(143, 23);
+            this.lbl_dbl_0.TabIndex = 11;
+            this.lbl_dbl_0.Text = "XXXXXXXX";
+            // 
             // lbl_status_senddata
             // 
             this.lbl_status_senddata.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -369,6 +623,16 @@
             this.lbl_status_senddata.Size = new System.Drawing.Size(143, 31);
             this.lbl_status_senddata.TabIndex = 11;
             this.lbl_status_senddata.Text = "XXXXXXXX";
+            // 
+            // lbl_int_1
+            // 
+            this.lbl_int_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_int_1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_int_1.Location = new System.Drawing.Point(468, 31);
+            this.lbl_int_1.Name = "lbl_int_1";
+            this.lbl_int_1.Size = new System.Drawing.Size(143, 23);
+            this.lbl_int_1.TabIndex = 11;
+            this.lbl_int_1.Text = "XXXXXXXX";
             // 
             // lbl_status_sampling
             // 
@@ -380,6 +644,16 @@
             this.lbl_status_sampling.TabIndex = 11;
             this.lbl_status_sampling.Text = "XXXXXXXX";
             // 
+            // lbl_int_0
+            // 
+            this.lbl_int_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_int_0.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_int_0.Location = new System.Drawing.Point(468, 3);
+            this.lbl_int_0.Name = "lbl_int_0";
+            this.lbl_int_0.Size = new System.Drawing.Size(143, 23);
+            this.lbl_int_0.TabIndex = 11;
+            this.lbl_int_0.Text = "XXXXXXXX";
+            // 
             // lbl_status_sd
             // 
             this.lbl_status_sd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -389,6 +663,19 @@
             this.lbl_status_sd.Size = new System.Drawing.Size(143, 31);
             this.lbl_status_sd.TabIndex = 11;
             this.lbl_status_sd.Text = "XXXXXXXX";
+            // 
+            // btn_set_dbl_2
+            // 
+            this.btn_set_dbl_2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_set_dbl_2.Location = new System.Drawing.Point(749, 114);
+            this.btn_set_dbl_2.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_set_dbl_2.Name = "btn_set_dbl_2";
+            this.btn_set_dbl_2.Size = new System.Drawing.Size(93, 28);
+            this.btn_set_dbl_2.TabIndex = 6;
+            this.btn_set_dbl_2.Text = "应用修改";
+            this.btn_set_dbl_2.UseVisualStyleBackColor = true;
+            this.btn_set_dbl_2.Click += new System.EventHandler(this.btn_set_dbl_2_Click);
             // 
             // btn_senddata_start
             // 
@@ -404,6 +691,71 @@
             this.btn_senddata_start.UseVisualStyleBackColor = true;
             this.btn_senddata_start.Click += new System.EventHandler(this.btn_senddata_start_Click);
             // 
+            // btn_set_dbl_1
+            // 
+            this.btn_set_dbl_1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_set_dbl_1.Location = new System.Drawing.Point(749, 86);
+            this.btn_set_dbl_1.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_set_dbl_1.Name = "btn_set_dbl_1";
+            this.btn_set_dbl_1.Size = new System.Drawing.Size(93, 28);
+            this.btn_set_dbl_1.TabIndex = 6;
+            this.btn_set_dbl_1.Text = "应用修改";
+            this.btn_set_dbl_1.UseVisualStyleBackColor = true;
+            this.btn_set_dbl_1.Click += new System.EventHandler(this.btn_set_dbl_1_Click);
+            // 
+            // btn_set_mode
+            // 
+            this.btn_set_mode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_set_mode.Location = new System.Drawing.Point(153, 453);
+            this.btn_set_mode.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_set_mode.Name = "btn_set_mode";
+            this.btn_set_mode.Size = new System.Drawing.Size(149, 29);
+            this.btn_set_mode.TabIndex = 9;
+            this.btn_set_mode.Text = "设定当前模式";
+            this.btn_set_mode.UseVisualStyleBackColor = true;
+            this.btn_set_mode.Click += new System.EventHandler(this.btn_set_mode_Click);
+            // 
+            // btn_set_dbl_0
+            // 
+            this.btn_set_dbl_0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_set_dbl_0.Location = new System.Drawing.Point(749, 58);
+            this.btn_set_dbl_0.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_set_dbl_0.Name = "btn_set_dbl_0";
+            this.btn_set_dbl_0.Size = new System.Drawing.Size(93, 28);
+            this.btn_set_dbl_0.TabIndex = 6;
+            this.btn_set_dbl_0.Text = "应用修改";
+            this.btn_set_dbl_0.UseVisualStyleBackColor = true;
+            this.btn_set_dbl_0.Click += new System.EventHandler(this.btn_set_dbl_0_Click);
+            // 
+            // btn_set_pj
+            // 
+            this.btn_set_pj.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_set_pj.Location = new System.Drawing.Point(4, 453);
+            this.btn_set_pj.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_set_pj.Name = "btn_set_pj";
+            this.btn_set_pj.Size = new System.Drawing.Size(149, 29);
+            this.btn_set_pj.TabIndex = 9;
+            this.btn_set_pj.Text = "设定当前工程";
+            this.btn_set_pj.UseVisualStyleBackColor = true;
+            this.btn_set_pj.Click += new System.EventHandler(this.btn_set_pj_Click);
+            // 
+            // btn_set_int_1
+            // 
+            this.btn_set_int_1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_set_int_1.Location = new System.Drawing.Point(749, 31);
+            this.btn_set_int_1.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_set_int_1.Name = "btn_set_int_1";
+            this.btn_set_int_1.Size = new System.Drawing.Size(93, 28);
+            this.btn_set_int_1.TabIndex = 6;
+            this.btn_set_int_1.Text = "应用修改";
+            this.btn_set_int_1.UseVisualStyleBackColor = true;
+            this.btn_set_int_1.Click += new System.EventHandler(this.btn_set_int_1_Click);
+            // 
             // btn_senddata_stop
             // 
             this.btn_senddata_stop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -417,6 +769,19 @@
             this.btn_senddata_stop.Text = "停止串口采集数据";
             this.btn_senddata_stop.UseVisualStyleBackColor = true;
             this.btn_senddata_stop.Click += new System.EventHandler(this.btn_senddata_stop_Click);
+            // 
+            // btn_set_int_0
+            // 
+            this.btn_set_int_0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_set_int_0.Location = new System.Drawing.Point(749, 3);
+            this.btn_set_int_0.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_set_int_0.Name = "btn_set_int_0";
+            this.btn_set_int_0.Size = new System.Drawing.Size(93, 28);
+            this.btn_set_int_0.TabIndex = 6;
+            this.btn_set_int_0.Text = "应用修改";
+            this.btn_set_int_0.UseVisualStyleBackColor = true;
+            this.btn_set_int_0.Click += new System.EventHandler(this.btn_set_int_0_Click);
             // 
             // btn_sampling_start
             // 
@@ -587,6 +952,7 @@
             this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_step_degree)).EndInit();
@@ -644,6 +1010,35 @@
         private System.Windows.Forms.Label lbl_status_sampling;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lbl_status_senddata;
+        private System.Windows.Forms.Label lbl_mode;
+        private System.Windows.Forms.Label lbl_pj;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txt_mode;
+        private System.Windows.Forms.TextBox txt_pj;
+        private System.Windows.Forms.Button btn_set_mode;
+        private System.Windows.Forms.Button btn_set_pj;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lbl_int_0;
+        private System.Windows.Forms.TextBox txt_int_0;
+        private System.Windows.Forms.TextBox txt_dbl_2;
+        private System.Windows.Forms.TextBox txt_dbl_1;
+        private System.Windows.Forms.TextBox txt_dbl_0;
+        private System.Windows.Forms.TextBox txt_int_1;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lbl_dbl_2;
+        private System.Windows.Forms.Label lbl_dbl_1;
+        private System.Windows.Forms.Label lbl_dbl_0;
+        private System.Windows.Forms.Label lbl_int_1;
+        private System.Windows.Forms.Button btn_set_dbl_2;
+        private System.Windows.Forms.Button btn_set_dbl_1;
+        private System.Windows.Forms.Button btn_set_dbl_0;
+        private System.Windows.Forms.Button btn_set_int_1;
+        private System.Windows.Forms.Button btn_set_int_0;
     }
 }
 

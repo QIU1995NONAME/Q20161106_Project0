@@ -5,6 +5,7 @@
 
 #include "beep.h"
 #include "cmd.h"
+#include "controller.h"
 #include "e6a2.h"
 #include "exti.h"
 #include "gpio.h"

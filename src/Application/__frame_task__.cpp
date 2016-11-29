@@ -714,7 +714,7 @@ extern void __task_init__(void) {
 	u8 taskid = 8;
 	frame_task_buffer = memory_alloc_1k();
 	tim6_heartbeat_add_event(taskid++, __task_print_status_50ms__, 50);
-	tim6_heartbeat_add_event(taskid++, __task_autochange_fan_100ms__, 100);
+//	tim6_heartbeat_add_event(taskid++, __task_autochange_fan_100ms__, 100);
 //	__task_test_beep_init__();
 //	tim6_heartbeat_add_event(taskid++, beep_task_10ms, 10);
 //	tim6_heartbeat_add_event(taskid++, __task_1_test_beep__, 1000);
