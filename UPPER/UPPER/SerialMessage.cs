@@ -74,7 +74,8 @@ namespace UPPER
             return (ushort)((crch << 8) | crcl);
         }
         // 发送一段消息
-        public static byte[] pack_msg(byte[] info) {
+        public static byte[] pack_msg(byte[] info)
+        {
             LinkedList<byte> li = new LinkedList<byte>(info);
             // length
             li.AddFirst(0x00);
@@ -91,7 +92,8 @@ namespace UPPER
             data[data.Length - 2] = (byte)(0xFF & (crc16 >> 8));
             data[data.Length - 1] = (byte)(0xFF & (crc16));
             int sum = 0;
-            foreach (byte b in data) {
+            foreach (byte b in data)
+            {
                 sum += b;
             }
             sum = 0xFF & sum;
@@ -99,7 +101,8 @@ namespace UPPER
             data[1] = (byte)(sum);
             // 转义准备
             LinkedList<byte> res_li = new LinkedList<byte>();
-            foreach (byte node in data) {
+            foreach (byte node in data)
+            {
                 if (node == MSG_ENDC || node == MSG_ESCC || node == MSG_STTC)
                 {
                     // 插入转义字符
@@ -114,26 +117,32 @@ namespace UPPER
         // 处理一段接收到的消息
         // 返回通过验证的消息
         // 如果处理失败则返回null
-        public static byte[] analyze_msg(byte[] data) { 
+        public static byte[] analyze_msg(byte[] data)
+        {
             // 非null验证
-            if (data == null) {
+            if (data == null)
+            {
                 return null;
             }
             // 消息长度不小于5
-            if (data.Length < 5) {
+            if (data.Length < 5)
+            {
                 return null;
             }
             // 长度验证
-            if (data[0] != (byte)data.Length) {
+            if (data[0] != (byte)data.Length)
+            {
                 return null;
             }
             // CHECKSUM
             int sum = 0;
-            foreach (byte b in data) {
+            foreach (byte b in data)
+            {
                 sum += b;
             }
             sum = sum & 0xFF;
-            if (sum != 0) {
+            if (sum != 0)
+            {
                 return null;
             }
             // CHECK CRC16
@@ -142,7 +151,8 @@ namespace UPPER
             data[data.Length - 2] = 0;
             data[data.Length - 1] = 0;
             ushort c_crc = SerialMessage.calculate_crc16(data);
-            if(r_crc!=c_crc){
+            if (r_crc != c_crc)
+            {
                 return null;
             }
             // 通过验证 删掉消息中的验证码部分

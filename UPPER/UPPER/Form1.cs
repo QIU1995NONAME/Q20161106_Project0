@@ -40,7 +40,8 @@ namespace UPPER
             byte[] msg = SerialMessage.pack_msg(li.ToArray());
             serial1.Write(msg, 0, msg.Length);
         }
-        private void serial1_controller_set_int(byte index, int value) {
+        private void serial1_controller_set_int(byte index, int value)
+        {
             List<byte> li = new List<byte>();
             li.Add(0x57);
             li.Add(index);
@@ -48,8 +49,10 @@ namespace UPPER
             byte[] msg = SerialMessage.pack_msg(li.ToArray());
             serial1.Write(msg, 0, msg.Length);
         }
-        private void serial1_controller_received_double(byte index, double value) {
-            switch (index) {
+        private void serial1_controller_received_double(byte index, double value)
+        {
+            switch (index)
+            {
                 case 0:
                     lbl_dbl_0.Text = value.ToString();
                     break;
@@ -63,7 +66,8 @@ namespace UPPER
                     break;
             }
         }
-        private void serial1_controller_received_int(byte index, int value) {
+        private void serial1_controller_received_int(byte index, int value)
+        {
             switch (index)
             {
                 case 0:
@@ -474,8 +478,8 @@ namespace UPPER
                 li.RemoveFirst();
                 byte index = li.First();
                 li.RemoveFirst();
-                double value = BitConverter.ToDouble(li.ToArray(),0);
-                serial1_controller_received_double(index,value);
+                double value = BitConverter.ToDouble(li.ToArray(), 0);
+                serial1_controller_received_double(index, value);
             }
             else if (command[0] == 0x56)
             {
@@ -489,8 +493,8 @@ namespace UPPER
                 li.RemoveFirst();
                 byte index = li.First();
                 li.RemoveFirst();
-                int value = BitConverter.ToInt32(li.ToArray(),0);
-                serial1_controller_received_int(index,value);
+                int value = BitConverter.ToInt32(li.ToArray(), 0);
+                serial1_controller_received_int(index, value);
             }
             else
             {
