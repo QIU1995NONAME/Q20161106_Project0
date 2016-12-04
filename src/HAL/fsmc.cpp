@@ -3,12 +3,11 @@
 namespace QIU {
 namespace PJ0 {
 
-//
-FSMC_NORSRAMInitTypeDef fsmc_norsram_init;
-FSMC_NORSRAMTimingInitTypeDef fsmc_norsram_timing_init;
 // 用于SRAM的FSMC接口初始化
 inline void fsmc_config_1_3(void) {
-	// 第一存储块 第四区
+	FSMC_NORSRAMInitTypeDef fsmc_norsram_init;
+	FSMC_NORSRAMTimingInitTypeDef fsmc_norsram_timing_init;
+	// 第一存储块 第三区
 	fsmc_norsram_init.FSMC_Bank = FSMC_Bank1_NORSRAM3;
 	// SRAM 模式
 	fsmc_norsram_init.FSMC_MemoryType = FSMC_MemoryType_SRAM;
@@ -26,7 +25,7 @@ inline void fsmc_config_1_3(void) {
 	fsmc_norsram_init.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;
 	fsmc_norsram_init.FSMC_WrapMode = FSMC_WrapMode_Disable;
 	fsmc_norsram_init.FSMC_WaitSignalActive =
-			FSMC_WaitSignalActive_BeforeWaitState;
+	FSMC_WaitSignalActive_BeforeWaitState;
 	fsmc_norsram_init.FSMC_WaitSignal = FSMC_WaitSignal_Disable;
 	fsmc_norsram_init.FSMC_WriteBurst = FSMC_WriteBurst_Disable;
 	// 设置读写时序
@@ -53,6 +52,8 @@ inline void fsmc_config_1_3(void) {
 }
 // 用于TFT显示屏的FSMC接口初始化
 inline void fsmc_config_1_4(void) {
+	FSMC_NORSRAMInitTypeDef fsmc_norsram_init;
+	FSMC_NORSRAMTimingInitTypeDef fsmc_norsram_timing_init;
 	// 第一存储块 第四区
 	fsmc_norsram_init.FSMC_Bank = FSMC_Bank1_NORSRAM4;
 	// SRAM 模式

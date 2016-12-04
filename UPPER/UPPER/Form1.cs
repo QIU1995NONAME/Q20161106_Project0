@@ -133,11 +133,32 @@ namespace UPPER
         {
             status_label_systime.Text = "LOCAL: " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
         }
+        // 移除多余的采样
+        private void remove_unnecessary_dict_data(){
+            int necessary_data_count = 10000;// 缓冲区中数据的数量
+            List<long> li = new List<long>(dict_angle_pulse.Keys);
+            if (li.Count() <= necessary_data_count)
+            { 
+                return;
+            }
+            li.Sort();
+            int datacount = li.Count() - necessary_data_count;
+            for (int i = 0; i < datacount; i++) {
+                long key = li[i];
+                dict_angle_pulse.Remove(key);
+                dict_angle_degree.Remove(key);
+                dict_fan_level.Remove(key);
+                dict_fan_percent.Remove(key);
+                dict_step_step.Remove(key);
+                dict_step_degree.Remove(key);
+            }
+        }
         // 定时功能
         // 定时刷新状态栏的本机时间
         private void timer1_Tick(object sender, EventArgs e)
         {
             change_local_time();
+            remove_unnecessary_dict_data();
         }
         // 载入窗体
         private void Form1_Load(object sender, EventArgs e)

@@ -12,9 +12,9 @@ namespace PJ0 {
 // GPIO_F 1111-0000 0011-1111
 // GPIO_G 0111-0100 0011-1111
 //
-GPIO_InitTypeDef gpio_init;
 // 按键
 inline void gpio_config_key(void) {
+	GPIO_InitTypeDef gpio_init;
 	// PA0
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_IPD;
@@ -28,6 +28,7 @@ inline void gpio_config_key(void) {
 }
 // LED 数码管
 inline void gpio_config_led(void) {
+	GPIO_InitTypeDef gpio_init;
 	// PC7 ~ PC0
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -37,6 +38,7 @@ inline void gpio_config_led(void) {
 }
 // 蜂鸣器PWM输出
 inline void gpio_config_beep_pwm(void) {
+	GPIO_InitTypeDef gpio_init;
 	// PB5 使用PWM驱动
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -45,6 +47,7 @@ inline void gpio_config_beep_pwm(void) {
 }
 // 风扇PWM输出
 inline void gpio_config_fan_pwm(void) {
+	GPIO_InitTypeDef gpio_init;
 	// PB8 使用PWM驱动
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -53,6 +56,7 @@ inline void gpio_config_fan_pwm(void) {
 }
 // E6A2 光电编码器
 inline void gpio_config_e6a2(void) {
+	GPIO_InitTypeDef gpio_init;
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_IPU;
 	gpio_init.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
@@ -60,6 +64,7 @@ inline void gpio_config_e6a2(void) {
 }
 // TB6560 步进电机驱动板
 inline void gpio_config_tb6560(void) {
+	GPIO_InitTypeDef gpio_init;
 	// 3根线 EN+ CW+ CLK+ PB10 PA11 PA12
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -70,6 +75,7 @@ inline void gpio_config_tb6560(void) {
 }
 // 串口1
 inline void gpio_config_usart1(void) {
+	GPIO_InitTypeDef gpio_init;
 	// 初始化 USART1使用的GPIO PA9输出(TX) PA10 输入(RX)
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_AF_PP; // 复用推挽输出
@@ -81,6 +87,7 @@ inline void gpio_config_usart1(void) {
 }
 // 触摸屏 用来检测是否触摸的信号线
 inline void gpio_config_touch_pen(void) {
+	GPIO_InitTypeDef gpio_init;
 	// TOUCH_PEN PD7
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_IPU; // 上拉输入
@@ -89,6 +96,7 @@ inline void gpio_config_touch_pen(void) {
 }
 // SPI 1 2 总线初始化
 inline void gpio_config_spi(void) {
+	GPIO_InitTypeDef gpio_init;
 	// SPI1 PA5 PA6 PA7
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_AF_PP; // 复用推挽输出
@@ -122,6 +130,7 @@ inline void gpio_config_spi(void) {
 }
 // FSMC模块
 inline void gpio_config_fsmc(void) {
+	GPIO_InitTypeDef gpio_init;
 	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
 	gpio_init.GPIO_Mode = GPIO_Mode_AF_PP;
 	// PD0   FSMC_D2

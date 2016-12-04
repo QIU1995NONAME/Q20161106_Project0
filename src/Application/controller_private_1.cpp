@@ -11,9 +11,9 @@ namespace PJ0 {
 // 风扇帆板
 // INT  0 风扇转速等级设定值
 // INT  1 帆板角度步数设定值
-// DBL  0 P
-// DBL  1 I
-// DBL  2 D
+// DBL  0 KP
+// DBL  1 1/TI
+// DBL  2 TD
 // DBL 64 累计积分值
 // DBL 65 上一次的偏差
 extern void controller_1_task(s8 mode) {
@@ -39,19 +39,19 @@ extern void controller_1_task(s8 mode) {
 		// 获取PID
 		double ctrl_target_fan_level_d;
 		int ctrl_target_fan_level;
-		double ctrl_KP, ctrl_KI, ctrl_KD;
+		double ctrl_KP, ctrl_1_TI, ctrl_TD;
 		double ctrl_current_I, ctrl_last_error;
 		controller_get_double(0, &ctrl_KP);
-		controller_get_double(1, &ctrl_KI);
-		controller_get_double(2, &ctrl_KD);
+		controller_get_double(1, &ctrl_1_TI);
+		controller_get_double(2, &ctrl_TD);
 		controller_get_double(64, &ctrl_current_I);
 		controller_get_double(65, &ctrl_last_error);
 		// 偏差计入积分
 		ctrl_current_I += ctrl_error;
 		// 控制
 		ctrl_target_fan_level_d = ctrl_KP
-				* (ctrl_error + ctrl_KI * ctrl_current_I * 0.02
-						+ ctrl_KD * (ctrl_error - ctrl_last_error) / 0.02);
+				* (ctrl_error + ctrl_1_TI * ctrl_current_I * 0.02
+						+ ctrl_TD * (ctrl_error - ctrl_last_error) / 0.02);
 		// 保存当前偏差为下一次的上次偏差
 		ctrl_last_error = ctrl_error;
 		// 数据处理

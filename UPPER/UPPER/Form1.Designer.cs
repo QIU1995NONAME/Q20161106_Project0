@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menu1 = new System.Windows.Forms.MenuStrip();
             this.menu_opt_Operate = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_item_heartbeat = new System.Windows.Forms.ToolStripMenuItem();
@@ -526,7 +527,7 @@
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(133, 23);
             this.label23.TabIndex = 11;
-            this.label23.Text = "KD值:";
+            this.label23.Text = "TD值:";
             this.label23.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label21
@@ -537,7 +538,7 @@
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(133, 23);
             this.label21.TabIndex = 11;
-            this.label21.Text = "1/KI值:";
+            this.label21.Text = "1/TI值:";
             this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label19
@@ -934,8 +935,10 @@
             this.Controls.Add(this.status1);
             this.Controls.Add(this.menu1);
             this.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu1;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1024, 600);
             this.Name = "Form1";
             this.Text = "Project0";
